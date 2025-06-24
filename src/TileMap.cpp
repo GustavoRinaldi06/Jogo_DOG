@@ -2,6 +2,8 @@
 #include "../include/Game.h"
 #include "../include/GameObject.h"
 #include "../include/Camera.h"
+#include "../include/State.h"
+#include "../include/Collider.h"
 
 #include <fstream>
 #include <sstream> 
@@ -77,7 +79,7 @@ void TileMap::Render()
 {
     for (int i = 0; i < mapDepth; ++i)
     {
-        float parallaxFactor = 0.8f + (i * 0.2f); //  fundo se move mais devagar
+        float parallaxFactor = 1.0f + (i * 0.2f); //  fundo se move mais devagar
         RenderLayer(i, parallaxFactor);
     }
 }
@@ -91,7 +93,7 @@ void TileMap::RenderLayer(int layer, float parallaxFactor)
     tileSet->SetCameraFollower(false);
 
     // Calcula deslocamento da câmera com parallax
-    Vec2 cam = Camera::GetInstance().GetPosition() * parallaxFactor;
+    Vec2 cam = Camera::GetInstance().GetPosition();
 
     for (int y = 0; y < mapHeight; ++y)
     {
@@ -105,8 +107,8 @@ void TileMap::RenderLayer(int layer, float parallaxFactor)
                 float worldY = associated.box.y + y * tileH;
 
                 // adicona o parallax e a camera
-                float posX = worldX + cam.x * (1.0f - parallaxFactor);
-                float posY = worldY + cam.y * (1.0f - parallaxFactor);
+                float posX = worldX + cam.x * parallaxFactor;
+                float posY = worldY + cam.y * parallaxFactor;
 
                 tileSet->RenderTile(index, posX, posY);
             }
@@ -139,4 +141,30 @@ void TileMap::Update(float dt)
 bool TileMap::Is(const std::string &type)
 {
     return type == "TileMap";
+}
+
+void TileMap::GenerateCollision(int collisionLayer, State &state)
+{
+    int tileW = tileSet->GetTileWidth();
+    int tileH = tileSet->GetTileHeight();
+
+    for (int y = 0; y < mapHeight; ++y)
+    {
+        for (int x = 0; x < mapWidth; ++x)
+        {
+            int index = At(x, y, collisionLayer);
+            if (index != -1)
+            {
+                GameObject *block = new GameObject();
+                block->box.x = associated.box.x + x * tileW;
+                block->box.y = associated.box.y + y * tileH;
+                block->box.w = tileW;
+                block->box.h = tileH;
+                auto c = new Collider(*block);
+                c->tag = "ground"; // <<< aqui!
+                block->AddComponent(c);
+                state.AddObject(block);
+            }
+        }
+    }
 }

@@ -30,6 +30,8 @@ public:
     // herdada
     void Update(float dt) override;
     bool Is(const std::string &type) override;
+   
+    void GenerateCollision(int collisionLayer, State &state);
 
 private:
     std::vector<int> tileMatrix;

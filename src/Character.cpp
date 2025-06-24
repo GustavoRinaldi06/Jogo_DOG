@@ -57,7 +57,7 @@ void Character::Start()
 void Character::Update(float dt)
 {
     // Ao morrer -------------------------------------------------------------------------------
-    if (associated.box.y > 750)
+    if (associated.box.y > 1200)
     {
         // dispara animação e som apenas uma vez
         if (!deathAnimTriggered)
@@ -227,23 +227,58 @@ void Character::Issue(Command task)
 
 void Character::NotifyCollision(GameObject &other)
 {
-
-    // Se colidir com chão
-    Collider *collider = (Collider *)other.GetComponent("Collider");
-    if (collider && collider->tag == "ground")
+    if (other.GetComponent("Bullet")) // ignora colisões com Bullet
     {
-        // Ajusta posição
-        associated.box.y = other.box.y - associated.box.h;
-        speed.y = 0;
-        isOnGround = true;
+        return; 
     }
 
-    // Se colidir com parede
-    if (collider && collider->tag == "wall")
+    Collider *collider = (Collider *)other.GetComponent("Collider");
+    if (collider)
     {
-        // Ajusta posição
-        associated.box.x = other.box.x - associated.box.w;
-        speed.x = 0;
+        Rect &box = associated.box; // personagem
+        Rect &otherBox = other.box; // outro objeto
+
+        // Verifica colisões com objetos em bloco (sobreposições)
+        float overlapLeft = (box.x + box.w) - otherBox.x;
+        float overlapRight = (otherBox.x + otherBox.w) - box.x;
+        float overlapTop = (box.y + box.h) - otherBox.y;
+        float overlapBottom = (otherBox.y + otherBox.h) - box.y;
+
+        // busca a menor colisão
+        float minHorizontal = std::min(overlapLeft, overlapRight);
+        float minVertical = std::min(overlapTop, overlapBottom);
+
+        if (minHorizontal < minVertical)
+        {
+            // Colisão horizontal
+            if (overlapLeft < overlapRight)
+            {
+                box.x = otherBox.x - box.w; // bateu da esquerda
+            }
+            else
+            {
+                box.x = otherBox.x + otherBox.w; // bateu da direita
+            }
+            speed.x = 0;
+        }
+        else
+        {
+            // Colisão vertical
+            if (overlapTop < overlapBottom) 
+            {
+                box.y = otherBox.y - box.h; // bateu por cima (no chão)
+                speed.y = 0;
+                if (collider->tag == "ground")
+                {
+                    isOnGround = true;
+                }
+            }
+            else
+            {
+                box.y = otherBox.y + otherBox.h; // bateu por baixo (teto)
+                speed.y = 0;
+            }
+        }
     }
 
     // Se colidir com parede agarrável (teste ainda, apenas n criar wall assim)

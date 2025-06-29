@@ -161,7 +161,7 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
                 block->box.w = tileW;
                 block->box.h = tileH;
                 auto c = new Collider(*block);
-                c->tag = "ground"; // <<< aqui!
+                c->tag = "ground"; 
                 block->AddComponent(c);
                 state.AddObject(block);
             }

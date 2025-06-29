@@ -38,7 +38,7 @@ void TreeState::LoadAssets()
         E->box.w = 2048;
         E->box.h = 512;
         E->AddComponent(new SpriteRenderer(*E, "recursos/img/Tree/E.png"));
-        E->AddComponent(new Parallax(*E, 0.1f));
+        E->AddComponent(new Parallax(*E, 0.0f));
         AddObject(E);
 
         // Camada D
@@ -74,16 +74,21 @@ void TreeState::LoadAssets()
     // Mapa --------------------------------------------------------------------------------------------------------------------
     GameObject *mapGO = new GameObject();
     // cria TileSet
-    TileSet *tileSet = new TileSet(64, 64, "recursos/img/Tree/tile.png");
+    TileSet *tileSet = new TileSet(500, 500, "recursos/img/Tree/tile.png"); 
     // cria TileMap
     TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
     tileMap->SetTileSet(tileSet);
+
+    // DEBUG -- verificar tamanhos certos
+    std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
+    std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
+
     mapGO->AddComponent(tileMap);
 
     mapGO->box.x = 0;
-    mapGO->box.y = 800;
+    mapGO->box.y = -600;
     mapGO->box.w = 2048;
-    mapGO->box.h = 0;
+    mapGO->box.h = 600;
 
     AddObject(mapGO);
 
@@ -106,7 +111,7 @@ void TreeState::LoadAssets()
     // Personagem ----------------------------------------------------------------------------------------------------------------
     GameObject *playerGO = new GameObject();
     playerGO->box.x = 500;
-    playerGO->box.y = -1050;
+    playerGO->box.y = -950;
 
     playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
     playerGO->AddComponent(new PlayerController(*playerGO));

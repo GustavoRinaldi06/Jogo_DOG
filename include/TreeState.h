@@ -2,6 +2,8 @@
 #include "Music.h"
 #include "EndState.h"
 
+class SpriteRenderer;
+
 class TreeState : public State
 {
 public:
@@ -18,8 +20,6 @@ public:
 
     Text *hpText = nullptr;
     Text *dogText = nullptr;
-
 private:
-
     Music backgroundMusic;
 };

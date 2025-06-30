@@ -26,12 +26,16 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     associated.box.w = 50;  // ou a largura desejada
     associated.box.h = 100; // altura desejada
 
-    // Novos sons
-    //hitSound = Sound("recursos/audio/Hit1.wav");
-    //deathSound = Sound("recursos/audio/Dead.wav");
-    fallSound = Sound("recursos/audio/Caindo.wav");
-    walkSound = Sound("recursos/audio/AndandoGrama.mp3");
-    uivo = Sound("recursos/audio/LOBOteste.mp3");
+    // Sons do caçador
+    // hitSound = Sound("recursos/audio/Hit1.wav");
+    // deathSound = Sound("recursos/audio/Dead.wav");
+    hitGroundSound = Sound("recursos/audio/fart.mp3"); // Cai no chão
+    jumpSound = Sound("recursos/audio/boing.mp3"); // Pula
+    fallSound = Sound("recursos/audio/Caindo.wav"); // Cai do mapa
+    walkSound = Sound("recursos/audio/AndandoGrama.mp3"); // Andando na grama
+
+    // Sons do DOG
+    uivo = Sound("recursos/audio/LOBOteste.mp3"); // Atira DOG
 
     // Cria as animações
     auto animator = new Animator(associated);
@@ -96,6 +100,7 @@ void Character::Update(float dt)
 
     if (input.KeyPress(SDLK_SPACE) && isOnGround)
     {
+        jumpSound.Play(1);
         speed.y = -600.0f; // ajuste a força de pulo conforme desejado
         isOnGround = false;
     }
@@ -270,6 +275,13 @@ void Character::NotifyCollision(GameObject &other)
                 speed.y = 0;
                 if (collider->tag == "ground")
                 {
+                    if(!isOnGround){
+                        hitGroundSound.Play(1); // Som de colisão com o chão
+                        while (!taskQueue.empty()) // Limpa a lista de tasks feitas no ar
+                        {
+                            taskQueue.pop();
+                        }
+                    }
                     isOnGround = true;
                 }
             }

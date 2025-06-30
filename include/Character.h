@@ -55,7 +55,7 @@ private:
     int hp;
     Timer deathTimer;
 
-    Sound hitSound, fallSound, walkSound, deathSound;
+    Sound hitSound, fallSound, walkSound, deathSound, jumpSound, hitGroundSound;
     Timer damageCooldown;
 
     bool deathAnimTriggered{false};

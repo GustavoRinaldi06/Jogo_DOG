@@ -1,5 +1,4 @@
 #include "../include/Game.h"
-#include "../include/StageState.h"
 #include "../include/TitleState.h"
 
 #define INCLUDE_SDL

@@ -29,8 +29,8 @@ OS := $(shell uname -s 2>/dev/null || echo Windows)
 
 # Comandos para criar diretórios corretamente no Windows e Linux
 ifeq ($(OS), Windows)
-    MKDIR = if not exist $(1) mkdir $(1)
-    RM = rmdir /S /Q $(1) 2> NUL || exit 0
+    MKDIR = if not exist "$(subst /,\,$(1))" mkdir "$(subst /,\,$(1))"
+    RM = rmdir /S /Q "$(subst /,\,$(1))" 2> NUL || exit 0
 else
     MKDIR = mkdir -p $(1)
     RM = rm -rf $(1)
@@ -41,10 +41,10 @@ all: folders $(TARGET)
 
 # Criar diretórios, se não existirem
 folders:
-	$(call MKDIR, $(OBJ_DIR))
-	$(call MKDIR, $(OBJ_DIR)/tmxlite)
-	$(call MKDIR, $(OBJ_DIR)/tmxlite/detail)
-	$(call MKDIR, $(BIN_DIR))
+	$(call MKDIR,$(OBJ_DIR))
+	$(call MKDIR,$(OBJ_DIR)/tmxlite)
+	$(call MKDIR,$(OBJ_DIR)/tmxlite/detail)
+	$(call MKDIR,$(BIN_DIR))
 
 # Compilar o executável
 $(TARGET): $(OBJS)
@@ -57,7 +57,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 # Limpar arquivos compilados
 clean:
 	$(call RM, $(OBJ_DIR))
-	$(call RM, $(BIN_DIR))
+	del /Q $(BIN_DIR)\DOG.exe 2> NUL || exit 0
 
 # Executar o jogo
 run: all

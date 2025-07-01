@@ -15,10 +15,10 @@ SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 
-# Lista todos os arquivos .cpp dentro de src/
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+# Lista todos os arquivos .cpp dentro de src/ e subdiretórios
+SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/tmxlite/*.cpp) $(wildcard $(SRC_DIR)/tmxlite/detail/*.cpp)
 
-# Cria os objetos baseados nos .cpp
+# Cria os objetos baseados nos .cpp, mantendo a estrutura de diretórios
 OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Nome do executável final
@@ -42,6 +42,8 @@ all: folders $(TARGET)
 # Criar diretórios, se não existirem
 folders:
 	$(call MKDIR, $(OBJ_DIR))
+	$(call MKDIR, $(OBJ_DIR)/tmxlite)
+	$(call MKDIR, $(OBJ_DIR)/tmxlite/detail)
 	$(call MKDIR, $(BIN_DIR))
 
 # Compilar o executável

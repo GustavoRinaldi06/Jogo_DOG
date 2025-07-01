@@ -28,72 +28,10 @@ void TreeState::LoadAssets()
 {
     std::cout << "\n Carregando DOG a Tree fase:" << "\n"; // Alertar LoadAssets
 
-
     // Fundo -------------------------------------------------------------------------------------------------------------------
+    LoadLayers();
 
-        // Camada E (mais distante)
-        GameObject *E = new GameObject();
-        E->box.x = 0;
-        E->box.y = 0;
-        E->box.w = 2048;
-        E->box.h = 512;
-        E->AddComponent(new SpriteRenderer(*E, "recursos/img/Tree/E.png"));
-        E->AddComponent(new Parallax(*E, 0.0f));
-        AddObject(E);
-
-        // Camada D
-        GameObject *D = new GameObject();
-        D->box.x = 0;
-        D->box.y = 0;
-        D->box.w = 2048;
-        D->box.h = 512;
-        D->AddComponent(new SpriteRenderer(*D, "recursos/img/Tree/D.png"));
-        D->AddComponent(new Parallax(*D, 0.2f));
-        AddObject(D);
-
-        // Camada C
-        GameObject *C = new GameObject();
-        C->box.x = 0;
-        C->box.y = 0;
-        C->box.w = 2048;
-        C->box.h = 512;
-        C->AddComponent(new SpriteRenderer(*C, "recursos/img/Tree/C.png"));
-        C->AddComponent(new Parallax(*C, 0.3f));
-        AddObject(C);
-
-        // Camada B
-        GameObject *B = new GameObject();
-        B->box.x = 0;
-        B->box.y = 0;
-        B->box.w = 2048;
-        B->box.h = 512;
-        B->AddComponent(new SpriteRenderer(*B, "recursos/img/Tree/B.png"));
-        B->AddComponent(new Parallax(*B, 0.4f));
-        AddObject(B);
-    
-    // Mapa --------------------------------------------------------------------------------------------------------------------
-    GameObject *mapGO = new GameObject();
-    // cria TileSet
-    TileSet *tileSet = new TileSet(500, 500, "recursos/img/Tree/tile.png"); 
-    // cria TileMap
-    TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
-    tileMap->SetTileSet(tileSet);
-
-    // DEBUG -- verificar tamanhos certos
-    std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
-    std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
-
-    mapGO->AddComponent(tileMap);
-
-    mapGO->box.x = 0;
-    mapGO->box.y = -600;
-    mapGO->box.w = 2048;
-    mapGO->box.h = 600;
-
-    AddObject(mapGO);
-
-    // gera colisão da camada 0 (chão)
-    tileMap->GenerateCollision(0, *this);
+    LoadFromTMX("recursos/map/fase_1/mapfile.tmx");
 
     // Cria limite de mapa esquerda ------------------------------------------
     GameObject *leftlimit = new GameObject();
@@ -166,6 +104,49 @@ void TreeState::LoadAssets()
     textGO1->box.y = 650;
 
     AddObject(textGO1);
+}
+
+void TreeState::LoadLayers()
+{
+    // Camada E (mais distante)
+    GameObject *E = new GameObject();
+    E->box.x = 0;
+    E->box.y = 0;
+    E->box.w = 2048;
+    E->box.h = 512;
+    E->AddComponent(new SpriteRenderer(*E, "recursos/img/Tree/E.png"));
+    E->AddComponent(new Parallax(*E, 0.0f));
+    AddObject(E);
+
+    // Camada D
+    GameObject *D = new GameObject();
+    D->box.x = 0;
+    D->box.y = 0;
+    D->box.w = 2048;
+    D->box.h = 512;
+    D->AddComponent(new SpriteRenderer(*D, "recursos/img/Tree/D.png"));
+    D->AddComponent(new Parallax(*D, 0.2f));
+    AddObject(D);
+
+    // Camada C
+    GameObject *C = new GameObject();
+    C->box.x = 0;
+    C->box.y = 0;
+    C->box.w = 2048;
+    C->box.h = 512;
+    C->AddComponent(new SpriteRenderer(*C, "recursos/img/Tree/C.png"));
+    C->AddComponent(new Parallax(*C, 0.3f));
+    AddObject(C);
+
+    // Camada B
+    GameObject *B = new GameObject();
+    B->box.x = 0;
+    B->box.y = 0;
+    B->box.w = 2048;
+    B->box.h = 512;
+    B->AddComponent(new SpriteRenderer(*B, "recursos/img/Tree/B.png"));
+    B->AddComponent(new Parallax(*B, 0.4f));
+    AddObject(B);
 }
 
 void TreeState::Update(float dt)
@@ -296,4 +277,74 @@ void TreeState::Pause()
 void TreeState::Resume()
 {
   // Não sei ainda
+}
+
+const std::array<std::string, 4u> LayerStrings =
+{
+    std::string("terrain"),
+};
+
+void TreeState::LoadFromTMX(std::string file)
+{
+    tmx::Map map;
+    if (map.load(file))
+    {
+        GameObject* go = new GameObject();
+        TileSet* tileSet = new TileSet(500, 500, "recursos/img/Tree/tile.png");
+        TileMap* tileMap = new TileMap(*go, tileSet, map);
+        go->AddComponent(tileMap);
+        AddObject(go);
+
+        // DEBUG -- verificar tamanhos certos
+        std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
+        std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
+
+        // gera colisão da camada 0 (chão)
+        tileMap->GenerateCollision(0, *this);
+
+        std::cout << "Loaded Map version: " << map.getVersion().upper << ", " << map.getVersion().lower << std::endl;
+        if (map.isInfinite())
+        {
+            std::cout << "Map is infinite.\n";
+        }
+        else
+        {
+            std::cout << "Map Dimensions: " << map.getBounds() << std::endl;
+        }
+
+        const auto& layers = map.getLayers();
+        std::cout << "Map has " << layers.size() << " layers" << std::endl;
+        for (const auto& layer : layers)
+        {
+            std::cout << "Found Layer: " << layer->getName() << std::endl;
+            std::cout << "Layer Type: " << LayerStrings[static_cast<std::int32_t>(layer->getType())] << std::endl;
+            std::cout << "Layer Dimensions: " << layer->getSize() << std::endl;
+            std::cout << "Layer Tint: " << layer->getTintColour() << std::endl;
+
+            if (layer->getType() == tmx::Layer::Type::Object)
+            {
+                const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+                std::cout << "Found " << objects.size() << " objects in layer" << std::endl;
+                for (const auto& object : objects)
+                {
+                    std::cout << "Object " << object.getUID() << ", " << object.getName() << std::endl;
+                    const auto& properties = object.getProperties();
+                    std::cout << "Object has " << properties.size() << " properties" << std::endl;
+                    for (const auto& prop : properties)
+                    {
+                        std::cout << "Found property: " << prop.getName() << std::endl;
+                        std::cout << "Type: " << int(prop.getType()) << std::endl;
+                    }
+                    GameObject* chao = new GameObject();
+                    chao->box = { object.getAABB().left, object.getAABB().top, object.getAABB().width, object.getAABB().height};
+                    Collider* col = new Collider(*chao, true);
+                    AddObject(chao);
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Failed loading map" << std::endl;
+    }
 }

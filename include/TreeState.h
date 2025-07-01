@@ -1,6 +1,7 @@
 #include "State.h"
 #include "Music.h"
 #include "EndState.h"
+#include "../include/tmxlite/Map.hpp"
 
 class SpriteRenderer;
 
@@ -17,6 +18,9 @@ public:
     void Start() override;
     void Pause() override;
     void Resume() override;
+
+    void LoadLayers();
+    void LoadFromTMX(std::string file);
 
     Text *hpText = nullptr;
     Text *dogText = nullptr;

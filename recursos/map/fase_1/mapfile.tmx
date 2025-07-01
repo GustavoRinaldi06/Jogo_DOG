@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="left-up" width="19" height="3" tilewidth="500" tileheight="500" infinite="0" nextlayerid="6" nextobjectid="11">
- <tileset firstgid="1" source="../../../Documents/Projects/tileset.tsx"/>
+ <tileset firstgid="1" source="./tileset.tsx"/>
  <layer id="1" name="TiledBackground" width="19" height="3">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

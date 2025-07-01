@@ -281,7 +281,8 @@ void TreeState::Resume()
 
 const std::array<std::string, 4u> LayerStrings =
 {
-    std::string("terrain"),
+    std::string("Tree"),
+    std::string("Background"),
 };
 
 void TreeState::LoadFromTMX(std::string file)
@@ -290,7 +291,15 @@ void TreeState::LoadFromTMX(std::string file)
     if (map.load(file))
     {
         GameObject* go = new GameObject();
-        TileSet* tileSet = new TileSet(500, 500, "recursos/img/Tree/tile.png");
+        go->box.x = 0;
+        go->box.y = 0;
+
+        auto tileSize = map.getTileSize();
+        TileSet* tileSet = new TileSet(
+            static_cast<int>(tileSize.x),
+            static_cast<int>(tileSize.y),
+            "recursos/img/Tree/tile.png"
+        );
         TileMap* tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);
         AddObject(go);
@@ -335,10 +344,6 @@ void TreeState::LoadFromTMX(std::string file)
                         std::cout << "Found property: " << prop.getName() << std::endl;
                         std::cout << "Type: " << int(prop.getType()) << std::endl;
                     }
-                    GameObject* chao = new GameObject();
-                    chao->box = { object.getAABB().left, object.getAABB().top, object.getAABB().width, object.getAABB().height};
-                    Collider* col = new Collider(*chao, true);
-                    AddObject(chao);
                 }
             }
         }

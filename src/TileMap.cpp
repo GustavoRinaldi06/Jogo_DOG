@@ -4,6 +4,7 @@
 #include "../include/Camera.h"
 #include "../include/State.h"
 #include "../include/Collider.h"
+#include "../include/tmxlite/TileLayer.hpp"
 
 #include <fstream>
 #include <sstream> 
@@ -113,8 +114,8 @@ void TileMap::RenderLayer(int layer, float parallaxFactor)
                 float worldY = associated.box.y + y * tileH;
 
                 // adicona o parallax e a camera
-                float posX = worldX + cam.x * parallaxFactor;
-                float posY = worldY + cam.y * parallaxFactor;
+                float posX = worldX - cam.x * parallaxFactor;
+                float posY = worldY - cam.y * parallaxFactor;
 
                 tileSet->RenderTile(index, posX, posY);
             }
@@ -175,40 +176,49 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
     }
 }
 
-void TileMap::LoadFromTMX(const tmx::Map& map)
-{
+void TileMap::LoadFromTMX(const tmx::Map& map) {
     const auto& layers = map.getLayers();
-    std::cout << "Map has " << layers.size() << " layers" << std::endl;
-    for (const auto& layer : layers)
-    {
-        mapWidth = layer->getSize().x;
-        mapHeight = layer->getSize().y;
-        mapDepth = 1;
-        if (layer->getType() == tmx::Layer::Type::Tile)
-        {
-            if (layer->getName().find("") == std::string::npos) {
-                continue;
-            }
-            const auto& tiles = layer->getLayerAs<tmx::TileLayer>().getTiles();
-            if (tiles.empty())
-            {
-                const auto& chunks = layer->getLayerAs<tmx::TileLayer>().getChunks();
-                if (chunks.empty())
-                {
-                    std::cout << "Layer has missing tile data\n";
-                }
-                else
-                {
-                    std::cout << "Layer has " << chunks.size() << " tile chunks.\n";
-                }
-            }
-            else
-            {
-                std::cout << "Layer has " << tiles.size() << " tiles.\n";
-                for (auto& tile : tiles) {
-                    tileMatrix.push_back(tile.ID - 1);
-                }
-            }
+    // 1) Conta quantos tile-layers existem e pega tamanho de cada tile-layer (assume todos mesmos dims)
+    int width = 0, height = 0, depth = 0;
+    for (const auto& layer : layers) {
+        if (layer->getType() == tmx::Layer::Type::Tile) {
+            ++depth;
+            width  = layer->getSize().x;
+            height = layer->getSize().y;
         }
     }
+    if (depth == 0) {
+        std::cerr << "Nenhum layer de tile encontrado.\n";
+        return;
+    }
+
+    // 2) Ajusta membros da classe e prepara a matriz
+    mapWidth  = width;
+    mapHeight = height;
+    mapDepth  = depth;
+    tileMatrix.clear();
+    tileMatrix.resize(width * height * depth, -1);
+
+    // 3) Preenche camada por camada
+    int z = 0;
+    for (const auto& layer : layers) {
+        if (layer->getType() != tmx::Layer::Type::Tile) continue;
+
+        const auto& tiles = layer->getLayerAs<tmx::TileLayer>().getTiles();
+        if (tiles.empty()) {
+            std::cerr << "Layer '" << layer->getName() << "' sem dados de tiles.\n";
+        } else {
+            for (int idx = 0; idx < (int)tiles.size(); ++idx) {
+                int x = idx % width;
+                int y = idx / width;
+                int id = tiles[idx].ID - 1;  // se você quer 0‑based
+                tileMatrix[(z * height + y) * width + x] = id;
+            }
+        }
+        ++z;
+    }
+
+    std::cout << "Map loaded: " 
+              << mapWidth << "x" << mapHeight 
+              << "x" << mapDepth << "\n";
 }

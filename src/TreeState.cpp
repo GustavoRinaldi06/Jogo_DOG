@@ -74,7 +74,7 @@ void TreeState::LoadAssets()
     // Mapa --------------------------------------------------------------------------------------------------------------------
     GameObject *mapGO = new GameObject();
     // cria TileSet
-    TileSet *tileSet = new TileSet(500, 500, "recursos/img/Tree/tile.png"); 
+    TileSet *tileSet = new TileSet(499, 499, "recursos/img/Tree/tile.png"); 
     // cria TileMap
     TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
     tileMap->SetTileSet(tileSet);

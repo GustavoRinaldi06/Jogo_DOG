@@ -6,8 +6,8 @@
 #include "Collider.h"
 #include <cmath>
 
-Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer, const std::string &spritePath, const std::string &explodepath)
-    : Component(associated), distanceLeft(maxDistance), damage(damage), targetsPlayer(targetsPlayer), Explode(explodepath)
+Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer, const std::string &spritePath, const std::string &soundpath, const std::string &explodepath)
+    : Component(associated), distanceLeft(maxDistance), damage(damage), targetsPlayer(targetsPlayer), Run(soundpath), Explode(explodepath)
 {
     velocity = Vec2(std::cos(angle), std::sin(angle)) * speed;
 
@@ -27,6 +27,8 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 
     SpawnTime.Restart();
     animator->SetAnimation("spawn");
+
+    Run.Play(1);
 }
 
 void Bullet::Update(float dt)
@@ -75,7 +77,6 @@ int Bullet::GetDamage() const
     return damage;
 }
 
-// Trabalho 6
 void Bullet::NotifyCollision(GameObject &other)
 {
     if (!other.GetComponent("Bullet") && !associated.IsDead() && !exploded)

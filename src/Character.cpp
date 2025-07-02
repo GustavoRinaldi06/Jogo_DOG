@@ -34,9 +34,6 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     fallSound = Sound("recursos/audio/Caindo.wav"); // Cai do mapa
     walkSound = Sound("recursos/audio/AndandoGrama.mp3"); // Andando na grama
 
-    // Sons do DOG
-    uivo = Sound("recursos/audio/LOBOteste.mp3"); // Atira DOG
-
     // Cria as animações
     auto animator = new Animator(associated);
     animator->AddAnimation("idle", Animation(6, 9, 0.5f));
@@ -135,9 +132,7 @@ void Character::Update(float dt)
         else if (current.type == CommandType::SHOOT)
         {
             if (dogTimer.Get() >= 5.0) // Tempo para poder chamar o cachorro de volta
-            {
-                uivo.Play(1);
-                
+            {     
                 // Calcular a direção do projetil
                 Vec2 shooterCenter = associated.box.GetCenter();
                 Vec2 target(current.pos.x, current.pos.y);
@@ -155,11 +150,11 @@ void Character::Update(float dt)
                 float maxDistance = 500.0f;
                 bool targetsPlayer = false;
 
-                // cria o cachorro
+                // cria o DOG
                 GameObject *dogGO = new GameObject();
                 dogGO->box.x = shooterCenter.x;
                 dogGO->box.y = shooterCenter.y - 20;
-                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/Bullet.png", "recursos/audio/explode.mp3")); // Alterar para o cachorro
+                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/Bullet.png", "recursos/audio/LOBOteste.mp3", "recursos/audio/explode.mp3")); // Alterar para o cachorro
 
                 Game::GetInstance().GetCurrentState().AddObject(dogGO);
 

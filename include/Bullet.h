@@ -9,7 +9,7 @@
 class Bullet : public Component
 {
 public:
-    Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer, const std::string &spritePath, const std::string &soundpath);
+    Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer, const std::string &spritePath, const std::string &soundpath, const std::string &explodepath);
 
     void Update(float dt) override;
     void Render() override;
@@ -32,7 +32,7 @@ private:
 
     bool exploded = false;
     Timer explodeTimer;
-    Sound Explode;
+    Sound Run, Explode;
 };
 
 #endif

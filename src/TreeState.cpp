@@ -49,15 +49,16 @@ void TreeState::LoadAssets()
     // Personagem ----------------------------------------------------------------------------------------------------------------
     GameObject *playerGO = new GameObject();
     playerGO->box.x = 500;
-    playerGO->box.y = -950;
+    playerGO->box.y = -1935;
 
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
+    playerGO->AddComponent(new Character(*playerGO, "recursos/img/player/walk.png"));
     playerGO->AddComponent(new PlayerController(*playerGO));
 
     Camera::GetInstance().Follow(playerGO);
     AddObject(playerGO);
 
     std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
+    std::cout << "playerGO->box.x = " << playerGO->box.x << "\n";
     std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
 
     // Música --------------------------------------------------------------------------------------------------------------------
@@ -208,7 +209,7 @@ void TreeState::Update(float dt)
         }
     }
 
-    // Remove os mortos
+    // Remove dead objects
     for (size_t i = 0; i < objectArray.size();)
     {
         if (objectArray[i]->IsDead())
@@ -294,10 +295,9 @@ void TreeState::LoadFromTMX(std::string file)
         go->box.x = 0;
         go->box.y = 0;
 
-        auto tileSize = map.getTileSize();
         TileSet* tileSet = new TileSet(
-            static_cast<int>(tileSize.x),
-            static_cast<int>(tileSize.y),
+            499,
+            499,
             "recursos/img/Tree/tile.png"
         );
         TileMap* tileMap = new TileMap(*go, tileSet, map);
@@ -339,12 +339,29 @@ void TreeState::LoadFromTMX(std::string file)
                     std::cout << "Object " << object.getUID() << ", " << object.getName() << std::endl;
                     const auto& properties = object.getProperties();
                     std::cout << "Object has " << properties.size() << " properties" << std::endl;
+                    
+                    if(object.getName() == "Tree")
+                    {
+                        std::cout << "Found a tree object with GID: " << object.getUID() << std::endl;
+                        std::cout << "Position: " << object.getPosition() << std::endl;
+                        DamageObj* treeGO = new GameObject();
+                        treeGO->box.x = 500;
+                        treeGO->box.y = 300;
+                        treeGO->box.w = object.getAABB().width;
+                        treeGO->box.h = 100;
+                        treeGO->AddComponent(new SpriteRenderer(*treeGO, "recursos/img/Tree.png"));
+                        AddObject(treeGO);
+                    }
+
                     for (const auto& prop : properties)
                     {
                         std::cout << "Found property: " << prop.getName() << std::endl;
                         std::cout << "Type: " << int(prop.getType()) << std::endl;
+
                     }
+                    std::cout << "\n\n";
                 }
+                
             }
         }
     }

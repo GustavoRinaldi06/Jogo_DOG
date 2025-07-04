@@ -19,12 +19,13 @@ Character::Character(GameObject &associated, const std::string &spritePath)
         player = this;
     }
 
-    auto renderer = new SpriteRenderer(associated, spritePath, 3, 4);
+    auto renderer = new SpriteRenderer(associated, spritePath, 5, 1);
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
-    associated.box.w = 50;  // ou a largura desejada
-    associated.box.h = 100; // altura desejada
+    associated.box.w = 1183;  // ou a largura desejada
+    associated.box.h = 1935; // altura desejada
+    renderer->SetScale(0.1f, 0.1f); // 20% do tamanho original
 
     // Sons do caçador
     // hitSound = Sound("recursos/audio/Hit1.wav");
@@ -39,9 +40,9 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 
     // Cria as animações
     auto animator = new Animator(associated);
-    animator->AddAnimation("idle", Animation(6, 9, 0.5f));
+    //animator->AddAnimation("idle", Animation(6, 9, 0.5f));
     animator->AddAnimation("walking", Animation(0, 5, 0.2f));
-    animator->AddAnimation("dead", Animation(10, 11, 0.3f));
+    animator->AddAnimation("dead", Animation(0, 0, 0.3f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));

@@ -164,7 +164,7 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
             {
                 GameObject *block = new GameObject();
                 block->box.x = associated.box.x + x * tileW;
-                block->box.y = associated.box.y + y * tileH;
+                block->box.y = associated.box.y + y * tileH - 100;
                 block->box.w = tileW;
                 block->box.h = tileH;
                 auto c = new Collider(*block);

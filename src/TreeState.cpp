@@ -354,20 +354,20 @@ void TreeState::LoadFromTMX(std::string file)
                     const auto& properties = object.getProperties();
                     std::cout << "Object has " << properties.size() << " properties" << std::endl;
                     
-                    if(object.getName() == "Tree")
+                    if(object.getName() == "Hand")
                     {
                         std::cout << "Found a tree object with GID: " << object.getUID() << std::endl;
                         std::cout << "Position: " << object.getPosition() << std::endl;
-                        GameObject* treeGO = new GameObject();
-                        treeGO->box.x = 500;
-                        treeGO->box.y = 300;
-                        treeGO->box.w = object.getAABB().width;
-                        treeGO->box.h = 100;
-                        treeGO->AddComponent(new SpriteRenderer(*treeGO, "recursos/img/Tree.png"));
-                        //DamageObj* damageObj = new DamageObj(*treeGO, 10, 0.5f);
-                        //treeGO->AddComponent(damageObj);
-                        treeGO->AddComponent(new Collider(*treeGO));
-                        AddObject(treeGO);
+                        GameObject* handGO = new GameObject();
+                        handGO->box.x = 500;
+                        handGO->box.y = 200;
+                        handGO->box.w = object.getAABB().width;
+                        handGO->box.h = 100;
+                        handGO->AddComponent(new SpriteRenderer(*handGO, "recursos/img/tiles_movimentos.png", 8, 12));
+                        //DamageObj* damageObj = new DamageObj(*handGO, 10, 0.5f);
+                        //handGO->AddComponent(damageObj);
+                        handGO->AddComponent(new Collider(*handGO));
+                        AddObject(handGO);
                     }
 
                     for (const auto& prop : properties)

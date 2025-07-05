@@ -334,15 +334,7 @@ void TreeState::LoadFromTMX(std::string file)
         tileMap->GenerateCollision(0, *this);
 
         std::cout << "Loaded Map version: " << map.getVersion().upper << ", " << map.getVersion().lower << std::endl;
-        if (map.isInfinite())
-        {
-            std::cout << "Map is infinite.\n";
-        }
-        else
-        {
-            std::cout << "Map Dimensions: " << map.getBounds() << std::endl;
-        }
-
+    
         const auto& layers = map.getLayers();
         std::cout << "Map has " << layers.size() << " layers" << std::endl;
         for (const auto& layer : layers)

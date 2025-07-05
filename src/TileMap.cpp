@@ -160,7 +160,7 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
         for (int x = 0; x < mapWidth; ++x)
         {
             int index = At(x, y, collisionLayer);
-            if (index != -1)
+            if (index >= 0)
             {
                 GameObject *block = new GameObject();
                 block->box.x = associated.box.x + x * tileW;
@@ -211,11 +211,25 @@ void TileMap::LoadFromTMX(const tmx::Map& map) {
             for (int idx = 0; idx < (int)tiles.size(); ++idx) {
                 int x = idx % width;
                 int y = idx / width;
-                int id = tiles[idx].ID - 1;  // se você quer 0‑based
-                tileMatrix[(z * height + y) * width + x] = id;
+                int id = tiles[idx].ID;
+
+                if (id == 0) {
+                    tileMatrix[(z * height + y) * width + x] = -1;
+                } else {
+                    tileMatrix[(z * height + y) * width + x] = id - 1;
+                }
             }
         }
         ++z;
+    }
+
+     // DEBUG - Mostrar valores reais
+    std::cout << "Valores reais na matriz:\n";
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            std::cout << At(x, y, 0) << " ";
+        }
+        std::cout << "\n";
     }
 
     std::cout << "Map loaded: " 

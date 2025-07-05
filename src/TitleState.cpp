@@ -5,6 +5,7 @@
 #include "SpriteRenderer.h"
 #include "Text.h"
 #include "GameObject.h"
+#include "LoadingState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -73,7 +74,9 @@ void TitleState::Update(float dt)
     // Se ESPAÇO for pressionado, empilha StageState
     if (input.KeyPress(SDLK_SPACE))
     {
-        Game::GetInstance().Push(new TreeState());
+        Game::GetInstance().Push(new LoadingState(
+            [](){ return new TreeState(); }
+        ));
         return;
     }
 

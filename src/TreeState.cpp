@@ -9,6 +9,7 @@
 #include "../include/Collider.h"
 #include "../include/Collision.h"
 #include "../include/Parallax.h"
+#include "../include/DamageObj.h"
 #include "Text.h"
 
 #define INCLUDE_SDL
@@ -32,6 +33,7 @@ void TreeState::LoadAssets()
     LoadLayers();
 
     LoadFromTMX("recursos/map/fase_1/mapfile.tmx");
+
 
     // Cria limite de mapa esquerda ------------------------------------------
     GameObject *leftlimit = new GameObject();
@@ -115,7 +117,7 @@ void TreeState::LoadLayers()
     E->box.y = 0;
     E->box.w = 2048;
     E->box.h = 512;
-    E->AddComponent(new SpriteRenderer(*E, "recursos/img/Tree/E.png"));
+    E->AddComponent(new SpriteRenderer(*E, "recursos/img/background/fase_1/E.png"));
     E->AddComponent(new Parallax(*E, 0.0f));
     AddObject(E);
 
@@ -125,7 +127,7 @@ void TreeState::LoadLayers()
     D->box.y = 0;
     D->box.w = 2048;
     D->box.h = 512;
-    D->AddComponent(new SpriteRenderer(*D, "recursos/img/Tree/D.png"));
+    D->AddComponent(new SpriteRenderer(*D, "recursos/img/background/fase_1/D.png"));
     D->AddComponent(new Parallax(*D, 0.2f));
     AddObject(D);
 
@@ -135,7 +137,7 @@ void TreeState::LoadLayers()
     C->box.y = 0;
     C->box.w = 2048;
     C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/Tree/C.png"));
+    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/fase_1/C.png"));
     C->AddComponent(new Parallax(*C, 0.3f));
     AddObject(C);
 
@@ -145,9 +147,29 @@ void TreeState::LoadLayers()
     B->box.y = 0;
     B->box.w = 2048;
     B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/Tree/B.png"));
+    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/fase_1/B.png"));
     B->AddComponent(new Parallax(*B, 0.4f));
     AddObject(B);
+
+    // Camada A
+    GameObject *A = new GameObject();
+    A->box.x = 0;
+    A->box.y = 0;
+    A->box.w = 2048;
+    A->box.h = 512;
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/fase_1/A.png"));
+    A->AddComponent(new Parallax(*A, 0.6f));
+    AddObject(A);
+
+    // Efeito Vinheta
+    GameObject *EfeitoVinheta = new GameObject();
+    EfeitoVinheta->box.x = 0;
+    EfeitoVinheta->box.y = 0;
+    EfeitoVinheta->box.w = 2048;
+    EfeitoVinheta->box.h = 512;
+    EfeitoVinheta->AddComponent(new SpriteRenderer(*EfeitoVinheta, "recursos/img/background/fase_1/Efeito_Vinheta.png"));
+    EfeitoVinheta->AddComponent(new Parallax(*EfeitoVinheta, 0.5f));
+    AddObject(EfeitoVinheta);
 }
 
 void TreeState::Update(float dt)
@@ -296,9 +318,9 @@ void TreeState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet* tileSet = new TileSet(
-            499,
-            499,
-            "recursos/img/Tree/tile.png"
+            250,
+            250,
+            "recursos/img/tiles/map_tiles.png"
         );
         TileMap* tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);
@@ -344,12 +366,15 @@ void TreeState::LoadFromTMX(std::string file)
                     {
                         std::cout << "Found a tree object with GID: " << object.getUID() << std::endl;
                         std::cout << "Position: " << object.getPosition() << std::endl;
-                        DamageObj* treeGO = new GameObject();
+                        GameObject* treeGO = new GameObject();
                         treeGO->box.x = 500;
                         treeGO->box.y = 300;
                         treeGO->box.w = object.getAABB().width;
                         treeGO->box.h = 100;
                         treeGO->AddComponent(new SpriteRenderer(*treeGO, "recursos/img/Tree.png"));
+                        //DamageObj* damageObj = new DamageObj(*treeGO, 10, 0.5f);
+                        //treeGO->AddComponent(damageObj);
+                        treeGO->AddComponent(new Collider(*treeGO));
                         AddObject(treeGO);
                     }
 

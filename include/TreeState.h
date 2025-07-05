@@ -24,6 +24,8 @@ public:
 
     Text *hpText = nullptr;
     Text *dogText = nullptr;
+    
 private:
     Music backgroundMusic;
+    GameObject* createHandObject(const tmx::Object& object);
 };

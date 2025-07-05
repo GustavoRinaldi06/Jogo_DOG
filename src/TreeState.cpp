@@ -358,16 +358,9 @@ void TreeState::LoadFromTMX(std::string file)
                     {
                         std::cout << "Found a tree object with GID: " << object.getUID() << std::endl;
                         std::cout << "Position: " << object.getPosition() << std::endl;
-                        GameObject* handGO = new GameObject();
-                        handGO->box.x = 500;
-                        handGO->box.y = 200;
-                        handGO->box.w = object.getAABB().width;
-                        handGO->box.h = 100;
-                        handGO->AddComponent(new SpriteRenderer(*handGO, "recursos/img/tiles_movimentos.png", 8, 12));
-                        //DamageObj* damageObj = new DamageObj(*handGO, 10, 0.5f);
-                        //handGO->AddComponent(damageObj);
-                        handGO->AddComponent(new Collider(*handGO));
+                        GameObject* handGO = createHandObject(object);
                         AddObject(handGO);
+                        std::cout << "Hand object created at position: " << handGO->box.x << ", " << handGO->box.y << std::endl;
                     }
 
                     for (const auto& prop : properties)
@@ -386,4 +379,18 @@ void TreeState::LoadFromTMX(std::string file)
     {
         std::cout << "Failed loading map" << std::endl;
     }
+}
+
+GameObject* TreeState::createHandObject(const tmx::Object& object)
+{
+    GameObject* handGO = new GameObject();
+    handGO->box.x = object.getAABB().left;
+    handGO->box.y = 550;
+    handGO->box.w = object.getAABB().width;
+    handGO->box.h = object.getAABB().height;
+    handGO->AddComponent(new SpriteRenderer(*handGO, "recursos/img/tiles_movimentos.png", 8, 12));
+    //DamageObj* damageObj = new DamageObj(*handGO, 10, 0.5f);
+    //handGO->AddComponent(damageObj);
+    handGO->AddComponent(new Collider(*handGO));
+    return handGO;
 }

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="left-up" width="19" height="3" tilewidth="500" tileheight="500" infinite="0" nextlayerid="3" nextobjectid="8">
- <tileset firstgid="1" source="tileset.tsx"/>
- <layer id="1" name="Background" class="Tile" width="19" height="3">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="left-up" width="63" height="6" tilewidth="250" tileheight="250" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="map_tiles" tilewidth="250" tileheight="250" tilecount="20" columns="5">
+  <image source="../../img/tiles/map_tiles.png" width="1250" height="1000"/>
+ </tileset>
+ <layer id="1" name="Background" width="63" height="6">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-1,1,1,1,1,1,1,1,0,9,1,1,1,1,1,1,1,1,1
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,1,1,1,1,1,1,1,8,0,0,9,1,1,1,1,1,1,8,0,9,8,0,9,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+11,11,11,11,11,11,11,11,11,0,0,11,11,11,11,11,11,11,11,0,11,11,0,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11
 </data>
  </layer>
- <objectgroup id="2" name="Tree" class="Object">
-  <object id="2" name="Tree" type="Object" gid="14" x="1749.15" y="1106.61" width="500" height="500"/>
- </objectgroup>
 </map>

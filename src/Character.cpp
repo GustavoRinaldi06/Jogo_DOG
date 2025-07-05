@@ -7,6 +7,7 @@
 #include "Collider.h"
 #include "Game.h"
 #include "InputManager.h"
+#include "Dog.h"
 
 #include <iostream>
 
@@ -155,7 +156,7 @@ void Character::Update(float dt)
                 GameObject *dogGO = new GameObject();
                 dogGO->box.x = shooterCenter.x;
                 dogGO->box.y = shooterCenter.y - 20;
-                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/Bullet.png", "recursos/audio/LOBOteste.mp3", "recursos/audio/explode.mp3")); // Alterar para o cachorro
+                dogGO->AddComponent(new Dog(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/audio/LOBOteste.mp3", "recursos/audio/explode.mp3")); // Alterar para o cachorro
 
                 Game::GetInstance().GetCurrentState().AddObject(dogGO);
 

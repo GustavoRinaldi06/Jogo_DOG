@@ -52,6 +52,8 @@ void Bullet::Update(float dt)
         }
     }
 
+    animator->Update(dt);
+    
     Vec2 displacement = velocity * dt;
     associated.box.x += displacement.x;
     associated.box.y += displacement.y;

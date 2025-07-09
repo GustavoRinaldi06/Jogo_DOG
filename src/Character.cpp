@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Collider.h"
 #include "Game.h"
+#include "Dog.h"
 #include "InputManager.h"
 
 #include <iostream>
@@ -42,7 +43,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
-    dogTimer.Set(5.0);
+    dogTimer.Set(4.0);
 }
 
 Character::~Character()
@@ -131,7 +132,7 @@ void Character::Update(float dt)
         // SHOOT -----------------------------------------------------------------------
         else if (current.type == CommandType::SHOOT)
         {
-            if (dogTimer.Get() >= 5.0) // Tempo para poder chamar o cachorro de volta
+            if (dogTimer.Get() >= 4.0) // Tempo para poder chamar o cachorro de volta
             {     
                 // Calcular a direção do projetil
                 Vec2 shooterCenter = associated.box.GetCenter();
@@ -162,7 +163,25 @@ void Character::Update(float dt)
             }
             taskQueue.pop();
         }
-    }     
+    }
+
+    // DOG ------------------------------------------------------------------------
+    if (input.KeyPress('e'))
+    {
+        if (dogTimer.Get() >= 4.0) // Tempo para poder chamar o cachorro de volta
+        {
+            Vec2 shooterCenter = associated.box.GetCenter();
+
+            GameObject *dogGO1 = new GameObject();
+            dogGO1->box.x = shooterCenter.x + 70;
+            dogGO1->box.y = shooterCenter.y - 30;
+            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/Enemy.png", "recursos/audio/LOBOteste.mp3")); // Alterar para o cachorro
+
+            Game::GetInstance().GetCurrentState().AddObject(dogGO1);
+
+            dogTimer.Restart(); // reinicia tempo pra chamar o cachorro
+        }
+    }
 
     // Atualiza animação de acordo com a movimentação
     Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
@@ -230,6 +249,11 @@ void Character::NotifyCollision(GameObject &other)
     if (other.GetComponent("Bullet")) // ignora colisões com Bullet
     {
         return; 
+    }
+
+    if (other.GetComponent("Dog")) // ignora colisões com Bullet
+    {
+        return;
     }
 
     Collider *collider = (Collider *)other.GetComponent("Collider");

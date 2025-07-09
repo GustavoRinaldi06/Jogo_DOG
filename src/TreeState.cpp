@@ -248,8 +248,8 @@ void TreeState::Update(float dt)
 
     //Caixa do cooldown do DOG
     if (dogText && Character::player != nullptr){
-        if(Character::player->GetCool() < 5){
-            std::string dgCooldown = "DOG esta passeando: " + std::to_string(5 - Character::player->GetCool());
+        if(Character::player->GetCool() < 4){
+            std::string dgCooldown = "DOG esta passeando: " + std::to_string(4 - Character::player->GetCool());
             dogText->SetText(dgCooldown);
         }else{
             std::string dgCooldown = "DOG esta entre nos";

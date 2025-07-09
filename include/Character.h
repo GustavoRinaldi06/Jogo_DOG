@@ -37,7 +37,6 @@ public:
 
     static Character *player; // ponteiro global (caso seja o player)
 
-    // Trabalho 6
     void NotifyCollision(GameObject &other) override;
     GameObject *GetGameObject() { return &associated; }
 

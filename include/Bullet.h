@@ -21,7 +21,6 @@ public:
     bool IsTargetingPlayer() const { return targetsPlayer; }
 
     void TriggerExplosion();
-
 private:
     Vec2 velocity;
     float distanceLeft;

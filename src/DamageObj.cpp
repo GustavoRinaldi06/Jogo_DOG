@@ -7,7 +7,7 @@
 #include <cmath>
 
 DamageObj::DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &soundpath, const std::string &dmgpath)
-    : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Damage(dmgpath)
+    : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Dmg(dmgpath)
 {
     auto renderer = new SpriteRenderer(associated, spritePath, 1, 1); // ajustar para animações
     renderer->SetCameraFollower(false);
@@ -96,7 +96,7 @@ int DamageObj::GetDamage() const
 void DamageObj::NotifyCollision(GameObject &other)
 {
     // FAz barulho ao passar e aumenta o dano cada vez que colide
-    Damage.Play(1);
+    Dmg.Play(1);
     damage++;
     originalDamage++;
 }

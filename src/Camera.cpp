@@ -23,8 +23,10 @@ void Camera::Update(float dt)
 {
     if (focus != nullptr)
     {
-        pos = focus->box.GetCenter() - Vec2(400, 550); // Posição da camera em relação ao foco
+        pos.x = focus->box.GetCenter().x - 400;
+        pos.y = 175; // altua da camera
     }
+/*
     else
     {
         InputManager &input = InputManager::GetInstance();
@@ -41,6 +43,7 @@ void Camera::Update(float dt)
 
         pos = pos + speed * dt;
     }
+*/
 }
 
 Vec2 Camera::GetPosition() const

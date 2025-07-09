@@ -25,7 +25,7 @@ private:
 
     bool active = false;
     Timer activeTimer;
-    Sound Spawn, Damage;
+    Sound Spawn, Dmg;
 };
 
 #endif

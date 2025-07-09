@@ -1,5 +1,6 @@
 #include "../include/Barrier.h"
 #include "../include/InputManager.h"
+#include "Dog.h"
 #include "Collider.h"
 #include "Bullet.h"
 #include "Character.h"
@@ -147,9 +148,9 @@ void Barrier::Start()
 
 void Barrier::NotifyCollision(GameObject &other)
 {
-    Bullet *bullet = (Bullet *)other.GetComponent("Bullet");
-    if (bullet)
+    Dog *dog = (Dog *)other.GetComponent("Dog");
+    if (dog) // ignora colisões com Bullet
     {
-        Damage(bullet->GetDamage());
+        hitpoints -= dog->GetDamage();
     }
 }

@@ -173,7 +173,12 @@ void Character::Update(float dt)
             Vec2 shooterCenter = associated.box.GetCenter();
 
             GameObject *dogGO1 = new GameObject();
-            dogGO1->box.x = shooterCenter.x + 70;
+            if (facingDir == -1){ // Andando pra esquerda, chama para esquerda
+                dogGO1->box.x = shooterCenter.x - 110;
+            }
+            else{ // Andando pra direita, chama para direita
+                dogGO1->box.x = shooterCenter.x + 70;
+            }
             dogGO1->box.y = shooterCenter.y - 30;
             dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/Enemy.png", "recursos/audio/LOBOteste.mp3")); // Alterar para o cachorro
 

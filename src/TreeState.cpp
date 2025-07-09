@@ -70,65 +70,8 @@ void TreeState::LoadAssets()
         B->AddComponent(new SpriteRenderer(*B, "recursos/img/Tree/B.png"));
         B->AddComponent(new Parallax(*B, 0.4f));
         AddObject(B);
-    
-    // Mapa --------------------------------------------------------------------------------------------------------------------
-    GameObject *mapGO = new GameObject();
-    // cria TileSet
-    TileSet *tileSet = new TileSet(499, 499, "recursos/img/Tree/tile.png"); 
-    // cria TileMap
-    TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
-    tileMap->SetTileSet(tileSet);
 
-    // DEBUG -- verificar tamanhos certos
-    std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
-    std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
-
-    mapGO->AddComponent(tileMap);
-
-    mapGO->box.x = 0;
-    mapGO->box.y = -600;
-    mapGO->box.w = 2048;
-    mapGO->box.h = 600;
-
-    AddObject(mapGO);
-
-    // gera colisão da camada 0 (chão)
-    tileMap->GenerateCollision(0, *this);
-
-    // Cria limite de mapa esquerda ------------------------------------------
-    GameObject *leftlimit = new GameObject();
-    leftlimit->box.x = 0;
-    leftlimit->box.y = 0;
-    leftlimit->box.w = 500;
-    leftlimit->box.h = 1500;
-
-    Collider *wallCollider = new Collider(*leftlimit);
-    wallCollider->tag = "wall";
-    leftlimit->AddComponent(wallCollider);
-
-    AddObject(leftlimit);
-
-    // Personagem ----------------------------------------------------------------------------------------------------------------
-    GameObject *playerGO = new GameObject();
-    playerGO->box.x = 500;
-    playerGO->box.y = -950;
-
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
-    playerGO->AddComponent(new PlayerController(*playerGO));
-
-    Camera::GetInstance().Follow(playerGO);
-    AddObject(playerGO);
-
-    std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
-    std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
-
-    // Música --------------------------------------------------------------------------------------------------------------------
-
-    backgroundMusic.Open("recursos/audio/Fundo.mp3");
-    backgroundMusic.Play();
-
-    // Foreground ----------------------------------------------------------------------------------------------------------------
-    /*
+        // Camada A
         GameObject *A = new GameObject();
         A->box.x = 0;
         A->box.y = 500;
@@ -137,35 +80,102 @@ void TreeState::LoadAssets()
         A->AddComponent(new SpriteRenderer(*A, "recursos/img/Tree/A.png"));
         A->AddComponent(new Parallax(*A, 0.6f));
         AddObject(A);
-    */
-    // Texto da vida do personagem------------------------------------------------------------------------------------------------
 
-    SDL_Color white = {255, 255, 255, 255};
-    GameObject *textGO = new GameObject();
-    std::string hpString = "HP: " + std::to_string(Character::player->GetHP());
-    hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
-    textGO->AddComponent(hpText);
+        // Mapa --------------------------------------------------------------------------------------------------------------------
+        GameObject *mapGO = new GameObject();
+        // cria TileSet
+        TileSet *tileSet = new TileSet(499, 499, "recursos/img/Tree/tile.png");
+        // cria TileMap
+        TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
+        tileMap->SetTileSet(tileSet);
 
-    hpText->SetCameraFollower(true);
-    // Posição do texto
-    textGO->box.x = 60;
-    textGO->box.y = 650;
+        // DEBUG -- verificar tamanhos certos
+        std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
+        std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
 
-    AddObject(textGO);
+        mapGO->AddComponent(tileMap);
 
-    // TExto de cooldown do cachorro --------------------------------------------------------------------------------------------
+        mapGO->box.x = 0;
+        mapGO->box.y = -600;
+        mapGO->box.w = 2048;
+        mapGO->box.h = 600;
 
-    GameObject *textGO1 = new GameObject();
-    std::string dgCooldown = "DOG esta entre nos";
-    dogText = new Text(*textGO1, "recursos/font/neodgm.ttf", 24, BLENDED, dgCooldown, white);
-    textGO1->AddComponent(dogText);
+        AddObject(mapGO);
 
-    dogText->SetCameraFollower(true);
-    // Posição do texto
-    textGO1->box.x = 200;
-    textGO1->box.y = 650;
+        // gera colisão da camada 0 (chão)
+        tileMap->GenerateCollision(0, *this);
 
-    AddObject(textGO1);
+        // Cria limite de mapa esquerda ------------------------------------------
+        GameObject *leftlimit = new GameObject();
+        leftlimit->box.x = 0;
+        leftlimit->box.y = 0;
+        leftlimit->box.w = 500;
+        leftlimit->box.h = 1500;
+
+        Collider *wallCollider = new Collider(*leftlimit);
+        wallCollider->tag = "wall";
+        leftlimit->AddComponent(wallCollider);
+
+        AddObject(leftlimit);
+
+        // Personagem ----------------------------------------------------------------------------------------------------------------
+        GameObject *playerGO = new GameObject();
+        playerGO->box.x = 500;
+        playerGO->box.y = -950;
+
+        playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
+        playerGO->AddComponent(new PlayerController(*playerGO));
+
+        Camera::GetInstance().Follow(playerGO);
+        AddObject(playerGO);
+
+        std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
+        std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
+
+        // Música --------------------------------------------------------------------------------------------------------------------
+
+        backgroundMusic.Open("recursos/audio/Fundo.mp3");
+        backgroundMusic.Play();
+
+        // Vinheta ----------------------------------------------------------------------------------------------------------------
+
+        GameObject *vinhetaGO = new GameObject();
+
+        SpriteRenderer *spriter = new SpriteRenderer(*vinhetaGO);
+        spriter->Open("recursos/img/tree/Vinheta.png");
+        spriter->SetCameraFollower(true); // igual a imagem de fundo
+
+        vinhetaGO->AddComponent(spriter);
+        AddObject(vinhetaGO);
+
+        // Texto da vida do personagem------------------------------------------------------------------------------------------------
+
+        SDL_Color white = {255, 255, 255, 255};
+        GameObject *textGO = new GameObject();
+        std::string hpString = "HP: " + std::to_string(Character::player->GetHP());
+        hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
+        textGO->AddComponent(hpText);
+
+        hpText->SetCameraFollower(true);
+        // Posição do texto
+        textGO->box.x = 60;
+        textGO->box.y = 650;
+
+        AddObject(textGO);
+
+        // TExto de cooldown do cachorro --------------------------------------------------------------------------------------------
+
+        GameObject *textGO1 = new GameObject();
+        std::string dgCooldown = "DOG esta entre nos";
+        dogText = new Text(*textGO1, "recursos/font/neodgm.ttf", 24, BLENDED, dgCooldown, white);
+        textGO1->AddComponent(dogText);
+
+        dogText->SetCameraFollower(true);
+        // Posição do texto
+        textGO1->box.x = 200;
+        textGO1->box.y = 650;
+
+        AddObject(textGO1);
 }
 
 void TreeState::Update(float dt)

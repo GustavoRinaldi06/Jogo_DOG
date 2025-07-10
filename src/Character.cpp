@@ -100,7 +100,7 @@ void Character::Update(float dt)
     if (input.KeyPress(SDLK_SPACE) && isOnGround)
     {
         jumpSound.Play(1);
-        speed.y = -600.0f; // ajuste a força de pulo conforme desejado
+        speed.y = -750.0f; // ajuste a força de pulo conforme desejado
         isOnGround = false;
     }
 

@@ -161,15 +161,13 @@ void TreeState::LoadLayers()
     A->AddComponent(new Parallax(*A, 0.6f));
     AddObject(A);
 
-    // Efeito Vinheta
-    GameObject *EfeitoVinheta = new GameObject();
-    EfeitoVinheta->box.x = 0;
-    EfeitoVinheta->box.y = 0;
-    EfeitoVinheta->box.w = 2048;
-    EfeitoVinheta->box.h = 512;
-    EfeitoVinheta->AddComponent(new SpriteRenderer(*EfeitoVinheta, "recursos/img/background/fase_1/Efeito_Vinheta.png"));
-    EfeitoVinheta->AddComponent(new Parallax(*EfeitoVinheta, 0.5f));
-    AddObject(EfeitoVinheta);
+    // Vinheta ----------------------------------------------------------------------------------------------------------------
+    GameObject *vinhetaGO = new GameObject();
+    SpriteRenderer *spriter = new SpriteRenderer(*vinhetaGO);
+    spriter->Open("recursos/img/background/fase_1/efeito_vinheta.png");
+    spriter->SetCameraFollower(true); 
+    vinhetaGO->AddComponent(spriter);
+    AddObject(vinhetaGO);
 }
 
 void TreeState::Update(float dt)
@@ -318,8 +316,8 @@ void TreeState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet* tileSet = new TileSet(
-            250,
-            250,
+            249,
+            249,
             "recursos/img/tiles/map_tiles.png"
         );
         TileMap* tileMap = new TileMap(*go, tileSet, map);
@@ -352,26 +350,30 @@ void TreeState::LoadFromTMX(std::string file)
                 {
                     std::cout << "Object " << object.getUID() << ", " << object.getName() << std::endl;
                     const auto& properties = object.getProperties();
+                    std::cout << "Position: " << object.getPosition() << std::endl;
                     std::cout << "Object has " << properties.size() << " properties" << std::endl;
                     
                     if(object.getName() == "Hand")
                     {
-                        std::cout << "Found a tree object with GID: " << object.getUID() << std::endl;
-                        std::cout << "Position: " << object.getPosition() << std::endl;
                         GameObject* handGO = createHandObject(object);
                         AddObject(handGO);
                         std::cout << "Hand object created at position: " << handGO->box.x << ", " << handGO->box.y << std::endl;
                     }
 
-                    for (const auto& prop : properties)
+                    if(object.getName() == "Espinho")
                     {
-                        std::cout << "Found property: " << prop.getName() << std::endl;
-                        std::cout << "Type: " << int(prop.getType()) << std::endl;
-
+                        GameObject* thornGO = createThornObject(object);
+                        AddObject(thornGO);
+                        std::cout << "Thorn object created at position: " << thornGO->box.x << ", " << thornGO->box.y << std::endl;
                     }
-                    std::cout << "\n\n";
+
+                    if(object.getName() == "Chainsaw")
+                    {
+                        GameObject* chainSawGO = createChainSawObject(object);
+                        AddObject(chainSawGO);
+                        std::cout << "Chainsaw object created at position: " << chainSawGO->box.x << ", " << chainSawGO->box.y << std::endl;
+                    }
                 }
-                
             }
         }
     }
@@ -388,9 +390,39 @@ GameObject* TreeState::createHandObject(const tmx::Object& object)
     handGO->box.y = 550;
     handGO->box.w = object.getAABB().width;
     handGO->box.h = object.getAABB().height;
-    handGO->AddComponent(new SpriteRenderer(*handGO, "recursos/img/tiles_movimentos.png", 8, 12));
-    //DamageObj* damageObj = new DamageObj(*handGO, 10, 0.5f);
-    //handGO->AddComponent(damageObj);
+    //handGO->AddComponent(new SpriteRenderer(*handGO, "recursos/img/tiles_movimentos.png", 8, 12));
+    DamageObj* damageObj = new DamageObj(*handGO, 10
+        , "recursos/img/tiles_split/mao.png", "recursos/audio/boing.mp3", "recursos/audio/explode.mp3", 8, 1);
+    handGO->AddComponent(damageObj);
     handGO->AddComponent(new Collider(*handGO));
     return handGO;
+}
+
+GameObject* TreeState::createThornObject(const tmx::Object& object)
+{
+    GameObject* thornGO = new GameObject();
+    thornGO->box.x = object.getAABB().left;
+    thornGO->box.y = 550;
+    thornGO->box.w = object.getAABB().width;
+    thornGO->box.h = object.getAABB().height;
+
+    DamageObj* damageObj = new DamageObj(*thornGO, 10
+        , "recursos/img/tiles_split/espinhos.png", "recursos/audio/boing.mp3", "recursos/audio/explode.mp3", 8, 1);
+    thornGO->AddComponent(damageObj);
+    thornGO->AddComponent(new Collider(*thornGO));
+    return thornGO;
+}
+
+GameObject* TreeState::createChainSawObject(const tmx::Object& object)
+{
+    GameObject* chainSawGO = new GameObject();
+    chainSawGO->box.x = object.getAABB().left;
+    chainSawGO->box.y = 550;
+    chainSawGO->box.w = object.getAABB().width;
+    chainSawGO->box.h = object.getAABB().height;
+
+    DamageObj* damageObj = new DamageObj(*chainSawGO, 10, "recursos/img/tiles_split/chainsaw.png", "recursos/audio/boing.mp3", "recursos/audio/explode.mp3", 8, 1);
+    chainSawGO->AddComponent(damageObj);
+    chainSawGO->AddComponent(new Collider(*chainSawGO));
+    return chainSawGO;
 }

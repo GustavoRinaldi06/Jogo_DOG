@@ -9,7 +9,7 @@
 class DamageObj : public Component
 {
 public:
-    DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &spawnpath, const std::string &dmgpath);
+    DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &spawnpath, const std::string &dmgpath, int frameCountX, int frameCountY);
 
     void Update(float dt) override;
     void Render() override;

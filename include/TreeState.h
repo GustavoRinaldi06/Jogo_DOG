@@ -28,4 +28,6 @@ public:
 private:
     Music backgroundMusic;
     GameObject* createHandObject(const tmx::Object& object);
+    GameObject* createThornObject(const tmx::Object& object);
+    GameObject* createChainSawObject(const tmx::Object& object);
 };

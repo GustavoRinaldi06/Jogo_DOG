@@ -9,6 +9,7 @@
 #include "../include/Collider.h"
 #include "../include/Collision.h"
 #include "../include/Parallax.h"
+#include "AnimalState.h"
 #include "Text.h"
 
 #define INCLUDE_SDL
@@ -190,6 +191,13 @@ void TreeState::Update(float dt)
         quitRequested = true;
         return;
     }
+    // PARA TESTES ==================================================================================================
+    if (input.QuitRequested() || input.KeyPress('r'))
+    {
+        Game::GetInstance().Push(new AnimalState());
+        return;
+    }
+    // =============================================================================================================
 
     // Atualiza todos os GameObjects
     UpdateArray(dt);

@@ -6,10 +6,18 @@
 #include "Collider.h"
 #include <cmath>
 
-DamageObj::DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &soundpath, const std::string &dmgpath)
+DamageObj::DamageObj(
+    GameObject &associated, 
+    int damage, 
+    const std::string &spritePath, 
+    const std::string &soundpath, 
+    const std::string &dmgpath,
+    int frameCountX,
+    int frameCountY
+)
     : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Damage(dmgpath)
 {
-    auto renderer = new SpriteRenderer(associated, spritePath, 1, 1); // ajustar para animações
+    auto renderer = new SpriteRenderer(associated, spritePath, frameCountX, frameCountY); // ajustar para animações
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
@@ -43,7 +51,7 @@ void DamageObj::Update(float dt)
         damage = 0;
         if (animator)
         {
-            animator->SetAnimation("t-off");
+            //animator->SetAnimation("t-off");
         }
 
         active = false;
@@ -53,7 +61,7 @@ void DamageObj::Update(float dt)
     else if(!active && activeTimer.Get() > 3.0f){
         damage = originalDamage;
         if(animator){
-            animator->SetAnimation("t-on");
+            //animator->SetAnimation("t-on");
         }
 
         Spawn.Play(1);

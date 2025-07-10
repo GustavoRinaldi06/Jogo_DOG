@@ -2,6 +2,8 @@
 #include "../include/Resources.h"
 #include "../include/InputManager.h"
 #include "../include/State.h"
+#include "../include/TitleState.h"
+#include "../include/GameData.h"
 #include <iostream>
 
 // Inicializa a variável estática 'instance' como nullptr

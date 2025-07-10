@@ -135,7 +135,7 @@ void TreeState::LoadAssets()
 
         // Música --------------------------------------------------------------------------------------------------------------------
 
-        backgroundMusic.Open("recursos/audio/Fundo.mp3");
+        backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
         backgroundMusic.Play();
 
         // Vinheta ----------------------------------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ void TreeState::Update(float dt)
     // Checagem de fim Derrota
     if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
     {
-        GameData::playerVictory = false;
+        GameData::playerVictory = true;
         popRequested = true;
         Game::GetInstance().Push(new EndState());
         return;
@@ -307,9 +307,7 @@ void TreeState::Start()
 }
 
 void TreeState::Pause()
-{
-   // Não sei ainda
-}
+{}
 
 void TreeState::Resume()
 {

@@ -5,12 +5,13 @@
 #include "SpriteRenderer.h"
 #include "Text.h"
 #include "GameObject.h"
+#include "Character.h"
+#include "PlayerController.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
 
-TitleState::TitleState()
-    : State()
+TitleState::TitleState(): State()
 {}
 
 TitleState::~TitleState() = default;
@@ -53,7 +54,7 @@ void TitleState::LoadAssets()
     AddObject(textGO1);
 
 // Carregar musica -----------------------------------------------------------------------------------
-    backgroundMusic.Open("recursos/audio/Abertura.mp3");
+    backgroundMusic.Open("recursos/audio/BGmusic/titleState.mp3");
     backgroundMusic.Play();
 }
 

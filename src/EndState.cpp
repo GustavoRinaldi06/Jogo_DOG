@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Parallax.h"
 #include "Camera.h"
+#include "Character.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -21,6 +22,7 @@ void EndState::LoadAssets()
     if (GameData::playerVictory) // Se o jogador ganhou e detorrou as waves
     {
         Camera::GetInstance().Unfollow();
+        Character::player = nullptr; // DEBUG
 
         // Camada B
         GameObject *B = new GameObject();
@@ -29,7 +31,7 @@ void EndState::LoadAssets()
         B->box.w = 2048;
         B->box.h = 512;
         B->AddComponent(new SpriteRenderer(*B, "recursos/img/End/B.png"));
-        B->AddComponent(new Parallax(*B, 0.6f));
+        B->AddComponent(new Parallax(*B, 0.2f));
         AddObject(B);
 
         // Camada A
@@ -39,19 +41,21 @@ void EndState::LoadAssets()
         A->box.w = 2048;
         A->box.h = 512;
         A->AddComponent(new SpriteRenderer(*A, "recursos/img/End/A.png"));
-        A->AddComponent(new Parallax(*A, 0.2f));
+        A->AddComponent(new Parallax(*A, 0.6f));
         AddObject(A);
 
         GameObject *textGO1 = new GameObject();
-        Text *title = new Text(*textGO1, "recursos/font/neodgm.ttf", 48, BLENDED, "Credits:\n\nBryan G. Silva\nKivia\nGustavo Rinaldi\nLucas Almeida\nEnzo Nogueira\nAntonio Duarte", white);
+        Text *title = new Text(*textGO1, "recursos/font/neodgm.ttf", 48, BLENDED, "Credits:\n\nBryan G. Silva - designer\nKivia Fernanda - designer\nGustavo Rinaldi - programador\nLucas Almeida - programador\nEnzo Nogueira - musico\nTom Duarte - musico", white);
         textGO1->AddComponent(title);
 
         title->SetCameraFollower(true);
         // Posição do texto
-        textGO1->box.x = 430;
+        textGO1->box.x = 330;
         textGO1->box.y = 150;
 
         AddObject(textGO1);
+
+        //backgroundMusic.Open("recursos/audio/teen_titans.mp3");
     }
     else // Se o jogador morreu
     {

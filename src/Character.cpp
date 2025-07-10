@@ -30,10 +30,10 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     // Sons do caçador
     // hitSound = Sound("recursos/audio/Hit1.wav");
     // deathSound = Sound("recursos/audio/Dead.wav");
-    hitGroundSound = Sound("recursos/audio/fart.mp3"); // Cai no chão
-    jumpSound = Sound("recursos/audio/boing.mp3"); // Pula
-    fallSound = Sound("recursos/audio/Caindo.wav"); // Cai do mapa
-    walkSound = Sound("recursos/audio/AndandoGrama.mp3"); // Andando na grama
+    hitGroundSound = Sound("recursos/audio/Hunter/fart.mp3"); // Cai no chão
+    jumpSound = Sound("recursos/audio/Hunter/boing.mp3");     // Pula
+    fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
+    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3"); // Andando na grama
 
     // Cria as animações
     auto animator = new Animator(associated);
@@ -155,7 +155,7 @@ void Character::Update(float dt)
                 GameObject *dogGO = new GameObject();
                 dogGO->box.x = shooterCenter.x;
                 dogGO->box.y = shooterCenter.y - 20;
-                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/Bullet.png", "recursos/audio/LOBOteste.mp3", "recursos/audio/explode.mp3")); // Alterar para o cachorro
+                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/Bullet.png", "recursos/audio/DOG/LOBOteste.mp3", "recursos/audio/DOG/explode.mp3")); // Alterar para o cachorro
 
                 Game::GetInstance().GetCurrentState().AddObject(dogGO);
 
@@ -180,7 +180,7 @@ void Character::Update(float dt)
                 dogGO1->box.x = shooterCenter.x + 70;
             }
             dogGO1->box.y = shooterCenter.y - 30;
-            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/Enemy.png", "recursos/audio/LOBOteste.mp3")); // Alterar para o cachorro
+            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/Enemy.png", "recursos/audio/DOG/LOBOteste.mp3")); // Alterar para o cachorro
 
             Game::GetInstance().GetCurrentState().AddObject(dogGO1);
 

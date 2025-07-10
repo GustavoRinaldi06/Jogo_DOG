@@ -10,5 +10,6 @@ int main(int argc, char **argv)
     Game &game = Game::GetInstance();
     game.Push(new TitleState()); // adiciona estado de titulo, primeiro da pilha
     game.Run();
+
     return 0;
 }

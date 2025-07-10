@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Game.h"
 #include "TitleState.h"
+#include "Timer.h"
 #include <memory>
 
 class EndState : public State
@@ -25,6 +26,9 @@ public:
 
 private:
     Music backgroundMusic;
+    Text *pressSpace = nullptr;
+
+    Timer exitTime;
 };
 
 #endif // ENDSTATE_H

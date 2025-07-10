@@ -13,7 +13,8 @@ public:
     void Unfollow();
 
     void Update(float dt);
-    Vec2 GetPosition() const; // <- aqui estava o erro
+    Vec2 GetPosition() const;
+    void Move(float dx, float dy);
 
 private:
     Camera(); // <- construtor declarado corretamente

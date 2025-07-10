@@ -50,3 +50,9 @@ Vec2 Camera::GetPosition() const
 {
     return pos;
 }
+
+void Camera::Move(float dx, float dy)
+{
+    pos.x += dx;
+    pos.y += dy;
+}

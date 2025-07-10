@@ -78,7 +78,7 @@ void TreeState::LoadAssets()
         A->box.w = 2048;
         A->box.h = 512;
         A->AddComponent(new SpriteRenderer(*A, "recursos/img/Tree/A.png"));
-        A->AddComponent(new Parallax(*A, 0.6f));
+        A->AddComponent(new Parallax(*A, 0.2f));
         AddObject(A);
 
         // Mapa --------------------------------------------------------------------------------------------------------------------

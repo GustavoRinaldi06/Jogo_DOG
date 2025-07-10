@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Resources.h"
 #include "Camera.h"
+#include <sstream>
 
 Text::Text(GameObject &associated, const std::string &fontFile, int fontSize, TextStyle style, const std::string &text, SDL_Color color)
     : Component(associated), arqFonte(fontFile), tamFonte(fontSize), estilo(style), cor(color), texto(text), texture(nullptr)
@@ -71,55 +72,79 @@ void Text::SetFontSize(int newFontSize)
 
 void Text::RemakeTexture()
 {
-    if (texture) // Dstroi textura atual
+    if (texture)
     {
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }
 
-// Cria nova caixa de text
     TTF_Font *font = Resources::GetFont(arqFonte, tamFonte);
-    if (!font) //  Não achou font
+    if (!font)
     {
         return;
     }
 
-    SDL_Surface *surface = nullptr;
-    switch (estilo)
+    std::vector<SDL_Surface *> lineSurfaces;
+    int totalWidth = 0;
+    int totalHeight = 0;
+
+    std::istringstream stream(texto);
+    std::string line;
+    while (std::getline(stream, line))
     {
-    case SOLID:
-        surface = TTF_RenderText_Solid(font, texto.c_str(), cor);
-        break;
-    case SHADED:
-    {
-        SDL_Color bg = {0, 0, 0, 255}; // Fundo preto
-        surface = TTF_RenderText_Shaded(font, texto.c_str(), cor, bg);
-        break;
-    }
-    case BLENDED:
-        surface = TTF_RenderText_Blended(font, texto.c_str(), cor);
-        break;
+        SDL_Surface *lineSurface = nullptr;
+
+        switch (estilo)
+        {
+        case SOLID:
+            lineSurface = TTF_RenderText_Solid(font, line.c_str(), cor);
+            break;
+        case SHADED:
+        {
+            SDL_Color bg = {0, 0, 0, 255};
+            lineSurface = TTF_RenderText_Shaded(font, line.c_str(), cor, bg);
+            break;
+        }
+        case BLENDED:
+            lineSurface = TTF_RenderText_Blended(font, line.c_str(), cor);
+            break;
+        }
+
+        if (lineSurface)
+        {
+            totalWidth = std::max(totalWidth, lineSurface->w);
+            totalHeight += lineSurface->h;
+            lineSurfaces.push_back(lineSurface);
+        }
     }
 
-    if (!surface) // Não conseguiu criar
-    {
+    if (lineSurfaces.empty())
         return;
+
+    SDL_Surface *finalSurface = SDL_CreateRGBSurface(0, totalWidth, totalHeight, 32,
+                                                     0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+
+    int yOffset = 0;
+    for (auto *surface : lineSurfaces)
+    {
+        SDL_Rect dstRect = {0, yOffset, surface->w, surface->h};
+        SDL_BlitSurface(surface, nullptr, finalSurface, &dstRect);
+        yOffset += surface->h;
+        SDL_FreeSurface(surface);
     }
 
-    // Cria uma textura a partir da surface
     SDL_Renderer *renderer = Game::GetInstance().GetRenderer();
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = SDL_CreateTextureFromSurface(renderer, finalSurface);
 
     clipRect.x = 0;
     clipRect.y = 0;
-    clipRect.w = surface->w;
-    clipRect.h = surface->h;
+    clipRect.w = finalSurface->w;
+    clipRect.h = finalSurface->h;
 
-    associated.box.w = surface->w;
-    associated.box.h = surface->h;
+    associated.box.w = finalSurface->w;
+    associated.box.h = finalSurface->h;
 
-    // libera surface da CPU
-    SDL_FreeSurface(surface);
+    SDL_FreeSurface(finalSurface);
 }
 
 bool Text::Is(const std::string &type)

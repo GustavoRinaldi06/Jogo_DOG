@@ -112,8 +112,7 @@ void SmokeState::LoadAssets()
     std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
 
     // Música --------------------------------------------------------------------------------------------------------------------
-
-    backgroundMusic.Open("recursos/audio/Fundo.mp3");
+    backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
     backgroundMusic.Play();
 
     // Texto da vida do personagem------------------------------------------------------------------------------------------------

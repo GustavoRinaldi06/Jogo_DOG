@@ -5,7 +5,7 @@ class GameData
 {
 public:
     static bool playerVictory; // SAber se o jogador ganhou ou perdeu
-    static int playerHP;
+    static int playerHP, state;
 };
 
 #endif // GAMEDATA_H

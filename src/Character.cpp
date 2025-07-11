@@ -31,10 +31,14 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     // Sons do caçador
     // hitSound = Sound("recursos/audio/Hit1.wav");
     // deathSound = Sound("recursos/audio/Dead.wav");
-    hitGroundSound = Sound("recursos/audio/Hunter/fart.mp3"); // Cai no chão
     jumpSound = Sound("recursos/audio/Hunter/boing.mp3");     // Pula
     fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
-    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3"); // Andando na grama
+
+    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3");                                         // Andando na grama                               
+    hitGroundSound = Sound("recursos/audio/Hunter/fart.mp3");    // Cai no chão grama
+
+    walkSoundMud = Sound("recursos/audio/Hunter/AndandoLama.wav");  // Andando na lama
+    hitGroundSoundMud = Sound("recursos/audio/Hunter/CaiuLama.wav");  // Cai no chão lama
 
     // Cria as animações
     auto animator = new Animator(associated);
@@ -224,7 +228,12 @@ void Character::Update(float dt)
 
         if (walkSoundTimer.Get() >= 0.3f) // intervalo entre passos
         {
-            walkSound.Play(1);
+            if (GameData::state == 1){
+                walkSound.Play(1);
+            }else{
+                walkSoundMud.Play(1);
+            }
+                
             walkSoundTimer.Restart();
         }
     }
@@ -301,7 +310,14 @@ void Character::NotifyCollision(GameObject &other)
                 if (collider->tag == "ground")
                 {
                     if(!isOnGround){
-                        hitGroundSound.Play(1); // Som de colisão com o chão
+                        if (GameData::state == 1)
+                        {
+                            hitGroundSound.Play(1); // Som de colisão com o chão
+                        }else{
+                            hitGroundSoundMud.Play(1); // Som de colisão com a lama no chão
+                        }
+                        
+                        
                         while (!taskQueue.empty()) // Limpa a lista de tasks feitas no ar
                         {
                             taskQueue.pop();

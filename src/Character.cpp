@@ -26,7 +26,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 
     associated.box.w = 1183;  // ou a largura desejada
     associated.box.h = 1935; // altura desejada
-    renderer->SetScale(0.1f, 0.1f); // 20% do tamanho original
+    renderer->SetScale(0.2f, 0.2f); // 20% do tamanho original
 
     // Sons do caçador
     // hitSound = Sound("recursos/audio/Hit1.wav");
@@ -100,7 +100,7 @@ void Character::Update(float dt)
     if (input.KeyPress(SDLK_SPACE) && isOnGround)
     {
         jumpSound.Play(1);
-        speed.y = -750.0f; // ajuste a força de pulo conforme desejado
+        speed.y = -800.0f; // ajuste a força de pulo conforme desejado
         isOnGround = false;
     }
 

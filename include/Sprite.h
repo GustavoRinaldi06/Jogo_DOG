@@ -54,6 +54,7 @@ public:
     void SetScale(float x, float y);
     Vec2 GetScale() const;
     void SetFlip(SDL_RendererFlip newFlip);
+    void SetAlpha(Uint8 alpha);
 
 private:
     SDL_Texture *texture; // A textura carregada

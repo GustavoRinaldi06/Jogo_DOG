@@ -15,7 +15,8 @@ void Collider::Update(float)
     Rect &baseBox = associated.box;
     box.w = baseBox.w * scale.x;
     box.h = baseBox.h * scale.y;
-    box.SetCenter(baseBox.GetCenter() + offset.Rotate(associated.angleDeg * M_PI / 180));
+    box.x = baseBox.x + offset.x;
+    box.y = baseBox.y + offset.y;
 }
 
 void Collider::Render()

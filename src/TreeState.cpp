@@ -10,6 +10,7 @@
 #include "../include/Collision.h"
 #include "../include/Parallax.h"
 #include "../include/DamageObj.h"
+#include "../include/Chainsaw.h"
 #include "Text.h"
 
 #define INCLUDE_SDL
@@ -53,7 +54,7 @@ void TreeState::LoadAssets()
     playerGO->box.x = 500;
     playerGO->box.y = -1935;
 
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/player/walk.png"));
+    playerGO->AddComponent(new Character(*playerGO, "recursos/img/player/andando.png"));
     playerGO->AddComponent(new PlayerController(*playerGO));
 
     Camera::GetInstance().Follow(playerGO);
@@ -64,48 +65,33 @@ void TreeState::LoadAssets()
     std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
 
     // Música --------------------------------------------------------------------------------------------------------------------
-
     backgroundMusic.Open("recursos/audio/Fundo.mp3");
     backgroundMusic.Play();
 
-    // Foreground ----------------------------------------------------------------------------------------------------------------
-    /*
-        GameObject *A = new GameObject();
-        A->box.x = 0;
-        A->box.y = 500;
-        A->box.w = 2048;
-        A->box.h = 512;
-        A->AddComponent(new SpriteRenderer(*A, "recursos/img/Tree/A.png"));
-        A->AddComponent(new Parallax(*A, 0.6f));
-        AddObject(A);
-    */
     // Texto da vida do personagem------------------------------------------------------------------------------------------------
-
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
     std::string hpString = "HP: " + std::to_string(Character::player->GetHP());
     hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
     textGO->AddComponent(hpText);
-
     hpText->SetCameraFollower(true);
+
     // Posição do texto
     textGO->box.x = 60;
     textGO->box.y = 650;
 
     AddObject(textGO);
 
-    // TExto de cooldown do cachorro --------------------------------------------------------------------------------------------
-
+    // Texto de cooldown do cachorro --------------------------------------------------------------------------------------------
     GameObject *textGO1 = new GameObject();
     std::string dgCooldown = "DOG esta entre nos";
     dogText = new Text(*textGO1, "recursos/font/neodgm.ttf", 24, BLENDED, dgCooldown, white);
     textGO1->AddComponent(dogText);
-
     dogText->SetCameraFollower(true);
+
     // Posição do texto
     textGO1->box.x = 200;
     textGO1->box.y = 650;
-
     AddObject(textGO1);
 }
 
@@ -353,6 +339,7 @@ void TreeState::LoadFromTMX(std::string file)
                     std::cout << "Position: " << object.getPosition() << std::endl;
                     std::cout << "Object has " << properties.size() << " properties" << std::endl;
                     
+                    
                     if(object.getName() == "Hand")
                     {
                         GameObject* handGO = createHandObject(object);
@@ -421,7 +408,7 @@ GameObject* TreeState::createChainSawObject(const tmx::Object& object)
     chainSawGO->box.w = object.getAABB().width;
     chainSawGO->box.h = object.getAABB().height;
 
-    DamageObj* damageObj = new DamageObj(*chainSawGO, 10, "recursos/img/tiles_split/chainsaw.png", "recursos/audio/boing.mp3", "recursos/audio/explode.mp3", 8, 1);
+    Chainsaw* damageObj = new Chainsaw(*chainSawGO, 10, "recursos/img/tiles_split/chainsaw.png", "recursos/audio/boing.mp3", "recursos/audio/explode.mp3", 8, 1);
     chainSawGO->AddComponent(damageObj);
     chainSawGO->AddComponent(new Collider(*chainSawGO));
     return chainSawGO;

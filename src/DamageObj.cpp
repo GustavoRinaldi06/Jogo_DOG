@@ -21,70 +21,58 @@ DamageObj::DamageObj(
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
-    auto animator = new Animator(associated);
-    animator->AddAnimation("t-on", Animation(0, 0, 0.5f));
-    animator->AddAnimation("active", Animation(0, 0, 0));
-    animator->AddAnimation("t-off", Animation(0, 0, 0.5f));
+    animator = new Animator(associated);
+    animator->AddAnimation("t-on", Animation(1, 3, 0.5f));
+    animator->AddAnimation("active", Animation(4, 4, 0));
+    animator->AddAnimation("t-off", Animation(3, 1, 0.5f));
     animator->AddAnimation("inactive", Animation(0, 0, 0));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
 
-    animator->SetAnimation("t-on");
-
-    Spawn.Play(1);
-    active = true;
+    currentState = "inactive";
+    animator->SetAnimation("inactive");
+    active = false;
     activeTimer.Restart();
-    AnimTime.Restart();
 }
 
 void DamageObj::Update(float dt)
 {
     Animator *animator = (Animator *)associated.GetComponent("Animator");
-    if (animator)
-    {
-        animator->Update(dt);
-    }
+    if (!animator) return; 
 
+    animator->Update(dt);
     activeTimer.Update(dt);
-    if(active && activeTimer.Get() > 5.0f){
-        damage = 0;
-        if (animator)
-        {
-            //animator->SetAnimation("t-off");
-        }
 
+    // Controle simplificado de estados e temporização
+    if (currentState == "inactive" && activeTimer.Get() > 3.0f)
+    {
+        animator->SetAnimation("t-on");
+        currentState = "t-on";
+        activeTimer.Restart();
+        Spawn.Play(1);
+    }
+    else if (currentState == "t-on" && activeTimer.Get() > 0.5f)
+    {
+        animator->SetAnimation("active");
+        currentState = "active";
+        active = true;
+        damage = originalDamage;
+        activeTimer.Restart();
+    }
+    else if (currentState == "active" && activeTimer.Get() > 5.0f)
+    {
+        animator->SetAnimation("t-off");
+        currentState = "t-off";
         active = false;
         activeTimer.Restart();
-        AnimTime.Restart();
     }
-    else if(!active && activeTimer.Get() > 3.0f){
-        damage = originalDamage;
-        if(animator){
-            //animator->SetAnimation("t-on");
-        }
-
-        Spawn.Play(1);
-        active = true;
+    else if (currentState == "t-off" && activeTimer.Get() > 0.5f)
+    {
+        animator->SetAnimation("inactive");
+        currentState = "inactive";
+        damage = 0;
         activeTimer.Restart();
-        AnimTime.Restart();
-    }
-    else if (active && AnimTime.Get() > 1.0f)
-    {
-        if (animator)
-        {
-            animator->SetAnimation("active");
-        }
-    }
-    else if (!active && AnimTime.Get() > 1.0f)
-    {
-        if (animator)
-        {
-            animator->SetAnimation("inactive");
-        }
-    }
-    else{
-        return;
     }
 }
 
@@ -103,9 +91,10 @@ int DamageObj::GetDamage() const
 
 void DamageObj::NotifyCollision(GameObject &other)
 {
-    // FAz barulho ao passar e aumenta o dano cada vez que colide
-    Damage.Play(1);
-    damage++;
-    originalDamage++;
+    if (active) {
+        Damage.Play(1);
+        damage++;
+        originalDamage++;
+    }
 }
 

@@ -5,6 +5,7 @@
 #include "Rect_Vec2.h"
 #include "Timer.h"
 #include "Sound.h"
+#include "Animator.h"
 
 class DamageObj : public Component
 {
@@ -20,12 +21,12 @@ public:
     void NotifyCollision(GameObject &other) override;
 private:
     int damage, originalDamage;
-
-    Timer AnimTime;
-
     bool active = false;
     Timer activeTimer;
     Sound Spawn, Damage;
+    std::string currentState = "inactive"; 
+    Animator* animator;
+    Timer stateTimer;
 };
 
 #endif

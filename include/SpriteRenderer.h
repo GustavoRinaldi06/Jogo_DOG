@@ -38,6 +38,8 @@ public:
     // Trabalho 5
     void SetScale(float x, float y);
 
+    void SetAlpha(Uint8 alpha);
+    
 private:
     Sprite sprite;
 };

@@ -86,9 +86,8 @@ void TitleState::Update(float dt)
             "recursos/img/tree/Vinheta.png",
             "recursos/audio/BGmusic/treeState.mp3"};
 
-        Game::GetInstance()
-            .Push(new LoadingState([]()
-                                   { return new TreeState(); }, treeAssets));
+        GameData::state = 1;
+        Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
     }
 
     // FAzer o texto piscar ---------------------------------------

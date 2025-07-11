@@ -10,6 +10,7 @@
 #include "../include/Collision.h"
 #include "../include/Parallax.h"
 #include "SmokeState.h"
+#include "LoadingState.h"
 #include "Text.h"
 
 #define INCLUDE_SDL
@@ -166,8 +167,14 @@ void AnimalState::Update(float dt)
     // PARA TESTES ==================================================================================================
     if (input.QuitRequested() || input.KeyPress('r'))
     {
-        Game::GetInstance().Push(new SmokeState());
-        return;
+        std::vector<std::string> smokeAssets = {
+            "recursos/img/Smoke/C.png",
+            "recursos/img/Smoke/B.png",
+            "recursos/img/Smoke/A.png",
+            "recursos/img/Smoke/tile.png",
+            "recursos/img/Player.png"};
+
+        Game::GetInstance().Push(new LoadingState([](){ return new SmokeState(); }, smokeAssets));
     }
     // =============================================================================================================
 

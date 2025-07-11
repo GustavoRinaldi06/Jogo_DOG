@@ -10,6 +10,7 @@
 #include "../include/Collision.h"
 #include "../include/Parallax.h"
 #include "AnimalState.h"
+#include "LoadingState.h"
 #include "Text.h"
 
 #define INCLUDE_SDL
@@ -122,7 +123,7 @@ void TreeState::LoadAssets()
         // Personagem ----------------------------------------------------------------------------------------------------------------
         GameObject *playerGO = new GameObject();
         playerGO->box.x = 500;
-        playerGO->box.y = -950;
+        playerGO->box.y = 350;
 
         playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
         playerGO->AddComponent(new PlayerController(*playerGO));
@@ -194,8 +195,14 @@ void TreeState::Update(float dt)
     // PARA TESTES ==================================================================================================
     if (input.QuitRequested() || input.KeyPress('r'))
     {
-        Game::GetInstance().Push(new AnimalState());
-        return;
+        std::vector<std::string> animalAssets = {
+            "recursos/img/Animal/C.png",
+            "recursos/img/Animal/B.png",
+            "recursos/img/Animal/A.png",
+            "recursos/img/Animal/tile.png",
+            "recursos/img/Player.png"};
+
+        Game::GetInstance().Push(new LoadingState([](){ return new AnimalState(); }, animalAssets));
     }
     // =============================================================================================================
 

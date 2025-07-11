@@ -102,7 +102,7 @@ void SmokeState::LoadAssets()
     {
         GameObject *playerGO = Character::player->GetGameObject();
         playerGO->box.x = 500;
-        playerGO->box.y = -950;
+        playerGO->box.y = 350;
         Camera::GetInstance().Follow(playerGO);
         AddObject(playerGO);
 

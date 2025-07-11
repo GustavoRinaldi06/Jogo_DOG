@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "Character.h"
 #include "PlayerController.h"
+#include "LoadingState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -74,8 +75,17 @@ void TitleState::Update(float dt)
     // Se ESPAÇO for pressionado, empilha StageState
     if (input.KeyPress(SDLK_SPACE))
     {
-        Game::GetInstance().Push(new TreeState());
-        return;
+        std::vector<std::string> treeAssets = {
+            "recursos/img/Tree/E.png",
+            "recursos/img/Tree/D.png",
+            "recursos/img/Tree/C.png",
+            "recursos/img/Tree/B.png",
+            "recursos/img/Tree/A.png",
+            "recursos/img/tree/Vinheta.png",
+            "recursos/img/Tree/tile.png",
+            "recursos/img/Player.png"};
+
+        Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
     }
 
     // FAzer o texto piscar ---------------------------------------

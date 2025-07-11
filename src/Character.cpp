@@ -35,7 +35,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
 
     walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3");                                         // Andando na grama                               
-    hitGroundSound = Sound("recursos/audio/Hunter/fart.mp3");    // Cai no chão grama
+    hitGroundSound = Sound("recursos/audio/Hunter/CaiuGrama.wav");    // Cai no chão grama
 
     walkSoundMud = Sound("recursos/audio/Hunter/AndandoLama.wav");  // Andando na lama
     hitGroundSoundMud = Sound("recursos/audio/Hunter/CaiuLama.wav");  // Cai no chão lama

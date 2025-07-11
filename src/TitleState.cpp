@@ -81,11 +81,14 @@ void TitleState::Update(float dt)
             "recursos/img/Tree/C.png",
             "recursos/img/Tree/B.png",
             "recursos/img/Tree/A.png",
-            "recursos/img/tree/Vinheta.png",
             "recursos/img/Tree/tile.png",
-            "recursos/img/Player.png"};
+            "recursos/img/Player.png",
+            "recursos/img/tree/Vinheta.png",
+            "recursos/audio/BGmusic/treeState.mp3"};
 
-        Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
+        Game::GetInstance()
+            .Push(new LoadingState([]()
+                                   { return new TreeState(); }, treeAssets));
     }
 
     // FAzer o texto piscar ---------------------------------------

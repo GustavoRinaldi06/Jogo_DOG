@@ -202,6 +202,7 @@ void TreeState::Update(float dt)
             "recursos/img/Animal/tile.png",
             "recursos/img/Player.png"};
 
+        popRequested = true;
         Game::GetInstance().Push(new LoadingState([](){ return new AnimalState(); }, animalAssets));
     }
     // =============================================================================================================

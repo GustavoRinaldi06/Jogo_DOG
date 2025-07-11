@@ -100,22 +100,18 @@ void AnimalState::LoadAssets()
     AddObject(leftlimit);
 
     // Personagem ----------------------------------------------------------------------------------------------------------------
-    if (Character::player != nullptr)
-    {
-        GameObject *playerGO = Character::player->GetGameObject();
-        playerGO->box.x = 500;
-        playerGO->box.y = -950;
-        Camera::GetInstance().Follow(playerGO);
-        AddObject(playerGO);
+    GameObject *playerGO = new GameObject();
+    playerGO->box.x = 500;
+    playerGO->box.y = 350;
 
-        std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
-        std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
-    }else
-    {
-        std::cout << "player não encontrado\n";
-        quitRequested = true;
-        return;
-    }
+    playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
+    playerGO->AddComponent(new PlayerController(*playerGO));
+
+    Camera::GetInstance().Follow(playerGO);
+    AddObject(playerGO);
+
+    std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
+    std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
 
     // Música --------------------------------------------------------------------------------------------------------------------
 
@@ -174,6 +170,7 @@ void AnimalState::Update(float dt)
             "recursos/img/Smoke/tile.png",
             "recursos/img/Player.png"};
 
+        popRequested = true;
         Game::GetInstance().Push(new LoadingState([](){ return new SmokeState(); }, smokeAssets));
     }
     // =============================================================================================================

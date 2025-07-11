@@ -8,13 +8,14 @@
 #include "Game.h"
 #include "Dog.h"
 #include "InputManager.h"
+#include "GameData.h"
 
 #include <iostream>
 
 Character *Character::player = nullptr;
 
 Character::Character(GameObject &associated, const std::string &spritePath)
-    : Component(associated), linearSpeed(200), hp(100)
+    : Component(associated), linearSpeed(200), hp(GameData::playerHP)
 {
     if (player == nullptr){
         player = this;
@@ -315,15 +316,6 @@ void Character::NotifyCollision(GameObject &other)
                 speed.y = 0;
             }
         }
-    }
-
-    // Se colidir com parede agarrável (teste ainda, apenas n criar wall assim)
-    if (collider && collider->tag == "climbWall")
-    {
-        // Ajusta posição
-        associated.box.x = other.box.x - associated.box.w;
-        speed.y -= 200; // Acho q vai bugar
-        speed.x = 0;
     }
 }
 

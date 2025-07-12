@@ -55,7 +55,7 @@ void EndState::LoadAssets()
 
         AddObject(textGO1);
 
-        //backgroundMusic.Open("recursos/audio/teen_titans.mp3");
+        backgroundMusic.Open("recursos/audio/BGmusic/Tema.mp3");
     }
     else // Se o jogador morreu
     {
@@ -70,7 +70,7 @@ void EndState::LoadAssets()
         bgObject->AddComponent(bgRenderer);
         AddObject(bgObject);
 
-        backgroundMusic.Open("recursos/audio/teen_titans.mp3");   
+        backgroundMusic.Open("recursos/audio/BGmusic/Lose.mp3");   
     }
 
     backgroundMusic.Play(); // musica de vitória ou derrota

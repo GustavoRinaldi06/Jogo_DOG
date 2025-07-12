@@ -121,7 +121,7 @@ void AnimalState::LoadAssets()
 
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
-    std::string hpString = "HP: " + std::to_string(Character::player->GetHP());
+    std::string hpString = "HP: " + std::to_string(GameData::playerHP);
     hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
     textGO->AddComponent(hpText);
 

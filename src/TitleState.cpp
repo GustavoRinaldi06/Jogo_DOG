@@ -55,7 +55,7 @@ void TitleState::LoadAssets()
     AddObject(textGO1);
 
 // Carregar musica -----------------------------------------------------------------------------------
-    backgroundMusic.Open("recursos/audio/BGmusic/titleState.mp3");
+    backgroundMusic.Open("recursos/audio/BGmusic/Tema.mp3");
     backgroundMusic.Play();
 }
 
@@ -87,6 +87,7 @@ void TitleState::Update(float dt)
             "recursos/audio/BGmusic/treeState.mp3"};
 
         GameData::state = 1;
+        GameData::playerHP = 100;
         Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
     }
 

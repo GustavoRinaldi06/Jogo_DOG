@@ -9,6 +9,7 @@
 #include "Dog.h"
 #include "InputManager.h"
 #include "GameData.h"
+//#include "Chainsaw.h"
 
 #include <iostream>
 
@@ -29,12 +30,14 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     associated.box.h = 100; // altura desejada
 
     // Sons do caçador
-    // hitSound = Sound("recursos/audio/Hit1.wav");
-    // deathSound = Sound("recursos/audio/Dead.wav");
+    hitSound = Sound("recursos/audio/Hunter/Dano.wav");    // Levou dano
+    deathSound = Sound("recursos/audio/Hunter/Death.wav");     // Morreu
     jumpSound = Sound("recursos/audio/Hunter/boing.mp3");     // Pula
-    fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
 
-    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3");                                         // Andando na grama                               
+    fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
+    drownSound = Sound("recursos/audio/Hunter/Afogamento.wav"); // Cai do mapa 2, se afoga
+
+    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3");      // Andando na grama                               
     hitGroundSound = Sound("recursos/audio/Hunter/CaiuGrama.wav");    // Cai no chão grama
 
     walkSoundMud = Sound("recursos/audio/Hunter/AndandoLama.wav");  // Andando na lama
@@ -63,15 +66,44 @@ void Character::Start()
 
 void Character::Update(float dt)
 {
+    GameData::playerHP = hp; // Atualiza sempre o gamedata
+
     // Ao morrer -------------------------------------------------------------------------------
     if (associated.box.y > 1200)
     {
+        if (!deathAnimTriggered){
+            hp = 0;
+            deathAnimTriggered = true;
+            if(GameData::state == 1){
+                fallSound.Play(1);
+            }else{
+                drownSound.Play(1);
+            }
+                
+
+            // solta a câmera se é player
+            if(this == Character::player)
+                Camera::GetInstance().Unfollow();
+
+            deathTimer.Restart();
+        }
+
+        // avança timer de morte
+        deathTimer.Update(dt);
+
+        // só deleta após 5s
+        if (deathTimer.Get() > 5.0f)
+            associated.RequestDelete();
+
+        return; // não executa mais lógica de movimento
+    }
+
+    if (hp <= 0){
         // dispara animação e som apenas uma vez
         if (!deathAnimTriggered)
         {
-            hp = 0;
             deathAnimTriggered = true;
-            fallSound.Play(1);
+            deathSound.Play(1);
 
             // seta animação "dead"
             Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
@@ -79,7 +111,7 @@ void Character::Update(float dt)
                 animator->SetAnimation("dead");
 
             // solta a câmera se é player
-            if(this == Character::player)
+            if (this == Character::player)
                 Camera::GetInstance().Unfollow();
 
             deathTimer.Restart();
@@ -270,6 +302,21 @@ void Character::NotifyCollision(GameObject &other)
     {
         return;
     }
+
+    /*
+    Chainsaw *chain = (Chainsaw *)other.GetComponent("Chainsaw");
+    if (chain && damageCooldown.Get() > 1.0f)
+        {
+            if(hp > 0){
+                hp -= chain.GetDamage();
+                ;
+                hitSound.Play(1);
+                damageCooldown.Restart();
+                return;
+            }
+            return;
+        }
+    */  
 
     Collider *collider = (Collider *)other.GetComponent("Collider");
     if (collider)

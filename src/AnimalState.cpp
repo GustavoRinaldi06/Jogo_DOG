@@ -114,7 +114,7 @@ void AnimalState::LoadAssets()
     std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
 
     // Música --------------------------------------------------------------------------------------------------------------------
-    backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
+    backgroundMusic.Open("recursos/audio/BGmusic/animalState.wav");
     backgroundMusic.Play();
 
     // Texto da vida do personagem------------------------------------------------------------------------------------------------

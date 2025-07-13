@@ -9,25 +9,26 @@
 #include "Dog.h"
 #include "InputManager.h"
 #include "GameData.h"
-//#include "Chainsaw.h"
+#include "Chainsaw.h"
 
 #include <iostream>
 
 Character *Character::player = nullptr;
 
 Character::Character(GameObject &associated, const std::string &spritePath)
-    : Component(associated), linearSpeed(200), hp(GameData::playerHP)
+    : Component(associated), linearSpeed(200), hp(GameData::playerHP), gravity(1000.0f)
 {
     if (player == nullptr){
         player = this;
     }
 
-    auto renderer = new SpriteRenderer(associated, spritePath, 3, 4);
+    auto renderer = new SpriteRenderer(associated, spritePath, 5, 1);
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
     associated.box.w = 50;  // ou a largura desejada
     associated.box.h = 100; // altura desejada
+    renderer->SetScale(0.2f, 0.2f);
 
     // Sons do caçador
     hitSound = Sound("recursos/audio/Hunter/Dano.wav");    // Levou dano
@@ -293,30 +294,24 @@ void Character::Issue(Command task)
 
 void Character::NotifyCollision(GameObject &other)
 {
-    if (other.GetComponent("Bullet")) // ignora colisões com Bullet
+    Chainsaw *chain = (Chainsaw *)other.GetComponent("Chainsaw");
+    if (chain && damageCooldown.Get() > 1.0f)
     {
-        return; 
-    }
-
-    if (other.GetComponent("Dog")) // ignora colisões com Bullet
-    {
+        if(hp > 0){
+            hp -= chain->GetDamage();
+            hitSound.Play(1);
+            damageCooldown.Restart();
+            return;
+        }
         return;
     }
 
-    /*
-    Chainsaw *chain = (Chainsaw *)other.GetComponent("Chainsaw");
-    if (chain && damageCooldown.Get() > 1.0f)
-        {
-            if(hp > 0){
-                hp -= chain.GetDamage();
-                ;
-                hitSound.Play(1);
-                damageCooldown.Restart();
-                return;
-            }
+    std::vector<std::string> ignoredComponents = {"Bullet", "Dog", "Chainsaw"};
+    for (const std::string& type : ignoredComponents) {
+        if (other.GetComponent(type)) {
             return;
         }
-    */  
+    }
 
     Collider *collider = (Collider *)other.GetComponent("Collider");
     if (collider)

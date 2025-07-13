@@ -6,11 +6,13 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include "../include/tmxlite/Map.hpp"
 
 class TileMap : public Component
 {
 public:
     TileMap(GameObject &associated, const std::string &file, TileSet *tileSet);
+    TileMap(GameObject& associated, TileSet* tileSet, const tmx::Map& map);
 
     // Carrega os dados do mapa
     void Load(const std::string &file);
@@ -32,6 +34,7 @@ public:
     bool Is(const std::string &type) override;
    
     void GenerateCollision(int collisionLayer, State &state);
+    void LoadFromTMX(const tmx::Map& map);
 
 private:
     std::vector<int> tileMatrix;

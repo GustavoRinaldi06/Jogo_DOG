@@ -4,14 +4,21 @@
 #include "../include/Camera.h"
 #include "../include/State.h"
 #include "../include/Collider.h"
+#include "../include/tmxlite/TileLayer.hpp"
 
 #include <fstream>
 #include <sstream> 
 #include <iostream>
 
-    TileMap::TileMap(GameObject &associated, const std::string &file, TileSet *tileSet):Component(associated), mapWidth(0), mapHeight(0), mapDepth(0)
+TileMap::TileMap(GameObject &associated, const std::string &file, TileSet *tileSet):Component(associated), mapWidth(0), mapHeight(0), mapDepth(0)
 {
     Load(file);
+}
+
+TileMap::TileMap(GameObject& associated, TileSet* tileSet, const tmx::Map& map) : Component(associated)
+{
+    this->tileSet = std::unique_ptr<TileSet>(tileSet);
+    LoadFromTMX(map);
 }
 
 void TileMap::Load(const std::string &file)
@@ -169,4 +176,65 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
             }
         }
     }
+}
+
+void TileMap::LoadFromTMX(const tmx::Map& map) {
+    const auto& layers = map.getLayers();
+    // 1) Conta quantos tile-layers existem e pega tamanho de cada tile-layer (assume todos mesmos dims)
+    int width = 0, height = 0, depth = 0;
+    for (const auto& layer : layers) {
+        if (layer->getType() == tmx::Layer::Type::Tile) {
+            ++depth;
+            width  = layer->getSize().x;
+            height = layer->getSize().y;
+        }
+    }
+    if (depth == 0) {
+        std::cerr << "Nenhum layer de tile encontrado.\n";
+        return;
+    }
+
+    // 2) Ajusta membros da classe e prepara a matriz
+    mapWidth  = width;
+    mapHeight = height;
+    mapDepth  = depth;
+    tileMatrix.clear();
+    tileMatrix.resize(width * height * depth, -1);
+
+    // 3) Preenche camada por camada
+    int z = 0;
+    for (const auto& layer : layers) {
+        if (layer->getType() != tmx::Layer::Type::Tile) continue;
+
+        const auto& tiles = layer->getLayerAs<tmx::TileLayer>().getTiles();
+        if (tiles.empty()) {
+            std::cerr << "Layer '" << layer->getName() << "' sem dados de tiles.\n";
+        } else {
+            for (int idx = 0; idx < (int)tiles.size(); ++idx) {
+                int x = idx % width;
+                int y = idx / width;
+                int id = tiles[idx].ID;
+
+                if (id == 0) {
+                    tileMatrix[(z * height + y) * width + x] = -1;
+                } else {
+                    tileMatrix[(z * height + y) * width + x] = id - 1;
+                }
+            }
+        }
+        ++z;
+    }
+
+     // DEBUG - Mostrar valores reais
+    std::cout << "Valores reais na matriz:\n";
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            std::cout << At(x, y, 0) << " ";
+        }
+        std::cout << "\n";
+    }
+
+    std::cout << "Map loaded: " 
+              << mapWidth << "x" << mapHeight 
+              << "x" << mapDepth << "\n";
 }

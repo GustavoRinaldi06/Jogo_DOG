@@ -38,7 +38,7 @@ void AnimalState::LoadAssets()
     C->box.y = 0;
     C->box.w = 2048;
     C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/Animal/C.png"));
+    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Animal/C.png"));
     C->AddComponent(new Parallax(*C, 0.6f));
     AddObject(C);
 
@@ -48,7 +48,7 @@ void AnimalState::LoadAssets()
     B->box.y = 0;
     B->box.w = 2048;
     B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/Animal/B.png"));
+    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Animal/B.png"));
     B->AddComponent(new Parallax(*B, 0.4f));
     AddObject(B);
 
@@ -58,14 +58,14 @@ void AnimalState::LoadAssets()
     A->box.y = 500;
     A->box.w = 2048;
     A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/Animal/A.png"));
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/A.png"));
     A->AddComponent(new Parallax(*A, 0.2f));
     AddObject(A);
 
     // Mapa --------------------------------------------------------------------------------------------------------------------
     GameObject *mapGO = new GameObject();
     // cria TileSet
-    TileSet *tileSet = new TileSet(499, 499, "recursos/img/Animal/tile.png");
+    TileSet *tileSet = new TileSet(499, 499, "recursos/img/background/Animal/tile.png");
     // cria TileMap
     TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
     tileMap->SetTileSet(tileSet);
@@ -104,7 +104,7 @@ void AnimalState::LoadAssets()
     playerGO->box.x = 500;
     playerGO->box.y = 350;
 
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
+    playerGO->AddComponent(new Character(*playerGO, "recursos/img/sprites/Player.png"));
     playerGO->AddComponent(new PlayerController(*playerGO));
 
     Camera::GetInstance().Follow(playerGO);
@@ -118,28 +118,26 @@ void AnimalState::LoadAssets()
     backgroundMusic.Play();
 
     // Texto da vida do personagem------------------------------------------------------------------------------------------------
-
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
     std::string hpString = "HP: " + std::to_string(GameData::playerHP);
     hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
     textGO->AddComponent(hpText);
-
     hpText->SetCameraFollower(true);
+
     // Posição do texto
     textGO->box.x = 60;
     textGO->box.y = 650;
-
     AddObject(textGO);
 
     // TExto de cooldown do cachorro --------------------------------------------------------------------------------------------
-
     GameObject *textGO1 = new GameObject();
     std::string dgCooldown = "DOG esta entre nos";
     dogText = new Text(*textGO1, "recursos/font/neodgm.ttf", 24, BLENDED, dgCooldown, white);
     textGO1->AddComponent(dogText);
 
     dogText->SetCameraFollower(true);
+    
     // Posição do texto
     textGO1->box.x = 200;
     textGO1->box.y = 650;
@@ -167,7 +165,7 @@ void AnimalState::Update(float dt)
             "recursos/img/Smoke/B.png",
             "recursos/img/Smoke/A.png",
             "recursos/img/Smoke/tile.png",
-            "recursos/img/Player.png"};
+            "recursos/img/sprites/Player.png"};
 
         popRequested = true;
         Game::GetInstance().Push(new LoadingState([](){ return new SmokeState(); }, smokeAssets));

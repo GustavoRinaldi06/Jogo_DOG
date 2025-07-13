@@ -76,15 +76,28 @@ void TitleState::Update(float dt)
     if (input.KeyPress(SDLK_SPACE))
     {
         std::vector<std::string> treeAssets = {
-            "recursos/img/Tree/E.png",
-            "recursos/img/Tree/D.png",
-            "recursos/img/Tree/C.png",
-            "recursos/img/Tree/B.png",
-            "recursos/img/Tree/A.png",
-            "recursos/img/Tree/tile.png",
-            "recursos/img/Player.png",
-            "recursos/img/tree/Vinheta.png",
-            "recursos/audio/BGmusic/treeState.mp3"};
+            // background
+            "recursos/img/background/Tree/E.png",
+            "recursos/img/background/Tree/D.png",
+            "recursos/img/background/Tree/C.png",
+            "recursos/img/background/Tree/B.png",
+            "recursos/img/background/Tree/A.png",
+            "recursos/img/background/Tree/tile.png",
+            "recursos/img/background/Vinheta.png",
+            // sprites
+            "recursos/img/sprites/Player.png",
+            "recursos/img/sprites/Hand.png", 
+            "recursos/img/sprites/Thorn.png", 
+            "recursos/img/sprites/Chainsaw.png", 
+            // sons
+            "recursos/audio/BGmusic/treeState.mp3",
+            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/DOG/explode.mp3",
+            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/DOG/explode.mp3",
+            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/DOG/explode.mp3",
+        };
 
         GameData::state = 1;
         GameData::playerHP = 100;

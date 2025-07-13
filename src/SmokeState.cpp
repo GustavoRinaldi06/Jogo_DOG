@@ -102,7 +102,7 @@ void SmokeState::LoadAssets()
     playerGO->box.x = 500;
     playerGO->box.y = 350;
 
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/Player.png"));
+    playerGO->AddComponent(new Character(*playerGO, "recursos/img/sprites/Player.png"));
     playerGO->AddComponent(new PlayerController(*playerGO));
 
     Camera::GetInstance().Follow(playerGO);

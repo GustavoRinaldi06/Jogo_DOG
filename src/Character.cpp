@@ -10,7 +10,9 @@
 #include "InputManager.h"
 #include "GameData.h"
 #include "Chainsaw.h"
+#include "DamageObj.h"
 
+#include <algorithm> 
 #include <iostream>
 
 Character *Character::player = nullptr;
@@ -294,6 +296,7 @@ void Character::Issue(Command task)
 
 void Character::NotifyCollision(GameObject &other)
 {
+    // Dano chainsaw
     Chainsaw *chain = (Chainsaw *)other.GetComponent("Chainsaw");
     if (chain && damageCooldown.Get() > 1.0f)
     {
@@ -306,9 +309,33 @@ void Character::NotifyCollision(GameObject &other)
         return;
     }
 
+    // Ignorar colisões com objetos específicos
     std::vector<std::string> ignoredComponents = {"Bullet", "Dog", "Chainsaw"};
     for (const std::string& type : ignoredComponents) {
         if (other.GetComponent(type)) {
+            return;
+        }
+    }
+
+    // Ignorar colisões com objetos  do tipo "DamageObj"
+    std::vector<std::string> objIgnoraColisao = {"Thorn"};
+    std::vector<std::string> objDano = {"Thorn", "Hand"};
+    DamageObj *damageObj = (DamageObj *)other.GetComponent("DamageObj");
+    if (damageObj)
+    {
+        std::string objName = damageObj->GetObjectName();
+
+        if (std::find(objDano.begin(), objDano.end(), objName) != objDano.end() &&
+            damageCooldown.Get() > 1.0f && hp > 0)
+        {
+            hp -= damageObj->GetDamage();
+            hitSound.Play(1);
+            damageCooldown.Restart();
+        }
+
+        // Ignorar colisão com objetos da lista ignorada
+        if (std::find(objIgnoraColisao.begin(), objIgnoraColisao.end(), objName) != objIgnoraColisao.end())
+        {
             return;
         }
     }

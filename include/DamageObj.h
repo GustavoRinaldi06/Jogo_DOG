@@ -10,8 +10,8 @@
 class DamageObj : public Component
 {
 public:
-    DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &spawnpath, const std::string &dmgpath);
-    DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &spawnpath, const std::string &dmgpath, int frameCountX, int frameCountY);
+    DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &spawnpath, const std::string &dmgpath, std::string objectName = "DamageObj");
+    DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &spawnpath, const std::string &dmgpath, int frameCountX, int frameCountY, std::string objectName = "DamageObj");
 
     void Update(float dt) override;
     void Render() override;
@@ -20,8 +20,10 @@ public:
     int GetDamage() const;
 
     void NotifyCollision(GameObject &other) override;
+    std::string GetObjectName() const;
 private:
     int damage, originalDamage;
+    std::string objectName;
 
     Timer AnimTime;
 

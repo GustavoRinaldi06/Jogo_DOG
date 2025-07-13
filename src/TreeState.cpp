@@ -396,9 +396,9 @@ GameObject* TreeState::createHandObject(const tmx::Object& object)
     handGO->box.y = 550;
     handGO->box.w = object.getAABB().width;
     handGO->box.h = object.getAABB().height;
-    //handGO->AddComponent(new SpriteRenderer(*handGO, "recursos/img/tiles_movimentos.png", 8, 12));
+    
     DamageObj* damageObj = new DamageObj(*handGO, 10
-        , "recursos/img/sprites/Hand.png", "recursos/audio/Hunter/boing.mp3", "recursos/audio/DOG/explode.mp3", 8, 1);
+        , "recursos/img/sprites/Hand.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1);
     handGO->AddComponent(damageObj);
     handGO->AddComponent(new Collider(*handGO));
     return handGO;
@@ -413,7 +413,7 @@ GameObject* TreeState::createThornObject(const tmx::Object& object)
     thornGO->box.h = object.getAABB().height;
 
     DamageObj* damageObj = new DamageObj(*thornGO, 10
-        , "recursos/img/sprites/Thorn.png", "recursos/audio/Hunter/boing.mp3", "recursos/audio/DOG/explode.mp3", 8, 1);
+        , "recursos/img/sprites/Thorn.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1, "Thorn");
     thornGO->AddComponent(damageObj);
     thornGO->AddComponent(new Collider(*thornGO));
     return thornGO;
@@ -427,7 +427,7 @@ GameObject* TreeState::createChainSawObject(const tmx::Object& object)
     chainSawGO->box.w = object.getAABB().width;
     chainSawGO->box.h = object.getAABB().height;
 
-    Chainsaw* damageObj = new Chainsaw(*chainSawGO, 10, "recursos/img/sprites/Chainsaw.png", "recursos/audio/Hunter/boing.mp3", "recursos/audio/DOG/explode.mp3", 8, 1);
+    Chainsaw* damageObj = new Chainsaw(*chainSawGO, 10, "recursos/img/sprites/Chainsaw.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1);
     chainSawGO->AddComponent(damageObj);
     chainSawGO->AddComponent(new Collider(*chainSawGO));
     return chainSawGO;

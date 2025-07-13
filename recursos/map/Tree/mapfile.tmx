@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="left-up" width="63" height="6" tilewidth="250" tileheight="250" infinite="0" nextlayerid="5" nextobjectid="10">
- <tileset firstgid="1" name="map_tiles" tilewidth="250" tileheight="250" tilecount="20" columns="5">
-  <image source="../../img/tiles/map_tiles.png" width="1250" height="1000"/>
+ <tileset firstgid="1" name="tree_tiles" tilewidth="250" tileheight="250" tilecount="20" columns="5">
+  <image source="../../img/tiles/tree_tiles.png" width="1250" height="1000"/>
  </tileset>
  <tileset firstgid="21" name="tiles_movimentos" tilewidth="250" tileheight="250" tilecount="96" columns="8">
   <image source="../../img/tiles_movimentos.png" width="2000" height="3000"/>

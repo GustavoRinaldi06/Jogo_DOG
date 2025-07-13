@@ -11,6 +11,7 @@
 #include "GameData.h"
 #include "Chainsaw.h"
 #include "DamageObj.h"
+#include "FallingBranch.h"
 
 #include <algorithm> 
 #include <iostream>
@@ -309,8 +310,21 @@ void Character::NotifyCollision(GameObject &other)
         return;
     }
 
+    // Dano falling branch
+    FallingBranch *branch = (FallingBranch *)other.GetComponent("FallingBranch");
+    if (branch && damageCooldown.Get() > 1.0f)
+    {
+        if(hp > 0){
+            hp -= 20; // Dano fixo de 10
+            hitSound.Play(1);
+            damageCooldown.Restart();
+            return;
+        }
+        return;
+    }
+
     // Ignorar colisões com objetos específicos
-    std::vector<std::string> ignoredComponents = {"Bullet", "Dog", "Chainsaw"};
+    std::vector<std::string> ignoredComponents = {"Bullet", "Dog", "Chainsaw", "FallingBranch"};
     for (const std::string& type : ignoredComponents) {
         if (other.GetComponent(type)) {
             return;

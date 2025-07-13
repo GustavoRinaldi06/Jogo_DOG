@@ -14,6 +14,7 @@
 #include "AnimalState.h"
 #include "LoadingState.h"
 #include "Text.h"
+#include "windows.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -134,6 +135,14 @@ void TreeState::Update(float dt)
         GameData::state = 2;
         popRequested = true;
         Game::GetInstance().Push(new LoadingState([](){ return new AnimalState(); }, animalAssets));
+    }
+
+    branchTimer.Update(dt);
+    if (branchTimer.Get() > 3.0f) { // a cada 3 segundos
+        GameObject* branchGO = createFallingBranchObject(tmx::Object());
+        AddObject(branchGO);
+        std::cout << "Falling Branch object created at position: " << branchGO->box.x << ", " << branchGO->box.y << std::endl;
+        branchTimer.Restart();
     }
     // =============================================================================================================
 
@@ -382,6 +391,8 @@ void TreeState::LoadFromTMX(std::string file)
                 }
             }
         }
+
+        
     }
     else
     {
@@ -431,4 +442,18 @@ GameObject* TreeState::createChainSawObject(const tmx::Object& object)
     chainSawGO->AddComponent(damageObj);
     chainSawGO->AddComponent(new Collider(*chainSawGO));
     return chainSawGO;
+}
+
+GameObject* TreeState::createFallingBranchObject(const tmx::Object& object)
+{
+    GameObject* branchGO = new GameObject();
+    branchGO->box.x = 600;
+    branchGO->box.y = 750;
+    branchGO->box.w = object.getAABB().width;
+    branchGO->box.h = object.getAABB().height;
+
+    FallingBranch* fallingBranch = new FallingBranch(*branchGO, 100.0f, 10.0f, "recursos/img/sprites/FallingBranch.png", 8, 1);
+    branchGO->AddComponent(fallingBranch);
+    branchGO->AddComponent(new Collider(*branchGO));
+    return branchGO;
 }

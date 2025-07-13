@@ -3,6 +3,8 @@
 #include "EndState.h"
 #include "GameObject.h"
 #include "../include/tmxlite/Map.hpp"
+#include "FallingBranch.h"
+#include "Timer.h"
 
 class SpriteRenderer;
 
@@ -30,4 +32,6 @@ private:
     GameObject* createHandObject(const tmx::Object& object);
     GameObject* createThornObject(const tmx::Object& object);
     GameObject* createChainSawObject(const tmx::Object& object);
+    GameObject* createFallingBranchObject(const tmx::Object& object);
+    Timer branchTimer;
 };

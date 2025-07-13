@@ -41,6 +41,9 @@ public:
     // Define a transparência do sprite
     void SetAlpha(Uint8 alpha);
 
+    // Define a rotação do sprite
+    void SetRotation(float angle);
+
 private:
     Sprite sprite;
 };

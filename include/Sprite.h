@@ -55,6 +55,8 @@ public:
     Vec2 GetScale() const;
     void SetFlip(SDL_RendererFlip newFlip);
     void SetAlpha(Uint8 alpha);
+    void SetRotation(float angle);
+    float GetRotation() const { return rotation; }
 
 private:
     SDL_Texture *texture; // A textura carregada
@@ -69,6 +71,8 @@ private:
     // Trabalho 5
     Vec2 scale = Vec2(1.0f, 1.0f); // inicializa com escala padrão
     SDL_RendererFlip flip = SDL_FLIP_NONE;
+
+    float rotation = 0.0f;
 };
 
 #endif // SPRITE_H

@@ -78,3 +78,8 @@ void SpriteRenderer::SetScale(float scaleX, float scaleY)
 void SpriteRenderer::SetAlpha(Uint8 alpha) {
     sprite.SetAlpha(alpha);
 }
+
+void SpriteRenderer::SetRotation(float angle) {
+    associated.angleDeg = angle;
+    sprite.SetRotation(angle);
+}

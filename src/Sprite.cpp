@@ -180,3 +180,8 @@ void Sprite::Render(int x, int y, int w, int h)
 {
     Render( x, y, w, h, 0.0f);
 }
+
+void Sprite::SetAlpha(Uint8 alpha) {
+    if (!texture) return; 
+    SDL_SetTextureAlphaMod(texture, alpha);
+}

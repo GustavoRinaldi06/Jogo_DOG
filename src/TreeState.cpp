@@ -347,17 +347,12 @@ void TreeState::LoadFromTMX(std::string file)
         const auto& layers = map.getLayers();
         for (const auto& layer : layers)
         {
-            std::cout << "Found Layer: " << layer->getName() << std::endl;
-            std::cout << "Layer Type: " << LayerStrings[static_cast<std::int32_t>(layer->getType())] << std::endl;
-            std::cout << "Layer Dimensions: " << layer->getSize() << std::endl;
-            std::cout << "Layer Tint: " << layer->getTintColour() << std::endl;
-
             if (layer->getType() == tmx::Layer::Type::Object)
             {
                 const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
                 for (const auto& object : objects)
                 {
-                    CreateGameObject(object);
+                    //CreateGameObject(object);
                 }
             }
         }

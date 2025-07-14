@@ -124,15 +124,33 @@ void TreeState::Update(float dt)
     if (input.QuitRequested() || input.KeyPress('r'))
     {
         std::vector<std::string> animalAssets = {
+            // background
             "recursos/img/background/Animal/C.png",
             "recursos/img/background/Animal/B.png",
             "recursos/img/background/Animal/A.png",
-            "recursos/img/background/Animal/tile.png",
-            "recursos/img/sprites/Player.png"};
+            "recursos/img/map/Animal/tiles.png",
+            // sprites
+            "recursos/img/sprites/Player.png",
+            "recursos/img/sprites/Hand.png", 
+            "recursos/img/sprites/Thorn.png", 
+            "recursos/img/sprites/Chainsaw.png",
+            "recursos/img/sprites/DogHowling.png",
+            "recursos/img/sprites/DogShoot.png",
+            // sons
+            "recursos/audio/BGmusic/treeState.mp3",
+            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/DOG/explode.mp3",
+            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/DOG/explode.mp3",
+            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/DOG/explode.mp3",
+        };
 
         GameData::state = 2;
         popRequested = true;
-        Game::GetInstance().Push(new LoadingState([](){ return new AnimalState(); }, animalAssets));
+        Game::GetInstance().Push(new LoadingState([](){ 
+            return new AnimalState(); 
+        }, animalAssets));
     }
 
     branchTimer.Update(dt);

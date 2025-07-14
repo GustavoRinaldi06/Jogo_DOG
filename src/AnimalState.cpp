@@ -31,60 +31,10 @@ void AnimalState::LoadAssets()
     std::cout << "\n Carregando DOG a Animal fase:" << "\n"; // Alertar LoadAssets
 
     // Fundo -------------------------------------------------------------------------------------------------------------------
+    LoadLayers();
 
-    // Camada C
-    GameObject *C = new GameObject();
-    C->box.x = 0;
-    C->box.y = 0;
-    C->box.w = 2048;
-    C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Animal/C.png"));
-    C->AddComponent(new Parallax(*C, 0.6f));
-    AddObject(C);
-
-    // Camada B
-    GameObject *B = new GameObject();
-    B->box.x = 0;
-    B->box.y = 0;
-    B->box.w = 2048;
-    B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Animal/B.png"));
-    B->AddComponent(new Parallax(*B, 0.4f));
-    AddObject(B);
-
-    // Camada A
-    GameObject *A = new GameObject();
-    A->box.x = 0;
-    A->box.y = 500;
-    A->box.w = 2048;
-    A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/A.png"));
-    A->AddComponent(new Parallax(*A, 0.2f));
-    AddObject(A);
-
-    // Mapa --------------------------------------------------------------------------------------------------------------------
-    GameObject *mapGO = new GameObject();
-    // cria TileSet
-    TileSet *tileSet = new TileSet(499, 499, "recursos/img/background/Animal/tile.png");
-    // cria TileMap
-    TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
-    tileMap->SetTileSet(tileSet);
-
-    // DEBUG -- verificar tamanhos certos
-    std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
-    std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
-
-    mapGO->AddComponent(tileMap);
-
-    mapGO->box.x = 0;
-    mapGO->box.y = -600;
-    mapGO->box.w = 2048;
-    mapGO->box.h = 600;
-
-    AddObject(mapGO);
-
-    // gera colisão da camada 0 (chão)
-    tileMap->GenerateCollision(0, *this);
+    // Carrega o mapa do TMX
+    LoadFromTMX("recursos/map/Animal/mapfile.tmx");
 
     // Cria limite de mapa esquerda ------------------------------------------
     GameObject *leftlimit = new GameObject();
@@ -292,4 +242,90 @@ void AnimalState::Pause()
 void AnimalState::Resume()
 {
     // Não sei ainda
+}
+
+const std::array<std::string, 4u> LayerStrings =
+{
+    std::string("Background")
+};
+
+void AnimalState::LoadLayers() {
+    // Camada C
+    GameObject *C = new GameObject();
+    C->box.x = 0;
+    C->box.y = 0;
+    C->box.w = 2048;
+    C->box.h = 512;
+    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Animal/C.png"));
+    C->AddComponent(new Parallax(*C, 0.6f));
+    AddObject(C);
+
+    // Camada B
+    GameObject *B = new GameObject();
+    B->box.x = 0;
+    B->box.y = 0;
+    B->box.w = 2048;
+    B->box.h = 512;
+    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Animal/B.png"));
+    B->AddComponent(new Parallax(*B, 0.4f));
+    AddObject(B);
+
+    // Camada A
+    GameObject *A = new GameObject();
+    A->box.x = 0;
+    A->box.y = 500;
+    A->box.w = 2048;
+    A->box.h = 512;
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/A.png"));
+    A->AddComponent(new Parallax(*A, 0.2f));
+    AddObject(A);
+}
+
+void AnimalState::LoadFromTMX(std::string file)
+{
+    tmx::Map map;
+    if (map.load(file))
+    {
+        GameObject* go = new GameObject();
+        go->box.x = 0;
+        go->box.y = 0;
+
+        TileSet* tileSet = new TileSet(
+            249,
+            249,
+            "recursos/map/Animal/tiles.png"
+        );
+        TileMap* tileMap = new TileMap(*go, tileSet, map);
+        go->AddComponent(tileMap);
+        AddObject(go);
+
+        // DEBUG -- verificar tamanhos certos
+        std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
+        std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
+
+        // gera colisão da camada 0 (chão)
+        tileMap->GenerateCollision(0, *this);
+
+        const auto& layers = map.getLayers();
+        for (const auto& layer : layers)
+        {
+            if (layer->getType() == tmx::Layer::Type::Object)
+            {
+                const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+                for (const auto& object : objects)
+                {
+                    CreateGameObject(object);
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Failed loading map" << std::endl;
+    }
+}
+
+void AnimalState::CreateGameObject(const tmx::Object& object)
+{
+    
 }

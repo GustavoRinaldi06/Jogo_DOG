@@ -88,7 +88,9 @@ void TitleState::Update(float dt)
             "recursos/img/sprites/Player.png",
             "recursos/img/sprites/Hand.png", 
             "recursos/img/sprites/Thorn.png", 
-            "recursos/img/sprites/Chainsaw.png", 
+            "recursos/img/sprites/Chainsaw.png",
+            "recursos/img/sprites/DogHowling.png",
+            "recursos/img/sprites/DogShoot.png",
             // sons
             "recursos/audio/BGmusic/treeState.mp3",
             "recursos/audio/Hunter/boing.mp3", 

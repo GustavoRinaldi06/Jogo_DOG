@@ -29,9 +29,10 @@ public:
     Text *dogText = nullptr;
 private:
     Music backgroundMusic;
-    GameObject* createHandObject(const tmx::Object& object);
-    GameObject* createThornObject(const tmx::Object& object);
-    GameObject* createChainSawObject(const tmx::Object& object);
-    GameObject* createFallingBranchObject(const tmx::Object& object);
+    void CreateGameObject(const tmx::Object& object);
+    GameObject* CreateHandObject(const tmx::Object& object);
+    GameObject* CreateThornObject(const tmx::Object& object);
+    GameObject* CreateChainSawObject(const tmx::Object& object);
+    GameObject* CreateFallingBranchObject(const tmx::Object& object);
     Timer branchTimer;
 };

@@ -170,7 +170,7 @@ void Character::Update(float dt)
 
         }
 
-        // SHOOT -----------------------------------------------------------------------
+        // SHOOT DOG -----------------------------------------------------------------------
         else if (current.type == CommandType::SHOOT)
         {
             if (dogTimer.Get() >= 4.0) // Tempo para poder chamar o cachorro de volta
@@ -195,8 +195,8 @@ void Character::Update(float dt)
                 // cria o DOG
                 GameObject *dogGO = new GameObject();
                 dogGO->box.x = shooterCenter.x;
-                dogGO->box.y = shooterCenter.y - 20;
-                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/Bullet.png", "recursos/audio/DOG/LOBOteste.mp3", "recursos/audio/DOG/explode.mp3")); // Alterar para o cachorro
+                dogGO->box.y = std::min(shooterCenter.y - 20, 550.0f);
+                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/sprites/DogShoot.png", "recursos/audio/DOG/LOBOteste.mp3", "recursos/audio/DOG/explode.mp3")); // Alterar para o cachorro
 
                 Game::GetInstance().GetCurrentState().AddObject(dogGO);
 
@@ -206,7 +206,7 @@ void Character::Update(float dt)
         }
     }
 
-    // DOG ------------------------------------------------------------------------
+    // UIVO DOG ------------------------------------------------------------------------
     if (input.KeyPress('e'))
     {
         if (dogTimer.Get() >= 4.0) // Tempo para poder chamar o cachorro de volta
@@ -220,8 +220,8 @@ void Character::Update(float dt)
             else{ // Andando pra direita, chama para direita
                 dogGO1->box.x = shooterCenter.x + 70;
             }
-            dogGO1->box.y = shooterCenter.y - 30;
-            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/Enemy.png", "recursos/audio/DOG/LOBOteste.mp3")); // Alterar para o cachorro
+            dogGO1->box.y = std::min(shooterCenter.y - 30, 650.0f);
+            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/sprites/DogHowling.png", "recursos/audio/DOG/LOBOteste.mp3")); // Alterar para o cachorro
 
             Game::GetInstance().GetCurrentState().AddObject(dogGO1);
 

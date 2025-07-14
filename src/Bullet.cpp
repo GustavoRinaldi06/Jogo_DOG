@@ -11,16 +11,17 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 {
     velocity = Vec2(std::cos(angle), std::sin(angle)) * speed;
 
-    auto renderer = new SpriteRenderer(associated, spritePath, 1, 1); // ajustar para animações
+    auto renderer = new SpriteRenderer(associated, spritePath, 8, 1); // ajustar para animações
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
+    renderer->SetScale(0.6f, 0.6f); 
 
     associated.angleDeg = angle * 180 / M_PI + 90; // Adicionar 90 para a bala ficar horizontal em relação a arma
 
     auto animator = new Animator(associated);
-    animator->AddAnimation("spawn", Animation(0, 0, 0.5f));
-    animator->AddAnimation("running", Animation(0, 0, 0.2f));
-    animator->AddAnimation("explode", Animation(0, 0, 0));
+    animator->AddAnimation("spawn", Animation(0, 2, 0.5f));
+    animator->AddAnimation("running", Animation(3, 5, 0.5f));
+    animator->AddAnimation("explode", Animation(6, 7, 0.5f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));

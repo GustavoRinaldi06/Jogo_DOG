@@ -9,10 +9,10 @@
 Dog::Dog(GameObject &associated, int damage, bool targetsPlayer, const std::string &spritePath, const std::string &soundpath)
     : Component(associated), damage(damage), targetsPlayer(targetsPlayer), action(soundpath)
 {
-    auto renderer = new SpriteRenderer(associated, spritePath, 3, 2); // ajustar para animações
+    auto renderer = new SpriteRenderer(associated, spritePath, 8, 1); // ajustar para animações
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
-
+    renderer->SetScale(0.6f, 0.6f);
 
     auto animator = new Animator(associated);
     animator->AddAnimation("action", Animation(0, 5, 0.2f));

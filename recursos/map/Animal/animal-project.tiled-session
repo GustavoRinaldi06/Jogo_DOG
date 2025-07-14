@@ -1,0 +1,27 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+    },
+    "last.imagePath": "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Animal",
+    "map.height": 5,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 250,
+    "map.tileWidth": 250,
+    "map.width": 64,
+    "openFiles": [
+    ],
+    "project": "animal-project.tiled-project",
+    "recentFiles": [
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 250,
+        "width": 250
+    }
+}

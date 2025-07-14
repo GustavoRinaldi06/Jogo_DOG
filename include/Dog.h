@@ -26,6 +26,9 @@ private:
     Timer RunTime;
 
     Sound action;
+
+    bool collisionChecked = false;
+    void CheckDestructibleCollisions();
 };
 
 #endif

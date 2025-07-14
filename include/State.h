@@ -25,6 +25,8 @@ public:
     virtual std::weak_ptr<GameObject> AddObject(GameObject *object);
     virtual std::weak_ptr<GameObject> GetObjectPtr(GameObject *object);
 
+    std::vector<std::shared_ptr<GameObject>>& GetObjects() { return objectArray; }
+
     // Comunicação com a engine
     bool PopRequested() const; // Muda estado
     bool QuitRequested() const;

@@ -352,7 +352,7 @@ void TreeState::LoadFromTMX(std::string file)
                 const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
                 for (const auto& object : objects)
                 {
-                    //CreateGameObject(object);
+                    CreateGameObject(object);
                 }
             }
         }

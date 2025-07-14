@@ -4,10 +4,11 @@
 #include "SpriteRenderer.h"
 #include "Character.h"
 #include "Collider.h"
+#include "State.h"
 #include <cmath>
 
 Dog::Dog(GameObject &associated, int damage, bool targetsPlayer, const std::string &spritePath, const std::string &soundpath)
-    : Component(associated), damage(damage), targetsPlayer(targetsPlayer), action(soundpath)
+    : Component(associated), damage(damage), targetsPlayer(targetsPlayer), action(soundpath), collisionChecked(false)
 {
     auto renderer = new SpriteRenderer(associated, spritePath, 8, 1); // ajustar para animações
     renderer->SetCameraFollower(false);
@@ -29,6 +30,12 @@ Dog::Dog(GameObject &associated, int damage, bool targetsPlayer, const std::stri
 void Dog::Update(float dt)
 {
     RunTime.Update(dt);
+
+    // Verificar colisões apenas uma vez no início
+    if (!collisionChecked) {
+        CheckDestructibleCollisions();
+        collisionChecked = true;
+    }
 
     if (RunTime.Get() >  0.8f){
         associated.RequestDelete();
@@ -63,6 +70,21 @@ void Dog::NotifyCollision(GameObject &other)
         {
             associated.RemoveComponent(col);
             delete col;
+        }
+    }
+}
+
+void Dog::CheckDestructibleCollisions()
+{
+    Vec2 dogCenter = associated.box.GetCenter();
+    float radius = 300.0f; // Raio de efeito do uivo
+    
+    for (auto& obj : Game::GetInstance().GetCurrentState().GetObjects()) {
+        if (obj->GetComponent("Chainsaw") || obj->GetComponent("DamageObj")) {
+            Vec2 objCenter = obj->box.GetCenter();
+            if (dogCenter.Distance(objCenter) <= radius) {
+                obj->RequestDelete(); // Destrói objetos próximos
+            }
         }
     }
 }

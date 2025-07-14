@@ -84,6 +84,11 @@ void Bullet::NotifyCollision(GameObject &other)
 {
     if (!other.GetComponent("Bullet") && !associated.IsDead() && !exploded)
     {
+        if (other.GetComponent("Chainsaw") || other.GetComponent("DamageObj")) {
+            other.RequestDelete(); // Destrói o objeto atingido
+            TriggerExplosion();
+        }
+
         Component *comp = other.GetComponent("Character");
         Character *character = (Character *)comp;
         if (character)

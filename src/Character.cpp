@@ -25,7 +25,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
         player = this;
     }
 
-    auto renderer = new SpriteRenderer(associated, spritePath, 5, 1);
+    auto renderer = new SpriteRenderer(associated, spritePath, 8, 7);
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
@@ -49,9 +49,10 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 
     // Cria as animações
     auto animator = new Animator(associated);
-    animator->AddAnimation("idle", Animation(6, 9, 0.5f));
+    animator->AddAnimation("idle", Animation(16, 16, 0.5f));
     animator->AddAnimation("walking", Animation(0, 5, 0.2f));
-    animator->AddAnimation("dead", Animation(10, 11, 0.3f));
+    animator->AddAnimation("jump", Animation(40, 47, 0.8f));
+    animator->AddAnimation("dead", Animation(32, 36, 0.3f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
@@ -70,6 +71,7 @@ void Character::Start()
 
 void Character::Update(float dt)
 {
+    Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
     GameData::playerHP = hp; // Atualiza sempre o gamedata
 
     // Ao morrer -------------------------------------------------------------------------------
@@ -110,7 +112,6 @@ void Character::Update(float dt)
             deathSound.Play(1);
 
             // seta animação "dead"
-            Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
             if (animator)
                 animator->SetAnimation("dead");
 
@@ -230,7 +231,6 @@ void Character::Update(float dt)
     }
 
     // Atualiza animação de acordo com a movimentação
-    Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
     if (animator)
     {
         animator->Update(dt);
@@ -238,6 +238,8 @@ void Character::Update(float dt)
             animator->SetAnimation("walking");
         else
             animator->SetAnimation("idle");
+        if (!isOnGround)
+            animator->SetAnimation("jump");
     }
 
     // Decide a direção que vai ficar

@@ -114,7 +114,7 @@ void TileMap::RenderLayer(int layer, float parallaxFactor)
                 float worldY = associated.box.y + y * tileH;
 
                 // adicona o parallax e a camera
-                float posX = worldX - cam.x * parallaxFactor;
+                float posX = worldX;
                 float posY = worldY - cam.y * parallaxFactor;
 
                 tileSet->RenderTile(index, posX, posY);

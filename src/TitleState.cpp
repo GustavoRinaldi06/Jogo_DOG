@@ -82,7 +82,7 @@ void TitleState::Update(float dt)
             "recursos/img/background/Tree/C.png",
             "recursos/img/background/Tree/B.png",
             "recursos/img/background/Tree/A.png",
-            "recursos/img/background/Tree/tile.png",
+            "recursos/img/background/Tree/tiles.png",
             "recursos/img/background/Vinheta.png",
             // sprites
             "recursos/img/sprites/Player.png",

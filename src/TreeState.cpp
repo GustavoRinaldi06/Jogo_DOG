@@ -128,7 +128,7 @@ void TreeState::Update(float dt)
             "recursos/img/background/Animal/C.png",
             "recursos/img/background/Animal/B.png",
             "recursos/img/background/Animal/A.png",
-            "recursos/img/map/Animal/tiles.png",
+            "recursos/map/Animal/tiles.png",
             // sprites
             "recursos/img/sprites/Player.png",
             "recursos/img/sprites/Hand.png", 

@@ -160,6 +160,7 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
         for (int x = 0; x < mapWidth; ++x)
         {
             int index = At(x, y, collisionLayer);
+            if(GameData::state == 2 && index == 7) continue;
             if (index != -1)
             {
                 GameObject *block = new GameObject();
@@ -168,7 +169,6 @@ void TileMap::GenerateCollision(int collisionLayer, State &state)
                 block->box.w = tileW;
                 block->box.h = tileH;
 
-                
                 auto c = new Collider(*block);
                 c->tag = "ground"; 
                 block->AddComponent(c);

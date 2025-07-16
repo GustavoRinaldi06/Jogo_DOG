@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "Timer.h"
 #include "Sound.h"
+#include "Rect_Vec2.h"
 #include <string>
 
 class Animator;
@@ -27,6 +28,13 @@ private:
     float moveRange;
     float moveSpeed;
     int direction; // 1 para direita, -1 para esquerda
+
+    // Física de queda
+    Vec2 speed;
+    float gravity;
+    bool isOnGround;
+    bool applyGravity;
+    bool isFalling;  
 
 public:
     Chainsaw(

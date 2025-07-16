@@ -19,7 +19,7 @@
 Character *Character::player = nullptr;
 
 Character::Character(GameObject &associated, const std::string &spritePath)
-    : Component(associated), linearSpeed(200), hp(GameData::playerHP), gravity(1000.0f)
+    : Component(associated), linearSpeed(250), hp(GameData::playerHP), gravity(1000.0f)
 {
     if (player == nullptr){
         player = this;

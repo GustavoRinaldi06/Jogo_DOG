@@ -11,11 +11,8 @@
 class TileMap : public Component
 {
 public:
-    TileMap(GameObject &associated, const std::string &file, TileSet *tileSet);
     TileMap(GameObject& associated, TileSet* tileSet, const tmx::Map& map);
 
-    // Carrega os dados do mapa
-    void Load(const std::string &file);
     // Define o TileSet usado no TileMap
     void SetTileSet(TileSet *tileSet);
     // Acessa um tile específico

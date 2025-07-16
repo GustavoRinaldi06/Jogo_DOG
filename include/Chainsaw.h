@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Component.h"
 #include "Timer.h"
 #include "Sound.h"

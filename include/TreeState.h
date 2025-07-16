@@ -1,3 +1,5 @@
+#pragma once
+
 #include "State.h"
 #include "Music.h"
 #include "EndState.h"
@@ -30,9 +32,5 @@ public:
 private:
     Music backgroundMusic;
     void CreateGameObject(const tmx::Object& object);
-    GameObject* CreateHandObject(const tmx::Object& object);
-    GameObject* CreateThornObject(const tmx::Object& object);
-    GameObject* CreateChainSawObject(const tmx::Object& object);
-    GameObject* CreateFallingBranchObject(const tmx::Object& object);
     Timer branchTimer;
 };

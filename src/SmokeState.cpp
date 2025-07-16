@@ -60,29 +60,32 @@ void SmokeState::LoadAssets()
     A->AddComponent(new Parallax(*A, 0.2f));
     AddObject(A);
 
-    // Mapa --------------------------------------------------------------------------------------------------------------------
-    GameObject *mapGO = new GameObject();
-    // cria TileSet
-    TileSet *tileSet = new TileSet(499, 499, "recursos/img/Smoke/tile.png");
-    // cria TileMap
-    TileMap *tileMap = new TileMap(*mapGO, "recursos/map/map.txt", tileSet);
-    tileMap->SetTileSet(tileSet);
+    tmx::Map map;
+    if (map.load("recursos/map/Smoke/mapfile.tmx")){
+        // Mapa --------------------------------------------------------------------------------------------------------------------
+        GameObject *mapGO = new GameObject();
+        // cria TileSet
+        TileSet *tileSet = new TileSet(499, 499, "recursos/img/Smoke/tile.png");
+        // cria TileMap
+        TileMap* tileMap = new TileMap(*mapGO, tileSet, map);
+        tileMap->SetTileSet(tileSet);
+        // DEBUG -- verificar tamanhos certos
+        std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
+        std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
+    
+        mapGO->AddComponent(tileMap);
+        mapGO->box.x = 0;
+        mapGO->box.y = -600;
+        mapGO->box.w = 2048;
+        mapGO->box.h = 600;
+    
+        AddObject(mapGO);
 
-    // DEBUG -- verificar tamanhos certos
-    std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
-    std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
+        // gera colisão da camada 0 (chão)
+        tileMap->GenerateCollision(0, *this);
+    }
 
-    mapGO->AddComponent(tileMap);
 
-    mapGO->box.x = 0;
-    mapGO->box.y = -600;
-    mapGO->box.w = 2048;
-    mapGO->box.h = 600;
-
-    AddObject(mapGO);
-
-    // gera colisão da camada 0 (chão)
-    tileMap->GenerateCollision(0, *this);
 
     // Cria limite de mapa esquerda ------------------------------------------
     GameObject *leftlimit = new GameObject();

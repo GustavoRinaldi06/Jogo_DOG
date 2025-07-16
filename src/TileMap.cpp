@@ -10,65 +10,11 @@
 #include <sstream> 
 #include <iostream>
 
-TileMap::TileMap(GameObject &associated, const std::string &file, TileSet *tileSet):Component(associated), mapWidth(0), mapHeight(0), mapDepth(0)
-{
-    Load(file);
-}
 
 TileMap::TileMap(GameObject& associated, TileSet* tileSet, const tmx::Map& map) : Component(associated)
 {
     this->tileSet = std::unique_ptr<TileSet>(tileSet);
     LoadFromTMX(map);
-}
-
-void TileMap::Load(const std::string &file)
-{
-    std::ifstream mapFile(file);
-    char comma; // pular a vírgula
-
-    if (mapFile.is_open())
-    {
-        // Lê as dimensões do mapa
-        mapFile >> mapWidth >> comma >> mapHeight >> comma >> mapDepth >> comma;
-
-        // Verifica se as dimensões foram lidas corretamente (DEBUG)
-        if (mapFile.fail())
-        {
-            std::cerr << "Erro ao ler as dimensões do mapa no arquivo: " << file << std::endl;
-            return;
-        }
-
-        // Cria a matriz de tiles para o mapa
-        tileMatrix.resize(mapWidth * mapHeight * mapDepth);
-
-      
-        // le os tiles para preencher a matriz
-        for (int z = 0; z < mapDepth; ++z)
-        {
-            for (int y = 0; y < mapHeight; ++y)
-            {
-                for (int x = 0; x < mapWidth; ++x)
-                {
-                    int index;
-                    char c; // pular a vírgula
-                    mapFile >> index >> c;
-
-                    // DEBUG
-                    if (mapFile.fail()){
-                        std::cerr << "Erro ao ler o índice do tile em " << x << ", " << y << ", " << z << "\n";
-                        return;
-                    }
-
-                    tileMatrix[(z * mapHeight + y) * mapWidth + x] = index;
-                }
-            }
-        }
-        mapFile.close();
-    }
-    else
-    {
-        std::cerr << "Erro ao abrir o arquivo do mapa: " << file << std::endl;
-    }
 }
 
 void TileMap::SetTileSet(TileSet *tileSet)
@@ -115,7 +61,12 @@ void TileMap::RenderLayer(int layer, float parallaxFactor)
 
                 // adicona o parallax e a camera
                 float posX = worldX;
-                float posY = worldY - cam.y * parallaxFactor;
+                float posY = worldY;
+
+                // ! Bug de altura dos tiles estava nessa linha
+                // ! precisa investigar se o fator de camera e parallax deveriam de fato serem aplicados aqui
+                //float posY = worldY - cam.y * parallaxFactor;
+
 
                 tileSet->RenderTile(index, posX, posY);
             }

@@ -23,6 +23,7 @@ private:
 
     Vec2 pos;
     Vec2 speed;
+    Vec2 velocity;
     GameObject *focus;
 };
 

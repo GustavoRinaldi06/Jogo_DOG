@@ -15,6 +15,7 @@
 #include "LoadingState.h"
 #include "Text.h"
 #include "windows.h"
+#include "ObjectFactory.h" 
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -35,34 +36,6 @@ void TreeState::LoadAssets()
 
     LoadLayers();
     LoadFromTMX("recursos/map/Tree/mapfile.tmx");
-
-    // Cria limite de mapa esquerda ------------------------------------------
-    GameObject *leftlimit = new GameObject();
-    leftlimit->box.x = 0;
-    leftlimit->box.y = 0;
-    leftlimit->box.w = 500;
-    leftlimit->box.h = 1500;
-
-    Collider *wallCollider = new Collider(*leftlimit);
-    wallCollider->tag = "wall";
-    leftlimit->AddComponent(wallCollider);
-
-    AddObject(leftlimit);
-
-    // Personagem ----------------------------------------------------------------------------------------------------------------
-    GameObject *playerGO = new GameObject();
-    playerGO->box.x = 500;
-    playerGO->box.y = 600;
-
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/sprites/Player.png"));
-    playerGO->AddComponent(new PlayerController(*playerGO));
-
-    Camera::GetInstance().Follow(playerGO);
-    AddObject(playerGO);
-
-    std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
-    std::cout << "playerGO->box.x = " << playerGO->box.x << "\n";
-    std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
 
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
@@ -155,7 +128,7 @@ void TreeState::Update(float dt)
 
     branchTimer.Update(dt);
     if (branchTimer.Get() > 3.0f) { // a cada 3 segundos
-        GameObject* branchGO = CreateFallingBranchObject(tmx::Object());
+        GameObject* branchGO = ObjectFactory::CreateFallingBranchObject(tmx::Object());
         AddObject(branchGO);
         std::cout << "Falling Branch object created at position: " << branchGO->box.x << ", " << branchGO->box.y << std::endl;
         branchTimer.Restart();
@@ -347,8 +320,8 @@ void TreeState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet* tileSet = new TileSet(
-            249,
-            249,
+            250,
+            250,
             "recursos/map/Tree/tiles.png"
         );
         TileMap* tileMap = new TileMap(*go, tileSet, map);
@@ -360,7 +333,7 @@ void TreeState::LoadFromTMX(std::string file)
         std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
 
         // gera colisão da camada 0 (chão)
-        tileMap->GenerateCollision(0, *this);
+        //tileMap->GenerateCollision(0, *this);
 
         const auto& layers = map.getLayers();
         for (const auto& layer : layers)
@@ -383,82 +356,46 @@ void TreeState::LoadFromTMX(std::string file)
 
 void TreeState::CreateGameObject(const tmx::Object& object)
 {
-    if(object.getName() == "Hand")
+    if(object.getClass() == "Collider")
     {
-        GameObject* handGO = CreateHandObject(object);
+        GameObject* colliderGO = ObjectFactory::CreateColliderObject(object);
+        AddObject(colliderGO);
+        std::cout << "Collider object created at position: " << colliderGO->box.x << ", " << colliderGO->box.y << std::endl;
+        return;
+    }
+
+    if(object.getClass() == "Hand")
+    {
+        GameObject* handGO = ObjectFactory::CreateHandObject(object);
         AddObject(handGO);
         std::cout << "Hand object created at position: " << handGO->box.x << ", " << handGO->box.y << std::endl;
+        return;
     }
 
-    if(object.getName() == "Espinho")
+    if(object.getClass() == "Espinho")
     {
-        GameObject* thornGO = CreateThornObject(object);
+        GameObject* thornGO = ObjectFactory::CreateThornObject(object);
         AddObject(thornGO);
         std::cout << "Thorn object created at position: " << thornGO->box.x << ", " << thornGO->box.y << std::endl;
+        return;
     }
 
-    if(object.getName() == "Chainsaw")
+    if(object.getClass() == "Chainsaw")
     {
-        GameObject* chainSawGO = CreateChainSawObject(object);
+        GameObject* chainSawGO = ObjectFactory::CreateChainSawObject(object);
         AddObject(chainSawGO);
         std::cout << "Chainsaw object created at position: " << chainSawGO->box.x << ", " << chainSawGO->box.y << std::endl;
+        return;
     }
-}
 
-GameObject* TreeState::CreateHandObject(const tmx::Object& object)
-{
-    GameObject* handGO = new GameObject();
-    handGO->box.x = object.getAABB().left;
-    handGO->box.y = 550;
-    handGO->box.w = object.getAABB().width;
-    handGO->box.h = object.getAABB().height;
-    
-    DamageObj* damageObj = new DamageObj(*handGO, 10
-        , "recursos/img/sprites/Hand.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1);
-    handGO->AddComponent(damageObj);
-    handGO->AddComponent(new Collider(*handGO));
-    return handGO;
-}
-
-GameObject* TreeState::CreateThornObject(const tmx::Object& object)
-{
-    GameObject* thornGO = new GameObject();
-    thornGO->box.x = object.getAABB().left;
-    thornGO->box.y = 550;
-    thornGO->box.w = object.getAABB().width;
-    thornGO->box.h = object.getAABB().height;
-
-    DamageObj* damageObj = new DamageObj(*thornGO, 10
-        , "recursos/img/sprites/Thorn.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1, "Thorn");
-    thornGO->AddComponent(damageObj);
-    thornGO->AddComponent(new Collider(*thornGO));
-    return thornGO;
-}
-
-GameObject* TreeState::CreateChainSawObject(const tmx::Object& object)
-{
-    GameObject* chainSawGO = new GameObject();
-    chainSawGO->box.x = object.getAABB().left;
-    chainSawGO->box.y = 550;
-    chainSawGO->box.w = object.getAABB().width;
-    chainSawGO->box.h = object.getAABB().height;
-
-    Chainsaw* damageObj = new Chainsaw(*chainSawGO, 10, "recursos/img/sprites/Chainsaw.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1);
-    chainSawGO->AddComponent(damageObj);
-    chainSawGO->AddComponent(new Collider(*chainSawGO));
-    return chainSawGO;
-}
-
-GameObject* TreeState::CreateFallingBranchObject(const tmx::Object& object)
-{
-    GameObject* branchGO = new GameObject();
-    branchGO->box.x = 600;
-    branchGO->box.y = 750;
-    branchGO->box.w = object.getAABB().width;
-    branchGO->box.h = object.getAABB().height;
-
-    FallingBranch* fallingBranch = new FallingBranch(*branchGO, 100.0f, 10.0f, "recursos/img/sprites/FallingBranch.png", 8, 1);
-    branchGO->AddComponent(fallingBranch);
-    branchGO->AddComponent(new Collider(*branchGO));
-    return branchGO;
+    if(object.getClass() == "Player")
+    {
+        GameObject* playerGO = ObjectFactory::CreatePlayerObject(object);
+        AddObject(playerGO);
+        std::cout << "Player object created at position: " << playerGO->box.x << ", " << playerGO->box.y << std::endl;
+        std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
+        std::cout << "playerGO->box.x = " << playerGO->box.x << "\n";
+        std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
+        return;
+    }
 }

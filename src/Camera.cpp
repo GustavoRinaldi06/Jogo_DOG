@@ -1,5 +1,7 @@
 #include "Camera.h"
 #include "InputManager.h"
+#include "MathUtils.h"
+
 
 Camera::Camera() : pos(0, 0), speed(0, 0), focus(nullptr) {}
 
@@ -23,10 +25,15 @@ void Camera::Update(float dt)
 {
     if (focus != nullptr)
     {
-        pos.x = focus->box.GetCenter().x - 400;
-        pos.y = 175; // altua da camera
+        Vec2 focusPoint = focus->box.GetCenter();
+        // Ajusta a posição da câmera para seguir o foco
+        focusPoint.x -= 400; 
+        focusPoint.y -= 400;
+
+        pos.x = Math::SmoothDamp(pos.x, focusPoint.x, velocity.x, .15f, dt);
+        pos.y = Math::SmoothDamp(pos.y, focusPoint.y, velocity.y, .25f, dt);
     }
-/*
+
     else
     {
         InputManager &input = InputManager::GetInstance();
@@ -43,7 +50,7 @@ void Camera::Update(float dt)
 
         pos = pos + speed * dt;
     }
-*/
+
 }
 
 Vec2 Camera::GetPosition() const

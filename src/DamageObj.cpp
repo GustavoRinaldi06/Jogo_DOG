@@ -7,7 +7,11 @@
 #include <cmath>
 
 DamageObj::DamageObj(GameObject &associated, int damage, const std::string &spritePath, const std::string &soundpath, const std::string &dmgpath, std::string objectName)
-    : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Damage(dmgpath), objectName(objectName)
+    : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Damage(dmgpath), objectName(objectName), 
+      gravity(800.0f),
+      isOnGround(false),
+      applyGravity(true),
+      isFalling(false)
 {
     auto renderer = new SpriteRenderer(associated, spritePath, 1, 1); // ajustar para animações
     renderer->SetCameraFollower(false);
@@ -28,6 +32,7 @@ DamageObj::DamageObj(GameObject &associated, int damage, const std::string &spri
     active = true;
     activeTimer.Restart();
     AnimTime.Restart();
+    speed = Vec2(0, 0);
 }
 
 DamageObj::DamageObj(
@@ -40,7 +45,11 @@ DamageObj::DamageObj(
     int frameCountY,
     std::string objectName
 )
-    : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Damage(dmgpath), objectName(objectName)
+    : Component(associated), damage(damage), originalDamage(damage), Spawn(soundpath), Damage(dmgpath), objectName(objectName),
+      gravity(800.0f),
+      isOnGround(false),
+      applyGravity(true),
+      isFalling(false)
 {
     auto renderer = new SpriteRenderer(associated, spritePath, frameCountX, frameCountY); // ajustar para animações
     renderer->SetCameraFollower(false);
@@ -99,6 +108,15 @@ void DamageObj::Update(float dt)
         damage = 0;
         activeTimer.Restart();
     }
+
+    if (applyGravity && !isOnGround) {
+        speed.y += gravity * dt;
+        associated.box.y += speed.y * dt;
+        isFalling = true;
+    }
+    else {
+        isFalling = false;
+    }
 }
 
 void DamageObj::Render()
@@ -116,6 +134,16 @@ int DamageObj::GetDamage() const
 
 void DamageObj::NotifyCollision(GameObject &other)
 {
+    Collider* otherCollider = (Collider*)other.GetComponent("Collider");
+    if (otherCollider && otherCollider->tag == "ground") {
+        isOnGround = true;
+        speed.y = 0;
+    
+        Rect& box = associated.box;
+        box.y = other.box.y - box.h;
+    }
+    
+
     if(!active) return;
     Damage.Play(1);
     originalDamage++;

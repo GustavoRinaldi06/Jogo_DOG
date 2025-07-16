@@ -33,6 +33,13 @@ private:
     std::string currentState = "inactive"; 
     Animator* animator;
     Timer stateTimer;
+
+    // Física
+    Vec2 speed;
+    float gravity;
+    bool isOnGround;
+    bool applyGravity;
+    bool isFalling;
 };
 
 #endif

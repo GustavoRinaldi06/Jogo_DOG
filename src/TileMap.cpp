@@ -5,7 +5,7 @@
 #include "../include/State.h"
 #include "../include/Collider.h"
 #include "../include/tmxlite/TileLayer.hpp"
-
+#include "GameData.h"
 #include <fstream>
 #include <sstream> 
 #include <iostream>

@@ -44,6 +44,9 @@ public:
     // Define a rotação do sprite
     void SetRotation(float angle);
 
+    // Define o flip do sprite
+    void SetFlip(SDL_RendererFlip newFlip);
+
 private:
     Sprite sprite;
 };

@@ -20,7 +20,7 @@ Chainsaw::Chainsaw(
 {
     // Guarda posição inicial para movimento
     startX = associated.box.x;
-    direction = 1; // Começa movendo para a direita
+    direction = -1; // Começa movendo para a esquerda
     
     auto renderer = new SpriteRenderer(associated, spritePath, frameCountX, frameCountY);
     renderer->SetCameraFollower(false);
@@ -86,6 +86,12 @@ void Chainsaw::Update(float dt)
         }
         
         associated.box.x = newX;
+
+         if (direction == 1) {
+            spriteRenderer->SetFlip(SDL_FLIP_HORIZONTAL); // Vira para direita
+        } else {
+            spriteRenderer->SetFlip(SDL_FLIP_NONE); // Vira para esquerda
+        }
     }
 
     // Aplica gravidade

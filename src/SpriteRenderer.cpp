@@ -83,3 +83,7 @@ void SpriteRenderer::SetRotation(float angle) {
     associated.angleDeg = angle;
     sprite.SetRotation(angle);
 }
+
+void SpriteRenderer::SetFlip(SDL_RendererFlip newFlip) {
+    sprite.SetFlip(newFlip);
+}

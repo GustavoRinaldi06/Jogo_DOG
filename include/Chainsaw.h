@@ -45,7 +45,7 @@ public:
         const std::string& dmgpath,
         int frameCountX,
         int frameCountY,
-        float moveRange = 600.0f,
+        float moveRange = 550.0f,
         float moveSpeed = 200.0f
     );
 

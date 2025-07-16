@@ -1,10 +1,10 @@
-#include "../include/Barrier.h"
-#include "../include/InputManager.h"
+#include "Barrier.h"
+#include "InputManager.h"
 #include "Dog.h"
 #include "Collider.h"
 #include "Bullet.h"
 #include "Character.h"
-#include "../include/Camera.h"
+#include "Camera.h"
 
 #include <iostream>
 

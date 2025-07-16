@@ -1,7 +1,7 @@
-#include "../include/Sprite.h"
-#include "../include/Game.h"
-#include "../include/Resources.h"
-#include "../include/Rect_Vec2.h"
+#include "Sprite.h"
+#include "Game.h"
+#include "Resources.h"
+#include "Rect_Vec2.h"
 #include "Camera.h" 
 
 // Construtores

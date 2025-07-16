@@ -1,4 +1,4 @@
-#include "../include/Rect_Vec2.h"
+#include "Rect_Vec2.h"
 
 // Implementação de Vec2
 Vec2::Vec2(float x, float y) : x(x), y(y) {}

@@ -1,5 +1,5 @@
-#include "../include/Camera.h"
-#include "../include/InputManager.h"
+#include "Camera.h"
+#include "InputManager.h"
 
 Camera::Camera() : pos(0, 0), speed(0, 0), focus(nullptr) {}
 

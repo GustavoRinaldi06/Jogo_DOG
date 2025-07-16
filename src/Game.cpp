@@ -1,9 +1,9 @@
-#include "../include/Game.h"
-#include "../include/Resources.h"
-#include "../include/InputManager.h"
-#include "../include/State.h"
-#include "../include/TitleState.h"
-#include "../include/GameData.h"
+#include "Game.h"
+#include "Resources.h"
+#include "InputManager.h"
+#include "State.h"
+#include "TitleState.h"
+#include "GameData.h"
 #include <iostream>
 
 // Inicializa a variável estática 'instance' como nullptr

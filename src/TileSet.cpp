@@ -1,4 +1,4 @@
-#include "../include/TileSet.h"
+#include "TileSet.h"
 #include <iostream>
 
 TileSet::TileSet(int w, int h, const std::string &file)

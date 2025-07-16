@@ -1,5 +1,5 @@
-#include "../include/Resources.h"
-#include "../include/Game.h"
+#include "Resources.h"
+#include "Game.h"
 
 // Definição das variáveis estáticas da classe Resources
 std::unordered_map<std::string, SDL_Texture *> Resources::imageTable;

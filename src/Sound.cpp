@@ -1,5 +1,5 @@
 #include "Sound.h"
-#include "../include/Resources.h"
+#include "Resources.h"
 
 Sound::Sound() : chunk(nullptr), channel(-1) {}
 

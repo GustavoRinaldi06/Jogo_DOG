@@ -1,0 +1,22 @@
+{
+    "env": {
+        "myIncludePath": [
+            "${workspaceFolder}/include"
+        ],
+        "myDefines": ["DEBUG", "MY_FEATURE=1"]
+    },
+    "configurations": [
+        {
+            "name": "win32gcc",
+            "includePath": ["${myIncludePath}", "C:/SDL32/include"],
+            "defines": ["_DEBUG", "DEBUG", "UNICODE", "_UNICODE"],
+            "windowsSdkVersion": "10.0.22000.0",
+            "compilerPath": "C:/TDM-GCC-32/bin/g++.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-gcc-x86",
+            "compilerArgs": ["-Wall", "-Wextra", "-O0"]
+        }
+    ],
+    "version": 4
+}

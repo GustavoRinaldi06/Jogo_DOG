@@ -1,4 +1,4 @@
-#include "../include/Animator.h"
+#include "Animator.h"
 
 Animator::Animator(GameObject &associated)
     : Component(associated), frameStart(0), frameEnd(0), currentFrame(0), frameTime(0), timeElapsed(0) {}

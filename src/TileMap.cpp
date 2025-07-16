@@ -1,10 +1,10 @@
-#include "../include/TileMap.h"
-#include "../include/Game.h"
-#include "../include/GameObject.h"
-#include "../include/Camera.h"
-#include "../include/State.h"
-#include "../include/Collider.h"
-#include "../include/tmxlite/TileLayer.hpp"
+#include "TileMap.h"
+#include "Game.h"
+#include "GameObject.h"
+#include "Camera.h"
+#include "State.h"
+#include "Collider.h"
+#include "tmxlite/TileLayer.hpp"
 #include "GameData.h"
 #include <fstream>
 #include <sstream> 

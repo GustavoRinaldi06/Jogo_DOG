@@ -1,5 +1,5 @@
-#include "../include/Music.h"
-#include "../include/Resources.h"
+#include "Music.h"
+#include "Resources.h"
 
 // Construtores
 Music::Music() : music(nullptr){}

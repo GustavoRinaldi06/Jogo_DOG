@@ -1,5 +1,5 @@
-#include "../include/Game.h"
-#include "../include/TitleState.h"
+#include "Game.h"
+#include "TitleState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"

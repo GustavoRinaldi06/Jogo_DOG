@@ -1,5 +1,5 @@
-#include "../include/SpriteRenderer.h"
-#include "../include/Camera.h"
+#include "SpriteRenderer.h"
+#include "Camera.h"
 
 // Construtor sem arquivo de imagem
 SpriteRenderer::SpriteRenderer(GameObject &associated) : Component(associated), sprite() {}

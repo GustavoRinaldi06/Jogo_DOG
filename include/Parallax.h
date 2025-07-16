@@ -8,13 +8,15 @@ class Parallax : public Component
 {
 public:
     Parallax(GameObject &associated, float factor);
+    Parallax(GameObject &associated, float horizontalFactor, float verticalFactor);
 
     void Update(float dt) override;
     void Render() override {}
     bool Is(const std::string &type) override;
 
 private:
-    float parallaxFactor;
+    float horizontalParallaxFactor;
+    float verticalParallaxFactor;
 };
 
 #endif

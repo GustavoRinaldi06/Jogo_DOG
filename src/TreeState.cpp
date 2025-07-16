@@ -94,7 +94,7 @@ void TreeState::Update(float dt)
         return;
     }
     // PARA TESTES ==================================================================================================
-    if (input.QuitRequested() || input.KeyPress('r'))
+    if (input.KeyPress('r'))
     {
         std::vector<std::string> animalAssets = {
             // background
@@ -212,13 +212,13 @@ void TreeState::Update(float dt)
     }
 
     // Checagem de fim Derrota
-    if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
+/*     if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
     {
         GameData::playerVictory = true;
         popRequested = true;
         Game::GetInstance().Push(new EndState());
         return;
-    }
+    } */
 }
 
 void TreeState::Render()
@@ -259,10 +259,10 @@ void TreeState::LoadLayers()
     E->box.w = 2048;
     E->box.h = 512;
     E->AddComponent(new SpriteRenderer(*E, "recursos/img/background/Tree/E.png"));
-    E->AddComponent(new Parallax(*E, 0.0f));
+    E->AddComponent(new Parallax(*E, 0.9f, 0.9f));
     AddObject(E);
 
-    // Camada D
+/*     // Camada D
     GameObject *D = new GameObject();
     D->box.x = 0;
     D->box.y = 0;
@@ -280,27 +280,26 @@ void TreeState::LoadLayers()
     C->box.h = 512;
     C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Tree/C.png"));
     C->AddComponent(new Parallax(*C, 0.3f));
-    AddObject(C);
+    AddObject(C); */
 
     // Camada B
     GameObject *B = new GameObject();
     B->box.x = 0;
-    B->box.y = 0;
+    B->box.y = 50;
     B->box.w = 2048;
     B->box.h = 512;
     B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Tree/B.png"));
-    B->AddComponent(new Parallax(*B, 0.4f));
     AddObject(B);
 
     // Camada A
-    GameObject *A = new GameObject();
+/*     GameObject *A = new GameObject();
     A->box.x = 0;
     A->box.y = 0;
     A->box.w = 2048;
     A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Tree/A.png"));
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/Abertura.jpg"));
     A->AddComponent(new Parallax(*A, 0.6f));
-    AddObject(A);
+    AddObject(A); */
 }
 
 const std::array<std::string, 4u> LayerStrings =

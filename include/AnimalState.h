@@ -26,6 +26,7 @@ public:
     void LoadLayers();
     void CreateGameObject(const tmx::Object& object);
     void LoadFromTMX(const std::string file);
+    GameObject* CreateWaterLilyObject(const tmx::Object& object);
 
 private:
     Music backgroundMusic;

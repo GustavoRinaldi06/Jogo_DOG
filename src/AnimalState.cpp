@@ -11,6 +11,7 @@
 #include "../include/Parallax.h"
 #include "SmokeState.h"
 #include "LoadingState.h"
+#include "WaterLily.h"
 #include "Text.h"
 
 #define INCLUDE_SDL
@@ -327,5 +328,23 @@ void AnimalState::LoadFromTMX(std::string file)
 
 void AnimalState::CreateGameObject(const tmx::Object& object)
 {
+    if(object.getName() == "WaterLily")
+    {
+        GameObject* waterLilyGO = CreateWaterLilyObject(object);
+        AddObject(waterLilyGO);
+        std::cout << "WaterLily object created at position: " << waterLilyGO->box.x << ", " << waterLilyGO->box.y << std::endl;
+    }
+}
+
+GameObject* AnimalState::CreateWaterLilyObject(const tmx::Object& object)
+{
+    GameObject* waterLilyGO = new GameObject();
+    waterLilyGO->box.x = object.getAABB().left;
+    waterLilyGO->box.y = 550;
+    waterLilyGO->box.w = object.getAABB().width;
+    waterLilyGO->box.h = object.getAABB().height;
     
+    WaterLily* waterLilyObj = new WaterLily(*waterLilyGO);
+    waterLilyGO->AddComponent(waterLilyObj);
+    return waterLilyGO;
 }

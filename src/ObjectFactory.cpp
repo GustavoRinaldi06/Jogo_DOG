@@ -7,6 +7,7 @@
 #include "Character.h"
 #include "PlayerController.h"
 #include "Camera.h"
+#include "WaterLily.h"
 
 namespace ObjectFactory
 {
@@ -94,5 +95,18 @@ namespace ObjectFactory
     Camera::GetInstance().Follow(playerGO);
 
     return playerGO;
+  }
+
+  GameObject* CreateWaterLilyObject(const tmx::Object& object)
+  {
+      GameObject* waterLilyGO = new GameObject();
+      waterLilyGO->box.x = object.getAABB().left;
+      waterLilyGO->box.y = object.getAABB().top;
+      waterLilyGO->box.w = object.getAABB().width;
+      waterLilyGO->box.h = object.getAABB().height;
+      
+      WaterLily* waterLilyObj = new WaterLily(*waterLilyGO);
+      waterLilyGO->AddComponent(waterLilyObj);
+      return waterLilyGO;
   }
 }

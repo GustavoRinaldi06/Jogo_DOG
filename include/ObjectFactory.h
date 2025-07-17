@@ -17,4 +17,6 @@ namespace ObjectFactory
   GameObject* CreateColliderObject(const tmx::Object& object);
 
   GameObject* CreatePlayerObject(const tmx::Object& object);
+
+  GameObject* CreateWaterLilyObject(const tmx::Object& object);
 }

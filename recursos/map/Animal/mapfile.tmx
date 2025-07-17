@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="5" tilewidth="250" tileheight="250" infinite="0" nextlayerid="3" nextobjectid="7">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="5" tilewidth="250" tileheight="250" infinite="0" nextlayerid="4" nextobjectid="18">
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Background" width="64" height="5">
   <data encoding="csv">
@@ -10,12 +10,18 @@
 1,1,1,6,8,3,1,1,1,3,8,2,1,1,1,1,1,1,1,1,1,1,8,8,8,8,8,8,8,1,1,1,1,1,1,8,8,8,8,8,8,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup id="2" name="WaterLily">
-  <object id="1" name="WaterLily" type="Object" gid="18" x="8999.24" y="1031.06" width="250" height="250"/>
-  <object id="2" name="WaterLily" type="Object" gid="18" x="9499.24" y="1034.09" width="250" height="250"/>
-  <object id="3" name="WaterLily" type="Object" gid="18" x="9999.24" y="1037.12" width="250" height="250"/>
-  <object id="4" name="WaterLily" type="Object" gid="18" x="6747.73" y="1032.58" width="250" height="250"/>
-  <object id="5" name="WaterLily" type="Object" gid="18" x="6244.7" y="1038.64" width="250" height="250"/>
-  <object id="6" name="WaterLily" type="Object" gid="18" x="5753.79" y="1029.55" width="250" height="250"/>
+ <objectgroup id="2" name="Objects">
+  <object id="7" name="WaterLily" type="WaterLily" x="5820" y="1010.67" width="121.333" height="20"/>
+  <object id="8" name="WaterLily" type="WaterLily" x="1063.76" y="982.848" width="121.333" height="20"/>
+  <object id="17" name="WaterLily" type="WaterLily" x="727.333" y="927.333" width="121.333" height="20"/>
+ </objectgroup>
+ <objectgroup id="3" name="Collider">
+  <object id="9" name="Collider" type="Collider" x="1072" y="1033.67" width="106" height="19"/>
+  <object id="10" name="Collider" type="Collider" x="10" y="1040" width="990" height="210"/>
+  <object id="11" name="Collider" type="Collider" x="-57.5758" y="312.121" width="136.364" height="933.333"/>
+  <object id="12" name="Collider" type="Collider" x="1250.67" y="1040" width="1247" height="210"/>
+  <object id="13" name="Collider" type="Collider" x="2754" y="1040" width="2745.63" height="210"/>
+  <object id="14" name="Collider" type="Collider" x="7252.18" y="1040" width="1496.96" height="210"/>
+  <object id="15" name="Collider" type="Collider" x="10502.2" y="1040" width="5500.96" height="210"/>
  </objectgroup>
 </map>

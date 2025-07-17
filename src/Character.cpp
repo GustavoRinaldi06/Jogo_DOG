@@ -356,7 +356,34 @@ void Character::NotifyCollision(GameObject &other)
         }
     }
 
+    // Colisão com WaterLily
     Collider *collider = (Collider *)other.GetComponent("Collider");
+    if (other.GetComponent("WaterLily") && collider->tag == "waterlily")
+    {
+        Rect &box = associated.box;
+        Rect &otherBox = other.box;
+        
+        float overlapTop = (box.y + box.h) - otherBox.y;
+        float overlapBottom = (otherBox.y + otherBox.h) - box.y;
+
+        if (overlapTop < overlapBottom) 
+        {
+            box.y = otherBox.y - box.h;
+            speed.y = 0;
+            
+            if (!isOnGround) {
+                if (GameData::state == 1) {
+                    hitGroundSound.Play(1);
+                } else {
+                    hitGroundSoundMud.Play(1);
+                }
+                while (!taskQueue.empty()) taskQueue.pop();
+            }
+            isOnGround = true;
+        }
+        return;
+    }
+
     if (collider)
     {
         Rect &box = associated.box; // personagem

@@ -3,3 +3,6 @@ settings.json
 /bin
 
 /obj
+
+# Vídeos raw convertidos para UYVY
+*.uyvy

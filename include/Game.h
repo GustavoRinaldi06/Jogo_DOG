@@ -27,6 +27,7 @@ public:
 
     static Game &GetInstance();   
     float GetDeltaTime() const;
+    SDL_Window *GetWindow() const; // Retorna a janela do jogo
 
 private:
     // Construtor

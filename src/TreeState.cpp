@@ -55,7 +55,7 @@ void TreeState::LoadAssets()
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
     std::string hpString = "HP: " + std::to_string(GameData::playerHP);
-    hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
+    hpText = new Text(*textGO, "recursos/font/Titulo.ttf", 24, BLENDED, hpString, white);
     textGO->AddComponent(hpText);
 
     hpText->SetCameraFollower(true);
@@ -69,7 +69,7 @@ void TreeState::LoadAssets()
     // Texto de cooldown do cachorro --------------------------------------------------------------------------------------------
     GameObject *textGO1 = new GameObject();
     std::string dgCooldown = "DOG esta entre nos";
-    dogText = new Text(*textGO1, "recursos/font/neodgm.ttf", 24, BLENDED, dgCooldown, white);
+    dogText = new Text(*textGO1, "recursos/font/Titulo.ttf", 24, BLENDED, dgCooldown, white);
     textGO1->AddComponent(dogText);
 
     dogText->SetCameraFollower(true);
@@ -93,6 +93,7 @@ void TreeState::Update(float dt)
         quitRequested = true;
         return;
     }
+    
     // PARA TESTES ==================================================================================================
     if (input.KeyPress('r'))
     {
@@ -215,7 +216,7 @@ void TreeState::Update(float dt)
     // Checagem de fim Derrota
 /*     if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
     {
-        GameData::playerVictory = true;
+        GameData::playerVictory = false;
         popRequested = true;
         Game::GetInstance().Push(new EndState());
         return;

@@ -3,7 +3,9 @@
 #include "MathUtils.h"
 
 
-Camera::Camera() : pos(0, 0), speed(0, 0), focus(nullptr) {}
+Camera::Camera() : pos(0, 0), speed(0, 0), focus(nullptr) {
+    
+}
 
 Camera &Camera::GetInstance()
 {
@@ -31,7 +33,13 @@ void Camera::Update(float dt)
         focusPoint.y -= 400;
 
         pos.x = Math::SmoothDamp(pos.x, focusPoint.x, velocity.x, .15f, dt);
-        pos.y = Math::SmoothDamp(pos.y, focusPoint.y, velocity.y, .25f, dt);
+        float newY = Math::SmoothDamp(pos.y, focusPoint.y, velocity.y, .25f, dt);
+
+        // só atualiza a posição se não ultrapassar o limite inferior
+        if (newY < minY)
+            pos.y = newY;
+        else
+            pos.y = minY;
     }
 
     else

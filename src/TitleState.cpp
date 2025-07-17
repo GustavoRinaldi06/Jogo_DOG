@@ -8,6 +8,7 @@
 #include "Character.h"
 #include "PlayerController.h"
 #include "LoadingState.h"
+#include "VideoState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -23,7 +24,7 @@ void TitleState::LoadAssets()
     GameObject *titleGO = new GameObject();
 
     SpriteRenderer *spriter = new SpriteRenderer(*titleGO);
-    spriter->Open("recursos/img/Abertura.jpg"); 
+    spriter->Open("recursos/img/Menu.png"); 
     spriter->SetCameraFollower(true); // igual a imagem de fundo   
 
     titleGO->AddComponent(spriter);
@@ -32,25 +33,25 @@ void TitleState::LoadAssets()
 // Carregar texto de pressStart ------------------------------------------------------------------------------------
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
-    pressStart = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, "PRESS SPACE TO START !", white);
+    pressStart = new Text(*textGO, "recursos/font/fonteBase.ttf", 34, BLENDED, "PRESS SPACE TO START !", white);
     textGO->AddComponent(pressStart);
 
     pressStart->SetCameraFollower(true);
     // Posição do texto
-    textGO->box.x = 450;
-    textGO->box.y = 600;
+    textGO->box.x = 675;
+    textGO->box.y = 550;
 
     AddObject(textGO);
 
 // Carregar titulo ------------------------------------------------------------------------------------------------
     GameObject *textGO1 = new GameObject();
-    Text* title = new Text(*textGO1, "recursos/font/GoWW.ttf", 224, BLENDED, "D O G", white);
+    Text* title = new Text(*textGO1, "recursos/font/Titulo.ttf", 224, BLENDED, "D O G", white);
     textGO1->AddComponent(title);
 
     title->SetCameraFollower(true);
     // Posição do texto
-    textGO1->box.x = 375;
-    textGO1->box.y = 250;
+    textGO1->box.x = 575;
+    textGO1->box.y = 225;
 
     AddObject(textGO1);
 
@@ -75,35 +76,42 @@ void TitleState::Update(float dt)
     // Se ESPAÇO for pressionado, empilha StageState
     if (input.KeyPress(SDLK_SPACE))
     {
-        std::vector<std::string> treeAssets = {
-            // background
-            "recursos/img/background/Tree/E.png",
-            //"recursos/img/background/Tree/D.png",
-            //"recursos/img/background/Tree/C.png",
-            "recursos/img/background/Tree/B.png",
-            //"recursos/img/background/Tree/A.png",
-            "recursos/img/background/Vinheta.png",
-            "recursos/map/Tree/tiles.png",
-            // sprites
-            "recursos/img/sprites/Player.png",
-            "recursos/img/sprites/Hand.png", 
-            "recursos/img/sprites/Thorn.png", 
-            "recursos/img/sprites/Chainsaw.png",
-            "recursos/img/sprites/DogHowling.png",
-            "recursos/img/sprites/DogShoot.png",
-            // sons
-            "recursos/audio/BGmusic/treeState.mp3",
-            "recursos/audio/Hunter/boing.mp3", 
-            "recursos/audio/DOG/explode.mp3",
-            "recursos/audio/Hunter/boing.mp3", 
-            "recursos/audio/DOG/explode.mp3",
-            "recursos/audio/Hunter/boing.mp3", 
-            "recursos/audio/DOG/explode.mp3",
-        };
+        // Reproduzir vídeo antes de carregar o jogo
+        Game::GetInstance().Push(
+            new VideoState("recursos/videos/output.uyvy", 1920, 1080, 60.0f, 
+                []() {
+                    std::vector<std::string> treeAssets = {
+                        // background
+                        "recursos/img/background/Tree/E.png",
+                        "recursos/img/background/Tree/B.png",
+                        "recursos/img/background/Vinheta.png",
+                        "recursos/map/Tree/tiles.png",
+                        // sprites
+                        "recursos/img/sprites/Player.png",
+                        "recursos/img/sprites/Hand.png", 
+                        "recursos/img/sprites/Thorn.png", 
+                        "recursos/img/sprites/Chainsaw.png",
+                        "recursos/img/sprites/DogHowling.png",
+                        "recursos/img/sprites/DogShoot.png",
+                        // sons
+                        "recursos/audio/BGmusic/treeState.mp3",
+                        "recursos/audio/Hunter/boing.mp3", 
+                        "recursos/audio/DOG/explode.mp3",
+                        "recursos/audio/Hunter/boing.mp3", 
+                        "recursos/audio/DOG/explode.mp3",
+                        "recursos/audio/Hunter/boing.mp3", 
+                        "recursos/audio/DOG/explode.mp3",
+                    };
 
-        GameData::state = 1;
-        GameData::playerHP = 100;
-        Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
+                    GameData::state = 1;
+                    GameData::playerHP = 100;
+                    return new LoadingState([]() {
+                        return new TreeState();
+                    }, treeAssets);
+                }
+            )
+        );
+        //Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
     }
 
     // FAzer o texto piscar ---------------------------------------

@@ -45,7 +45,7 @@ void EndState::LoadAssets()
         AddObject(A);
 
         GameObject *textGO1 = new GameObject();
-        Text *title = new Text(*textGO1, "recursos/font/neodgm.ttf", 48, BLENDED, "Credits:\n\nBryan G. Silva - designer\nKivia Fernanda - designer\nGustavo Rinaldi - programador\nLucas Almeida - programador\nEnzo Nogueira - musico\nTom Duarte - musico", white);
+        Text *title = new Text(*textGO1, "recursos/font/Titulo.ttf", 48, BLENDED, "Credits:\n\nBryan G. Silva - designer\nKivia Fernanda - designer\nGustavo Rinaldi - programador\nLucas Almeida - programador\nEnzo Nogueira - musico\nTom Duarte - musico", white);
         textGO1->AddComponent(title);
 
         title->SetCameraFollower(true);
@@ -61,7 +61,7 @@ void EndState::LoadAssets()
     {
         auto *bgObject = new GameObject();
         auto *bgRenderer = new SpriteRenderer(*bgObject);
-        bgRenderer->Open("recursos/img/End/Lose.jpg");
+        bgRenderer->Open("recursos/img/End/Derrota.png");
         bgRenderer->SetCameraFollower(true);
 
         bgObject->box.x = 0;
@@ -77,7 +77,7 @@ void EndState::LoadAssets()
 
     // Texto indicando para voltar ao início
     GameObject *textGO = new GameObject();
-    pressSpace = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, "PRESS SPACE TO START AGAIN", white);
+    pressSpace = new Text(*textGO, "recursos/font/Titulo.ttf.ttf", 24, BLENDED, "PRESS SPACE TO START AGAIN", white);
     textGO->AddComponent(pressSpace);
 
     pressSpace->SetCameraFollower(true);

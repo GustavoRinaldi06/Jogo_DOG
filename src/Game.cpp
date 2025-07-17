@@ -206,3 +206,8 @@ float Game::GetDeltaTime() const
 {
     return dt;
 }
+
+SDL_Window *Game::GetWindow() const
+{
+    return window;
+}

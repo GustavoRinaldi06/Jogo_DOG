@@ -16,11 +16,11 @@
                 5,
                 6
             ],
-            "scale": 0.125,
-            "selectedLayer": 2,
+            "scale": 0.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 3032,
-                "y": 244
+                "x": 2430,
+                "y": 946
             }
         },
         "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx#tree_tiles": {
@@ -30,11 +30,11 @@
             "expandedObjectLayers": [
                 2
             ],
-            "scale": 0.25,
+            "scale": 0.125,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 2108,
-                "y": 870
+                "x": 9072,
+                "y": 1568
             }
         },
         "tiles.tsx": {

@@ -16,9 +16,7 @@
 </data>
  </layer>
  <objectgroup id="5" name="Objetos">
-  <object id="4" name="Hand" type="Hand" gid="45" x="7059.85" y="1049.24" width="250" height="250"/>
-  <object id="3" name="Hand" type="Hand" gid="45" x="7862.88" y="1037.12" width="250" height="250"/>
-  <object id="23" name="Espinho" type="Espinho" x="6373.79" y="708.818" width="250" height="250"/>
+  <object id="23" name="Espinho" type="Espinho" x="8485.91" y="799.727" width="250" height="250"/>
   <object id="26" name="Chainsaw" type="Chainsaw" x="1219" y="771" width="250" height="250"/>
   <object id="27" name="Player" type="Player" x="453.667" y="685" width="260.667" height="286"/>
  </objectgroup>

@@ -23,7 +23,7 @@ void TitleState::LoadAssets()
     GameObject *titleGO = new GameObject();
 
     SpriteRenderer *spriter = new SpriteRenderer(*titleGO);
-    spriter->Open("recursos/img/Abertura.jpg"); 
+    spriter->Open("recursos/img/Menu.png"); 
     spriter->SetCameraFollower(true); // igual a imagem de fundo   
 
     titleGO->AddComponent(spriter);
@@ -32,25 +32,25 @@ void TitleState::LoadAssets()
 // Carregar texto de pressStart ------------------------------------------------------------------------------------
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
-    pressStart = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, "PRESS SPACE TO START !", white);
+    pressStart = new Text(*textGO, "recursos/font/fonteBase.ttf", 34, BLENDED, "PRESS SPACE TO START !", white);
     textGO->AddComponent(pressStart);
 
     pressStart->SetCameraFollower(true);
     // Posição do texto
-    textGO->box.x = 450;
-    textGO->box.y = 600;
+    textGO->box.x = 675;
+    textGO->box.y = 550;
 
     AddObject(textGO);
 
 // Carregar titulo ------------------------------------------------------------------------------------------------
     GameObject *textGO1 = new GameObject();
-    Text* title = new Text(*textGO1, "recursos/font/GoWW.ttf", 224, BLENDED, "D O G", white);
+    Text* title = new Text(*textGO1, "recursos/font/Titulo.ttf", 224, BLENDED, "D O G", white);
     textGO1->AddComponent(title);
 
     title->SetCameraFollower(true);
     // Posição do texto
-    textGO1->box.x = 375;
-    textGO1->box.y = 250;
+    textGO1->box.x = 575;
+    textGO1->box.y = 225;
 
     AddObject(textGO1);
 

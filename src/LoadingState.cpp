@@ -18,7 +18,7 @@ void LoadingState::LoadAssets()
     // Fundo de loading
     GameObject *bgGO = new GameObject();
     SpriteRenderer *bgSR = new SpriteRenderer(*bgGO);
-    bgSR->Open("recursos/img/Abertura.jpg");
+    bgSR->Open("recursos/img/Load.png");
     bgSR->SetCameraFollower(true);
     bgGO->AddComponent(bgSR);
     AddObject(bgGO);
@@ -26,8 +26,7 @@ void LoadingState::LoadAssets()
     // Texto de progresso
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
-    progressText = new Text(*textGO, "recursos/font/neodgm.ttf", 24,
-                            BLENDED, "Loading: 0%", white);
+    progressText = new Text(*textGO, "recursos/font/fonteBase.ttf", 28,BLENDED, "Loading: 0%", white);
     textGO->AddComponent(progressText);
     progressText->SetCameraFollower(true);
     textGO->box.x = 500;
@@ -38,8 +37,8 @@ void LoadingState::LoadAssets()
 void LoadingState::Start()
 {
     // Pré-carrega imagem de fundo e fonte do loading
-    Resources::GetImage("recursos/img/Abertura.jpg");
-    Resources::GetFont("recursos/font/neodgm.ttf", 24);
+    Resources::GetImage("recursos/img/Load.png");
+    Resources::GetFont("recursos/font/fonteBase.ttf", 24);
 
     LoadAssets(); // monta visual da tela de loading
 }

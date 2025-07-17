@@ -73,7 +73,7 @@ void AnimalState::LoadAssets()
     SDL_Color white = {255, 255, 255, 255};
     GameObject *textGO = new GameObject();
     std::string hpString = "HP: " + std::to_string(GameData::playerHP);
-    hpText = new Text(*textGO, "recursos/font/neodgm.ttf", 24, BLENDED, hpString, white);
+    hpText = new Text(*textGO, "recursos/font/Titulo.ttf", 24, BLENDED, hpString, white);
     textGO->AddComponent(hpText);
     hpText->SetCameraFollower(true);
 
@@ -85,7 +85,7 @@ void AnimalState::LoadAssets()
     // TExto de cooldown do cachorro --------------------------------------------------------------------------------------------
     GameObject *textGO1 = new GameObject();
     std::string dgCooldown = "DOG esta entre nos";
-    dogText = new Text(*textGO1, "recursos/font/neodgm.ttf", 24, BLENDED, dgCooldown, white);
+    dogText = new Text(*textGO1, "recursos/font/Titulo.ttf", 24, BLENDED, dgCooldown, white);
     textGO1->AddComponent(dogText);
 
     dogText->SetCameraFollower(true);

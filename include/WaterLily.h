@@ -14,5 +14,8 @@ public:
     
 private:
     Vec2 speed;
-    float gravity = 1000.0f; 
+    float gravity;
+    bool isOnGround;
+    bool applyGravity;
+    bool isFalling;  
 };

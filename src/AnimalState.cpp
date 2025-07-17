@@ -51,20 +51,6 @@ void AnimalState::LoadAssets()
 
     AddObject(leftlimit);
 
-    // Personagem ----------------------------------------------------------------------------------------------------------------
-    GameObject *playerGO = new GameObject();
-    playerGO->box.x = 500;
-    playerGO->box.y = 350;
-
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/sprites/Player.png"));
-    playerGO->AddComponent(new PlayerController(*playerGO));
-
-    Camera::GetInstance().Follow(playerGO);
-    AddObject(playerGO);
-
-    std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
-    std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
-
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/animalState.wav");
     backgroundMusic.Play();
@@ -329,6 +315,17 @@ void AnimalState::LoadFromTMX(std::string file)
 
 void AnimalState::CreateGameObject(const tmx::Object& object)
 {
+    if(object.getClass() == "Player")
+    {
+        GameObject* playerGO = ObjectFactory::CreatePlayerObject(object);
+        AddObject(playerGO);
+        std::cout << "Player object created at position: " << playerGO->box.x << ", " << playerGO->box.y << std::endl;
+        std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
+        std::cout << "playerGO->box.x = " << playerGO->box.x << "\n";
+        std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
+        return;
+    }
+    
     if(object.getClass() == "Collider")
     {
         GameObject* colliderGO = ObjectFactory::CreateColliderObject(object);

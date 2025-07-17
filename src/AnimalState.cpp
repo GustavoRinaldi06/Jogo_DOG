@@ -13,6 +13,7 @@
 #include "LoadingState.h"
 #include "WaterLily.h"
 #include "Text.h"
+#include "ObjectFactory.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -292,8 +293,8 @@ void AnimalState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet* tileSet = new TileSet(
-            249,
-            249,
+            250,
+            250,
             "recursos/map/Animal/tiles.png"
         );
         TileMap* tileMap = new TileMap(*go, tileSet, map);
@@ -305,7 +306,7 @@ void AnimalState::LoadFromTMX(std::string file)
         std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
 
         // gera colisão da camada 0 (chão)
-        tileMap->GenerateCollision(0, *this);
+        //tileMap->GenerateCollision(0, *this);
 
         const auto& layers = map.getLayers();
         for (const auto& layer : layers)
@@ -328,23 +329,19 @@ void AnimalState::LoadFromTMX(std::string file)
 
 void AnimalState::CreateGameObject(const tmx::Object& object)
 {
+    if(object.getClass() == "Collider")
+    {
+        GameObject* colliderGO = ObjectFactory::CreateColliderObject(object);
+        AddObject(colliderGO);
+        std::cout << "Collider object created at position: " << colliderGO->box.x << ", " << colliderGO->box.y << std::endl;
+        return;
+    }
+
     if(object.getName() == "WaterLily")
     {
-        GameObject* waterLilyGO = CreateWaterLilyObject(object);
+        GameObject* waterLilyGO = ObjectFactory::CreateWaterLilyObject(object);
         AddObject(waterLilyGO);
         std::cout << "WaterLily object created at position: " << waterLilyGO->box.x << ", " << waterLilyGO->box.y << std::endl;
     }
 }
 
-GameObject* AnimalState::CreateWaterLilyObject(const tmx::Object& object)
-{
-    GameObject* waterLilyGO = new GameObject();
-    waterLilyGO->box.x = object.getAABB().left;
-    waterLilyGO->box.y = 550;
-    waterLilyGO->box.w = object.getAABB().width;
-    waterLilyGO->box.h = object.getAABB().height;
-    
-    WaterLily* waterLilyObj = new WaterLily(*waterLilyGO);
-    waterLilyGO->AddComponent(waterLilyObj);
-    return waterLilyGO;
-}

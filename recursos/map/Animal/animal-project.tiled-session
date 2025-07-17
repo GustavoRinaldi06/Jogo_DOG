@@ -3,15 +3,45 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "mapfile.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Prelude/tiles.tsx": {
             "scaleInDock": 1
         },
+        "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx": {
+            "expandedObjectLayers": [
+                5,
+                6
+            ],
+            "scale": 0.125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3032,
+                "y": 244
+            }
+        },
+        "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx#tree_tiles": {
+            "scaleInDock": 1
+        },
+        "mapfile.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 2108,
+                "y": 870
+            }
+        },
         "tiles.tsx": {
             "scaleInDock": 1
+        },
+        "tileset.tsx": {
+            "scaleInDock": 0.33
         }
     },
     "last.imagePath": "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Animal",
@@ -21,9 +51,11 @@
     "map.tileWidth": 250,
     "map.width": 64,
     "openFiles": [
+        "mapfile.tmx"
     ],
     "project": "animal-project.tiled-project",
     "recentFiles": [
+        "mapfile.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

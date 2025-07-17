@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="5" tilewidth="250" tileheight="250" infinite="0" nextlayerid="4" nextobjectid="18">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="5" tilewidth="250" tileheight="250" infinite="0" nextlayerid="4" nextobjectid="22">
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Background" width="64" height="5">
   <data encoding="csv">
@@ -11,12 +11,14 @@
 </data>
  </layer>
  <objectgroup id="2" name="Objects">
-  <object id="7" name="WaterLily" type="WaterLily" x="5820" y="1010.67" width="121.333" height="20"/>
-  <object id="8" name="WaterLily" type="WaterLily" x="1063.76" y="982.848" width="121.333" height="20"/>
-  <object id="17" name="WaterLily" type="WaterLily" x="727.333" y="927.333" width="121.333" height="20"/>
+  <object id="8" name="WaterLily" type="WaterLily" x="6805.76" y="988.848" width="121.333" height="20"/>
+  <object id="18" name="WaterLily" type="WaterLily" x="6307.33" y="990.089" width="121.333" height="20"/>
+  <object id="19" name="Collider" type="Collider" x="6315.57" y="1040.91" width="106" height="19"/>
+  <object id="20" name="WaterLily" type="WaterLily" x="5813.33" y="990.089" width="121.333" height="20"/>
+  <object id="21" name="Collider" type="Collider" x="5821.57" y="1040.91" width="106" height="19"/>
  </objectgroup>
  <objectgroup id="3" name="Collider">
-  <object id="9" name="Collider" type="Collider" x="1072" y="1033.67" width="106" height="19"/>
+  <object id="9" name="Collider" type="Collider" x="6814" y="1039.67" width="106" height="19"/>
   <object id="10" name="Collider" type="Collider" x="10" y="1040" width="990" height="210"/>
   <object id="11" name="Collider" type="Collider" x="-57.5758" y="312.121" width="136.364" height="933.333"/>
   <object id="12" name="Collider" type="Collider" x="1250.67" y="1040" width="1247" height="210"/>

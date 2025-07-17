@@ -109,6 +109,7 @@ void TreeState::Update(float dt)
             "recursos/img/sprites/Chainsaw.png",
             "recursos/img/sprites/DogHowling.png",
             "recursos/img/sprites/DogShoot.png",
+            "recursos/img/sprites/WaterLily.png",
             // sons
             "recursos/audio/BGmusic/treeState.mp3",
             "recursos/audio/Hunter/boing.mp3", 

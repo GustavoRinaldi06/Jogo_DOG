@@ -8,7 +8,8 @@
 #include "Character.h"
 #include "PlayerController.h"
 #include "LoadingState.h"
-#include "VideoState.h"
+#include "Camera.h"
+#include "CutsceneIntroState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -30,34 +31,42 @@ void TitleState::LoadAssets()
     titleGO->AddComponent(spriter);
     AddObject(titleGO);
 
-// Carregar texto de pressStart ------------------------------------------------------------------------------------
-    SDL_Color white = {255, 255, 255, 255};
-    GameObject *textGO = new GameObject();
-    pressStart = new Text(*textGO, "recursos/font/fonteBase.ttf", 34, BLENDED, "PRESS SPACE TO START !", white);
-    textGO->AddComponent(pressStart);
-
-    pressStart->SetCameraFollower(true);
-    // Posição do texto
-    textGO->box.x = 675;
-    textGO->box.y = 550;
-
-    AddObject(textGO);
-
 // Carregar titulo ------------------------------------------------------------------------------------------------
+    SDL_Color white = {255, 255, 255, 255};
+
     GameObject *textGO1 = new GameObject();
     Text* title = new Text(*textGO1, "recursos/font/Titulo.ttf", 224, BLENDED, "D O G", white);
     textGO1->AddComponent(title);
 
     title->SetCameraFollower(true);
     // Posição do texto
-    textGO1->box.x = 575;
-    textGO1->box.y = 225;
+    textGO1->box.x = 520;
+    textGO1->box.y = 25;
 
     AddObject(textGO1);
 
 // Carregar musica -----------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/Tema.mp3");
     backgroundMusic.Play();
+
+// Botões -------------------------------------------------------------------------------------------=
+// Botão: Novo Jogo
+    newGameGO = new GameObject();
+    Text *newGameText = new Text(*newGameGO, "recursos/font/fonteBase.ttf", 48, BLENDED, "Novo Jogo", white);
+    newGameGO->AddComponent(newGameText);
+    newGameText->SetCameraFollower(true);
+    newGameGO->box.x = 750;
+    newGameGO->box.y = 350;
+    AddObject(newGameGO);
+
+// Botão: Sair
+    exitGO = new GameObject();
+    Text *exitText = new Text(*exitGO, "recursos/font/fonteBase.ttf", 48, BLENDED, "Sair", white);
+    exitGO->AddComponent(exitText);
+    exitText->SetCameraFollower(true);
+    exitGO->box.x = 825;
+    exitGO->box.y = 475;
+    AddObject(exitGO);
 }
 
 void TitleState::Update(float dt)
@@ -67,18 +76,23 @@ void TitleState::Update(float dt)
     InputManager &input = InputManager::GetInstance();
 
     // Ao clicar X na janela
-    if (input.QuitRequested() || input.KeyPress(SDLK_ESCAPE))
+    if (input.QuitRequested())
     {
         quitRequested = true;
         return;
     }
 
-    // Se ESPAÇO for pressionado, empilha StageState
-    if (input.KeyPress(SDLK_SPACE))
+
+    if (input.MousePress(SDL_BUTTON_LEFT))
     {
-        // Reproduzir vídeo antes de carregar o jogo
-        Game::GetInstance().Push(
-            new VideoState("recursos/videos/output.uyvy", 1920, 1080, 60.0f, 
+        int mouseX = input.GetMouseX();
+        int mouseY = input.GetMouseY();
+
+        if (newGameGO->box.Contains(mouseX, mouseY)) // Clica em novo jogo
+        {
+            // Novo Jogo clicado
+            Game::GetInstance().Push(
+            new CutsceneIntroState( 
                 []() {
                     std::vector<std::string> treeAssets = {
                         // background
@@ -111,23 +125,12 @@ void TitleState::Update(float dt)
                 }
             )
         );
-        //Game::GetInstance().Push(new LoadingState([](){ return new TreeState(); }, treeAssets));
-    }
+        }
 
-    // FAzer o texto piscar ---------------------------------------
-
-    if (!pressStart)
-        return;
-
-    static float timerBlink = 0.0f;
-    static bool visible = true;
-    timerBlink += Game::GetInstance().GetDeltaTime();
-    if (timerBlink >= 0.5f)
-    {
-        // alterna os valores e zera o contador de blink
-        visible = !visible;
-        timerBlink = 0.0f;
-        pressStart->SetText(visible ? "PRESS SPACE TO START" : ""); //Tira texto para piscar
+        if (exitGO->box.Contains(mouseX, mouseY)) // Clica em sair
+        {
+            quitRequested = true;
+        }
     }
 }
 

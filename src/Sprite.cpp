@@ -2,7 +2,8 @@
 #include "Game.h"
 #include "Resources.h"
 #include "Rect_Vec2.h"
-#include "Camera.h" 
+#include "Camera.h"
+#include <iostream>
 
 // Construtores
 Sprite::Sprite() : cameraFollower(false), texture(nullptr), width(0), height(0), frameCountW(1), frameCountH(1), currentFrame(0) {
@@ -182,7 +183,11 @@ void Sprite::Render(int x, int y, int w, int h)
 }
 
 void Sprite::SetAlpha(Uint8 alpha) {
-    if (!texture) return; 
+    if (!texture){
+        std::cout << "Sprite::SetAlpha called on a null texture" << std::endl;
+        return; 
+    } 
+    std::cout << "Alpha set to: " << static_cast<int>(alpha) << std::endl;
     SDL_SetTextureAlphaMod(texture, alpha);
 }
 

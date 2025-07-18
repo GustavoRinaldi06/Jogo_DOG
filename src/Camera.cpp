@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "InputManager.h"
+#include "GameData.h"
 #include "MathUtils.h"
 
 
@@ -27,19 +28,25 @@ void Camera::Update(float dt)
 {
     if (focus != nullptr)
     {
-        Vec2 focusPoint = focus->box.GetCenter();
-        // Ajusta a posição da câmera para seguir o foco
-        focusPoint.x -= 400; 
-        focusPoint.y -= 400;
+        if(GameData::state == 2){
+            pos.x = focus->box.GetCenter().x - 400;
+            pos.y = 175; // altura da camera
+        }
+        else{
+            Vec2 focusPoint = focus->box.GetCenter();
+            // Ajusta a posição da câmera para seguir o foco
+            focusPoint.x -= 400;
+            focusPoint.y -= 400;
 
-        pos.x = Math::SmoothDamp(pos.x, focusPoint.x, velocity.x, .15f, dt);
-        float newY = Math::SmoothDamp(pos.y, focusPoint.y, velocity.y, .25f, dt);
+            pos.x = Math::SmoothDamp(pos.x, focusPoint.x, velocity.x, .15f, dt);
+            float newY = Math::SmoothDamp(pos.y, focusPoint.y, velocity.y, .25f, dt);
 
-        // só atualiza a posição se não ultrapassar o limite inferior
-        if (newY < minY)
-            pos.y = newY;
-        else
-            pos.y = minY;
+            // só atualiza a posição se não ultrapassar o limite inferior
+            if (newY < minY)
+                pos.y = newY;
+            else
+                pos.y = minY;
+        }
     }
 
     else

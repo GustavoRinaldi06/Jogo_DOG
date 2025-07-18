@@ -21,3 +21,8 @@ void Timer::Set(float dt)
 {
     time = dt;
 }
+
+bool Timer::Between(float min, float max) const
+{
+    return time >= min && time <= max;
+}

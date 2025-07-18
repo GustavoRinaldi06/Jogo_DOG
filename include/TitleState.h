@@ -21,7 +21,9 @@ public:
     void Pause() override {}
     void Resume() override {}
 
-    Text *pressStart = nullptr; // (DEBUG) para poder acessar e alterar com maior facilidade
+    GameObject *newGameGO;
+    GameObject *exitGO;
+
     Music backgroundMusic;
 };
 

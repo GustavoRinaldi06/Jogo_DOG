@@ -44,7 +44,9 @@ void SpriteRenderer::Update(float dt) {}
 // Renderiza o sprite na posição do GameObject
 void SpriteRenderer::Render()
 {
-    sprite.Render(associated.box.x, associated.box.y, associated.angleDeg);
+    if(active){
+        sprite.Render(associated.box.x, associated.box.y, associated.angleDeg);
+    }
 }
 
 // Controlar se o sprite deve ignorar o deslocamento da câmera
@@ -75,6 +77,12 @@ void SpriteRenderer::SetScale(float scaleX, float scaleY)
     associated.box.SetCenter(oldCenter); // mantém o centro
 }
 
+Vec2 SpriteRenderer::GetScale()  const
+{
+    return sprite.GetScale();
+}
+
+
 void SpriteRenderer::SetAlpha(Uint8 alpha) {
     sprite.SetAlpha(alpha);
 }
@@ -86,4 +94,9 @@ void SpriteRenderer::SetRotation(float angle) {
 
 void SpriteRenderer::SetFlip(SDL_RendererFlip newFlip) {
     sprite.SetFlip(newFlip);
+}
+
+void SpriteRenderer::setActive(bool isActive)
+{
+    active = isActive;
 }

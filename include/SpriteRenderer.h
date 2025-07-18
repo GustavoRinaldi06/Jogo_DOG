@@ -38,6 +38,8 @@ public:
     // Trabalho 5
     void SetScale(float x, float y);
 
+    Vec2 GetScale() const;
+
     // Define a transparência do sprite
     void SetAlpha(Uint8 alpha);
 
@@ -47,8 +49,11 @@ public:
     // Define o flip do sprite
     void SetFlip(SDL_RendererFlip newFlip);
 
+    void setActive(bool isActive); // Ativa/desativa o componente
+
 private:
     Sprite sprite;
+    bool active = true; // Indica se o componente está ativo
 };
 
 #endif // SPRITERENDERER_H

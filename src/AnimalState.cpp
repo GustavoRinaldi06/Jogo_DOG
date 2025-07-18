@@ -14,6 +14,7 @@
 #include "WaterLily.h"
 #include "Text.h"
 #include "ObjectFactory.h"
+#include "CutsceneGhostHunterState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -99,16 +100,20 @@ void AnimalState::Update(float dt)
     // PARA TESTES ==================================================================================================
     if (input.QuitRequested() || input.KeyPress('r'))
     {
-        std::vector<std::string> smokeAssets = {
-            "recursos/img/Smoke/C.png",
-            "recursos/img/Smoke/B.png",
-            "recursos/img/Smoke/A.png",
-            "recursos/img/Smoke/tile.png",
-            "recursos/img/sprites/Player.png"};
-
         popRequested = true;
-        Game::GetInstance().Push(new LoadingState([]()
-                                                  { return new SmokeState(); }, smokeAssets));
+        Game::GetInstance().Push(
+            new CutsceneGhostHunterState(
+                []()
+                {
+                    std::vector<std::string> smokeAssets = {
+                        "recursos/img/Smoke/C.png",
+                        "recursos/img/Smoke/B.png",
+                        "recursos/img/Smoke/A.png",
+                        "recursos/img/Smoke/tile.png",
+                        "recursos/img/sprites/Player.png"};
+                    return new LoadingState([]()
+                                            { return new SmokeState(); }, smokeAssets);
+                }));
     }
 
     if (Character::player && Character::player->IsInDangerArea())

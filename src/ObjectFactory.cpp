@@ -10,6 +10,9 @@
 #include "WaterLily.h"
 #include "TreeBoss.h"
 #include "Gate.h"
+#include "SpriteRenderer.h"
+#include <unordered_map>
+#include "GameData.h"
 #include "DeerEating.h"
 #include "Deer.h"
 #include <iostream>
@@ -155,6 +158,7 @@ namespace ObjectFactory
     }
 
     GameObject *CreateGateObject(const tmx::Object &object)
+
     {
         GameObject *go = new GameObject();
         go->box.x = object.getPosition().x;
@@ -165,6 +169,23 @@ namespace ObjectFactory
         go->AddComponent(new Gate(*go));
 
         return go;
+    }
+
+    GameObject *CreateSceneImageObject(const ::std::string &file)
+    {
+        GameObject *gameObject = new GameObject();
+
+        SpriteRenderer *spriter = new SpriteRenderer(*gameObject);
+        spriter->Open(file);
+        spriter->SetCameraFollower(true);
+        spriter->setActive(false);
+        spriter->SetScale(GameData::windowWidth / gameObject->box.w, GameData::windowHeight / gameObject->box.h); // Ajuste de escala, se necessário
+
+        gameObject->box.x = 0;
+        gameObject->box.y = 0;
+
+        gameObject->AddComponent(spriter);
+        return gameObject;
     }
 
     GameObject *CreateDeerEatingObject(const tmx::Object &object)

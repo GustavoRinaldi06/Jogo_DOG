@@ -44,14 +44,15 @@ void EndState::LoadAssets()
         A->AddComponent(new Parallax(*A, 0.6f));
         AddObject(A);
 
+        // Creditos -------------------------------------
         GameObject *textGO1 = new GameObject();
-        Text *title = new Text(*textGO1, "recursos/font/Titulo.ttf", 48, BLENDED, "Credits:\n\nBryan G. Silva - designer\nKivia Fernanda - designer\nGustavo Rinaldi - programador\nLucas Almeida - programador\nEnzo Nogueira - musico\nTom Duarte - musico", white);
+        Text *title = new Text(*textGO1, "recursos/font/fonteBase.ttf", 48, BLENDED, "Credits:\n\nBryan G. Silva - designer\nKivia Fernanda - designer\nGustavo Rinaldi - programador\nLucas Almeida - programador\nEnzo Nogueira - musico\nTom Duarte - musico", white);
         textGO1->AddComponent(title);
 
         title->SetCameraFollower(true);
         // Posição do texto
         textGO1->box.x = 330;
-        textGO1->box.y = 150;
+        textGO1->box.y = 100;
 
         AddObject(textGO1);
 
@@ -75,17 +76,23 @@ void EndState::LoadAssets()
 
     backgroundMusic.Play(); // musica de vitória ou derrota
 
-    // Texto indicando para voltar ao início
-    GameObject *textGO = new GameObject();
-    pressSpace = new Text(*textGO, "recursos/font/Titulo.ttf.ttf", 24, BLENDED, "PRESS SPACE TO START AGAIN", white);
-    textGO->AddComponent(pressSpace);
+    // Botão: Novo Jogo
+    menuGO = new GameObject();
+    Text *newGameText = new Text(*menuGO, "recursos/font/fonteBase.ttf", 38, BLENDED, "Novo Jogo", white);
+    menuGO->AddComponent(newGameText);
+    newGameText->SetCameraFollower(true);
+    menuGO->box.x = 500;
+    menuGO->box.y = 500;
+    AddObject(menuGO);
 
-    pressSpace->SetCameraFollower(true);
-    // Posição do texto
-    textGO->box.x = 430;
-    textGO->box.y = 600;
-
-    AddObject(textGO);
+    // Botão: Sair
+    exitGO = new GameObject();
+    Text *exitText = new Text(*exitGO, "recursos/font/fonteBase.ttf", 38, BLENDED, "Sair", white);
+    exitGO->AddComponent(exitText);
+    exitText->SetCameraFollower(true);
+    exitGO->box.x = 550;
+    exitGO->box.y = 570;
+    AddObject(exitGO);
 }
 
 void EndState::Update(float dt)
@@ -98,36 +105,30 @@ void EndState::Update(float dt)
     }
     Camera::GetInstance().Move(100 * dt, 0);
 
-    // FAzer o texto piscar ---------------------------------------
-
-    if (!pressSpace)
-        return;
-
-    static float timerBlink = 0.0f;
-    static bool visible = true;
-    timerBlink += Game::GetInstance().GetDeltaTime();
-    if (timerBlink >= 0.5f)
-    {
-        // alterna os valores e zera o contador de blink
-        visible = !visible;
-        timerBlink = 0.0f;
-        pressSpace->SetText(visible ? "PRESS SPACE TO START AGAIN" : ""); // Tira texto para piscar
-    }
-
     InputManager &input = InputManager::GetInstance();
 
-    // Se apertar ESC, sai do jogo
-    if (input.QuitRequested() || input.KeyPress(SDLK_ESCAPE))
+    // Ao clicar X na janela
+    if (input.QuitRequested())
     {
         quitRequested = true;
         return;
     }
 
-    // Se apertar ESPAÇO, volta ao TitleState
-    if (input.KeyPress(SDLK_SPACE))
+    if (input.MousePress(SDL_BUTTON_LEFT))
     {
-        popRequested = true;
-        return;
+        int mouseX = input.GetMouseX();
+        int mouseY = input.GetMouseY();
+
+        if (menuGO->box.Contains(mouseX, mouseY))
+        {
+            popRequested = true;
+            return;
+        }
+        if (exitGO->box.Contains(mouseX, mouseY))
+        {
+            quitRequested = true;
+            return;
+        }
     }
 }
 

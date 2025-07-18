@@ -1,5 +1,6 @@
 #include "Resources.h"
 #include "Game.h"
+#include <iostream>
 
 // Definição das variáveis estáticas da classe Resources
 std::unordered_map<std::string, SDL_Texture *> Resources::imageTable;
@@ -14,6 +15,7 @@ SDL_Texture *Resources::GetImage(const std::string &file)
     auto it = imageTable.find(file);
     if (it != imageTable.end()) // Caso encontre
     {
+        std::cout << "GetImage - Imagem já carregada: " << file << std::endl;
         return it->second; // Já carregada
     }
 
@@ -23,7 +25,7 @@ SDL_Texture *Resources::GetImage(const std::string &file)
         SDL_Log("GetImage - Erro ao carregar imagem '%s': %s", file.c_str(), SDL_GetError());
         return nullptr;
     }
-
+    std::cout << "GetImage - Imagem carregada: " << file << std::endl;
     imageTable[file] = texture;
     return texture;
 }

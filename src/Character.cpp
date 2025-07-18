@@ -27,7 +27,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
         player = this;
     }
 
-    auto renderer = new SpriteRenderer(associated, spritePath, 8, 7);
+    auto renderer = new SpriteRenderer(associated, spritePath, 8, 8);
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
@@ -38,7 +38,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     // Sons do caçador
     hitSound = Sound("recursos/audio/Hunter/Dano.wav");    // Levou dano
     deathSound = Sound("recursos/audio/Hunter/Death.wav"); // Morreu
-    jumpSound = Sound("recursos/audio/Hunter/boing.mp3");  // Pula
+    // jumpSound = Sound("recursos/audio/Hunter/Pulo.wav");     // Pula
 
     fallSound = Sound("recursos/audio/Hunter/Caindo.wav");      // Cai do mapa
     drownSound = Sound("recursos/audio/Hunter/Afogamento.wav"); // Cai do mapa 2, se afoga
@@ -51,10 +51,13 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 
     // Cria as animações
     auto animator = new Animator(associated);
-    animator->AddAnimation("idle", Animation(16, 16, 0.5f));
     animator->AddAnimation("walking", Animation(0, 4, 0.2f));
-    animator->AddAnimation("jump", Animation(40, 47, 0.2f));
+    animator->AddAnimation("run", Animation(8, 12, 0.15f));
+    animator->AddAnimation("crouch", Animation(16, 20, 0.3f));
+    animator->AddAnimation("damage", Animation(24, 27, 0.3f));
     animator->AddAnimation("dead", Animation(32, 36, 0.3f));
+    animator->AddAnimation("jump", Animation(40, 47, 0.2f));
+    animator->AddAnimation("idle", Animation(56, 58, 0.3f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
@@ -80,7 +83,7 @@ void Character::Update(float dt)
     GameData::playerHP = hp; // Atualiza sempre o gamedata
 
     // Ao morrer -------------------------------------------------------------------------------
-    if (associated.box.y > 1500)
+    if ((associated.box.y > 1500 && GameData::state == 1) || (associated.box.y > 970 && GameData::state == 2))
     {
         if (!deathAnimTriggered)
         {
@@ -250,7 +253,7 @@ void Character::Update(float dt)
         }
         else if (fabs(speed.x) > 1.0f)
         {
-            animator->SetAnimation("walking");
+            animator->SetAnimation("run");
         }
         else
         {
@@ -506,4 +509,9 @@ int Character::GetHP() const
 int Character::GetCool() const
 {
     return static_cast<int>(dogTimer.Get());
+}
+
+Vec2 Character::GetPosition() const
+{
+    return associated.box.GetCenter();
 }

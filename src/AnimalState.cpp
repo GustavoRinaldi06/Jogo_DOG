@@ -279,7 +279,7 @@ void AnimalState::LoadForeground()
     A->box.w = 2048;
     A->box.h = 512;
     A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/A.png"));
-    A->AddComponent(new Parallax(*A, 0.1f, 0.1f));
+    A->AddComponent(new Parallax(*A, 0.2f, 0.2f));
     AddObject(A); // Será renderizado POR CIMA dos objetos
 }
 
@@ -347,16 +347,16 @@ void AnimalState::CreateGameObject(const tmx::Object &object)
         return;
     }
 
+    if (object.getName() == "Deer")
+    {
+        GameObject *deerEatingGO = ObjectFactory::CreateDeerObject(object);
+        AddObject(deerEatingGO);
+    }
+
     if (object.getName() == "WaterLily")
     {
         GameObject *waterLilyGO = ObjectFactory::CreateWaterLilyObject(object);
         AddObject(waterLilyGO);
         std::cout << "WaterLily object created at position: " << waterLilyGO->box.x << ", " << waterLilyGO->box.y << std::endl;
-    }
-
-    if (object.getName() == "Deer")
-    {
-        GameObject *deerEatingGO = ObjectFactory::CreateDeerObject(object);
-        AddObject(deerEatingGO);
     }
 }

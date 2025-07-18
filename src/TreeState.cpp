@@ -213,14 +213,14 @@ void TreeState::Update(float dt)
         }
     }
 
-    // Checagem de fim Derrota
-/*     if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
+    //Checagem de fim Derrota
+    if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
     {
         GameData::playerVictory = false;
         popRequested = true;
         Game::GetInstance().Push(new EndState());
         return;
-    } */
+    } 
 }
 
 void TreeState::Render()

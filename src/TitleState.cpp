@@ -85,8 +85,8 @@ void TitleState::Update(float dt)
 
     if (input.MousePress(SDL_BUTTON_LEFT))
     {
-        int mouseX = input.GetMouseX() + Camera::GetInstance().GetPosition().x;
-        int mouseY = input.GetMouseY() + Camera::GetInstance().GetPosition().y;
+        int mouseX = input.GetMouseX();
+        int mouseY = input.GetMouseY();
 
         if (newGameGO->box.Contains(mouseX, mouseY)) // Clica em novo jogo
         {

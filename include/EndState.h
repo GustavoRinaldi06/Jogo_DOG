@@ -26,7 +26,9 @@ public:
 
 private:
     Music backgroundMusic;
-    Text *pressSpace = nullptr;
+
+    GameObject *menuGO;
+    GameObject *exitGO;
 
     Timer exitTime;
 };

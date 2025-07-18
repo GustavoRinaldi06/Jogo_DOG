@@ -19,4 +19,10 @@ namespace ObjectFactory
   GameObject* CreatePlayerObject(const tmx::Object& object);
 
   GameObject* CreateWaterLilyObject(const tmx::Object& object);
+
+  GameObject* CreateTreeObject(const tmx::Object& object);
+
+  GameObject* CreateTreeBossObject(const tmx::Object& object);
+
+  GameObject* CreateGateObject(const tmx::Object& object);
 }

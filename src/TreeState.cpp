@@ -399,4 +399,12 @@ void TreeState::CreateGameObject(const tmx::Object& object)
         std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
         return;
     }
+    
+    if(object.getName() == "Gate")
+    {
+        GameObject* gateGO = ObjectFactory::CreateGateObject(object);
+        AddObject(gateGO);
+        std::cout << "Gate object created at position: " << gateGO->box.x << ", " << gateGO->box.y << std::endl;
+        return;
+    }
 }

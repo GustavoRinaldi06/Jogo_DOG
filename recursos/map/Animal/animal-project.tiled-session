@@ -13,28 +13,28 @@
         },
         "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx": {
             "expandedObjectLayers": [
-                5,
-                6
+                6,
+                5
             ],
-            "scale": 0.5,
-            "selectedLayer": 1,
+            "scale": 0.125,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 2430,
-                "y": 946
+                "x": 7792,
+                "y": -128
             }
         },
         "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx#tree_tiles": {
-            "scaleInDock": 1
+            "scaleInDock": 0.25
         },
         "mapfile.tmx": {
             "expandedObjectLayers": [
                 2
             ],
-            "scale": 0.125,
+            "scale": 0.33,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 9072,
-                "y": 1568
+                "x": -106.060606060606,
+                "y": 515.1515151515152
             }
         },
         "tiles.tsx": {

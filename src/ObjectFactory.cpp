@@ -134,8 +134,6 @@ namespace ObjectFactory
         GameObject *waterLilyGO = new GameObject();
         waterLilyGO->box.x = object.getAABB().left;
         waterLilyGO->box.y = object.getAABB().top;
-        waterLilyGO->box.w = object.getAABB().width;
-        waterLilyGO->box.h = object.getAABB().height;
 
         WaterLily *waterLilyObj = new WaterLily(*waterLilyGO);
         waterLilyGO->AddComponent(waterLilyObj);

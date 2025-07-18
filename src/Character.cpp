@@ -198,7 +198,7 @@ void Character::Update(float dt)
                 GameObject *dogGO = new GameObject();
                 dogGO->box.x = shooterCenter.x;
                 dogGO->box.y = shooterCenter.y - 150;
-                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/sprites/DogShoot.png", "recursos/audio/DOG/LOBOteste.mp3", "recursos/audio/DOG/explode.mp3")); // Alterar para o cachorro
+                dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/sprites/DogShoot.png", "recursos/audio/DOG/Tiro.wav", "recursos/audio/DOG/End.wav")); // Alterar para o cachorro
 
                 Game::GetInstance().GetCurrentState().AddObject(dogGO);
 
@@ -223,7 +223,7 @@ void Character::Update(float dt)
                 dogGO1->box.x = shooterCenter.x + 70;
             }
             dogGO1->box.y = shooterCenter.y - 120;
-            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/sprites/DogHowling.png", "recursos/audio/DOG/LOBOteste.mp3")); // Alterar para o cachorro
+            dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/sprites/DogHowling.png", "recursos/audio/DOG/Latido.wav")); // Alterar para o cachorro
 
             Game::GetInstance().GetCurrentState().AddObject(dogGO1);
 

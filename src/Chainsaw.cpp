@@ -34,6 +34,8 @@ Chainsaw::Chainsaw(
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
+    Damage = Sound("C:/Users/Gustavo Rinaldi/Desktop/UnB/C++/Jogo_DOG/recursos/audio/Enemy/CS.wav");
+    Spawn = Sound("C:/Users/Gustavo Rinaldi/Desktop/UnB/C++/Jogo_DOG/recursos/audio/Enemy/Off.wav");
 
     // Estado inicial: invisível e inativo
     currentState = "hidden";
@@ -58,7 +60,6 @@ void Chainsaw::Update(float dt)
             spriteRenderer->SetAlpha(255);  // Torna visível
             animator->SetAnimation("appear");
             currentState = "appearing";
-            Spawn.Play(1);
             stateTimer.Restart();
         }
     }
@@ -120,7 +121,11 @@ int Chainsaw::GetDamage() const
 
 void Chainsaw::NotifyCollision(GameObject& other)
 {
-    Collider* otherCollider = (Collider*)other.GetComponent("Collider");
+    if (other.GetComponent("Dog") || other.GetComponent("Bullet"))
+    {
+        Spawn.Play(1);
+    }
+        Collider *otherCollider = (Collider *)other.GetComponent("Collider");
     if (otherCollider && otherCollider->tag == "ground") {
         isOnGround = true;
         speed.y = 0;  // Para o movimento vertical
@@ -130,7 +135,7 @@ void Chainsaw::NotifyCollision(GameObject& other)
         box.y = other.box.y - box.h;
     }
 
-    if (active) {
+    if (active && other.GetComponent("Character")) {
         Damage.Play(1);
         // Não aumenta dano infinitamente
         damage = std::min(damage + 1, originalDamage + 5); // Limite máximo

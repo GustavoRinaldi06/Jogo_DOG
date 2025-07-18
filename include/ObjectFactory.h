@@ -14,6 +14,8 @@ namespace ObjectFactory
 
   GameObject *CreateFallingBranchObject(const tmx::Object &object);
 
+  GameObject *CreateFallingBranchObject(float x, float y);
+
   GameObject *CreateColliderObject(const tmx::Object &object);
 
   GameObject *CreatePlayerObject(const tmx::Object &object);

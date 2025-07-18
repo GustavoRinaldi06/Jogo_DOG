@@ -75,6 +75,18 @@ namespace ObjectFactory
         return branchGO;
     }
 
+    GameObject *CreateFallingBranchObject(float x, float y)
+    {
+        GameObject *branchGO = new GameObject();
+        branchGO->box.x = x;
+        branchGO->box.y = y;
+
+        FallingBranch *fallingBranch = new FallingBranch(*branchGO, 100.0f, 10.0f);
+        branchGO->AddComponent(fallingBranch);
+        branchGO->AddComponent(new Collider(*branchGO));
+        return branchGO;
+    }
+
     GameObject *CreateColliderObject(const tmx::Object &object)
     {
         GameObject *obj = new GameObject();

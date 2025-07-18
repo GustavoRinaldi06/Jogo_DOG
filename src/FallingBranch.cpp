@@ -16,7 +16,7 @@ FallingBranch::FallingBranch(GameObject &associated,
     spriteRenderer = renderer;
 
     animator = new Animator(associated);
-    animator->AddAnimation("idle", Animation(0, 7, 0.5f));
+    animator->AddAnimation("idle", Animation(3, 5, 0.5f));
     associated.AddComponent(animator);
 
     // Collider para trigger de início de queda

@@ -25,7 +25,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
         player = this;
     }
 
-    auto renderer = new SpriteRenderer(associated, spritePath, 8, 7);
+    auto renderer = new SpriteRenderer(associated, spritePath, 8, 8);
     renderer->SetCameraFollower(false);
     associated.AddComponent(renderer);
 
@@ -49,10 +49,13 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 
     // Cria as animações
     auto animator = new Animator(associated);
-    animator->AddAnimation("idle", Animation(16, 16, 0.5f));
     animator->AddAnimation("walking", Animation(0, 4, 0.2f));
-    animator->AddAnimation("jump", Animation(40, 47, 0.2f));
+    animator->AddAnimation("run", Animation(8, 12, 0.15f));
+    animator->AddAnimation("crouch", Animation(16, 20, 0.3f));
+    animator->AddAnimation("damage", Animation(24, 27, 0.3f));
     animator->AddAnimation("dead", Animation(32, 36, 0.3f));
+    animator->AddAnimation("jump", Animation(40, 47, 0.2f));
+    animator->AddAnimation("idle", Animation(56, 58, 0.3f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
@@ -233,16 +236,16 @@ void Character::Update(float dt)
 
     // Atualiza animação de acordo com a movimentação
     if (animator) {
-    if (!isOnGround) {
-        animator->SetAnimation("jump");
+        if (!isOnGround) {
+            animator->SetAnimation("jump");
+        }
+        else if (fabs(speed.x) > 1.0f) {
+            animator->SetAnimation("run");
+        }
+        else {
+            animator->SetAnimation("idle");
+        }
     }
-    else if (fabs(speed.x) > 1.0f) {
-        animator->SetAnimation("walking");
-    }
-    else {
-        animator->SetAnimation("idle");
-    }
-}
 
     // Decide a direção que vai ficar
     if (speed.x < -0.1f)

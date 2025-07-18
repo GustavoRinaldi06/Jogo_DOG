@@ -40,7 +40,7 @@ void AnimalState::LoadAssets()
     LoadFromTMX("recursos/map/Animal/mapfile.tmx");
 
     // Carrega o foreground
-    LoadForeground();
+    // LoadForeground();
 
     // Cria limite de mapa esquerda ------------------------------------------
     GameObject *leftlimit = new GameObject();

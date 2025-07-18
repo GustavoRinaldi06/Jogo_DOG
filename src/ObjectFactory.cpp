@@ -16,6 +16,7 @@
 #include "DeerEating.h"
 #include "Deer.h"
 #include <iostream>
+#include "AnimalState.h"
 
 namespace ObjectFactory
 {

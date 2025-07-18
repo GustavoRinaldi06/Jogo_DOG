@@ -90,20 +90,7 @@ void AnimalState::Update(float dt)
     // PARA TESTES ==================================================================================================
     if (input.QuitRequested() || input.KeyPress('r'))
     {
-        popRequested = true;
-        Game::GetInstance().Push(
-            new CutsceneGhostHunterState(
-                []()
-                {
-                    std::vector<std::string> smokeAssets = {
-                        "recursos/img/Smoke/resized/C.png",
-                        "recursos/img/Smoke/resized/B.png",
-                        "recursos/img/Smoke/resized/A.png",
-                        "recursos/img/Smoke/tile.png",
-                        "recursos/img/sprites/Player.png"};
-                    return new LoadingState([]()
-                                            { return new SmokeState(); }, smokeAssets);
-                }));
+        NextState();
     }
 
     if (Character::player && Character::player->IsInDangerArea())
@@ -121,9 +108,15 @@ void AnimalState::Update(float dt)
         dangerTimer.Restart();
     }
 
-    if(Character::player->GetPosition().x > 2500){
+    if (Character::player->GetPosition().x > 2500)
+    {
         Camera::GetInstance().Unfollow();
-        Camera::GetInstance().Move(220.0f *dt, 0);
+        Camera::GetInstance().Move(220.0f * dt, 0);
+    }
+
+    if (Character::player->GetPosition().x > 15000)
+    {
+        NextState();
     }
 
     // Atualiza todos os GameObjects
@@ -368,4 +361,23 @@ void AnimalState::CreateGameObject(const tmx::Object &object)
         AddObject(waterLilyGO);
         std::cout << "WaterLily object created at position: " << waterLilyGO->box.x << ", " << waterLilyGO->box.y << std::endl;
     }
+}
+
+void AnimalState::NextState()
+{
+    GameData::state = 1;
+    popRequested = true;
+    Game::GetInstance().Push(
+        new CutsceneGhostHunterState(
+            []()
+            {
+                std::vector<std::string> smokeAssets = {
+                    "recursos/img/Smoke/resized/C.png",
+                    "recursos/img/Smoke/resized/B.png",
+                    "recursos/img/Smoke/resized/A.png",
+                    "recursos/img/Smoke/tile.png",
+                    "recursos/img/sprites/Player.png"};
+                return new LoadingState([]()
+                                        { return new SmokeState(); }, smokeAssets);
+            }));
 }

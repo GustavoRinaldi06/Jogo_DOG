@@ -16,7 +16,7 @@
   <object id="19" name="Collider" type="Collider" x="6307.57" y="803.577" width="106" height="19"/>
   <object id="20" name="WaterLily" type="WaterLily" x="5805.33" y="752.756" width="121.333" height="20"/>
   <object id="21" name="Collider" type="Collider" x="5813.57" y="803.577" width="106" height="19"/>
-  <object id="22" name="Player" type="Player" x="2404.88" y="486.667" width="112" height="324"/>
+  <object id="22" name="Player" type="Player" x="1838.82" y="155.758" width="112" height="324"/>
   <object id="23" name="WaterLily" type="WaterLily" x="10052.5" y="759.469" width="121.333" height="20"/>
   <object id="24" name="WaterLily" type="WaterLily" x="9554.12" y="760.71" width="121.333" height="20"/>
   <object id="25" name="Collider" type="Collider" x="9562.36" y="811.531" width="106" height="19"/>

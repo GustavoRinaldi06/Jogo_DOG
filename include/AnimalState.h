@@ -36,4 +36,6 @@ private:
     Timer dangerTimer;
     bool deerSpawned = false;
     bool dangerActive = false;
+
+    void NextState();
 };

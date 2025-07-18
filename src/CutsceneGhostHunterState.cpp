@@ -60,120 +60,144 @@ void CutsceneGhostHunterState::Update(float dt)
     }
 
     timer.Update(dt);
-    if (timer.Between(0.f, 5.5f) && scenes[0] == false)
+    if (timer.Between(0.f, 4.5f) && scenes[0] == false)
     {
         scenes[0] = true;
         sounds.at("noise")->Play(1); // Toca o som de ruído
         ShowImage("1");
     }
-    if (timer.Between(5.5f, 7.5f) && scenes[1] == false)
+    if (timer.Between(4.5f, 6.5f) && scenes[1] == false)
     {
         HideImage("1");
         ShowImage("2");
         scenes[1] = true;
     }
-    if (timer.Between(7.5f, 9.5f) && scenes[2] == false)
+    if (timer.Between(6.5f, 8.5f) && scenes[2] == false)
     {
         HideImage("2");
         ShowImage("3");
         scenes[2] = true;
     }
-    if (timer.Between(9.5f, 11.5f) && scenes[3] == false)
+    if (timer.Between(8.5f, 10.5f) && scenes[3] == false)
     {
         HideImage("3");
         ShowImage("4");
         scenes[3] = true;
     }
-    if (timer.Between(11.5f, 13.5f) && scenes[4] == false)
+    if (timer.Between(10.5f, 12.5f) && scenes[4] == false)
     {
         HideImage("4");
         ShowImage("5");
         scenes[4] = true;
     }
-    if (timer.Between(13.5f, 15.5f) && scenes[5] == false)
+    if (timer.Between(12.5f, 14.5f) && scenes[5] == false)
     {
         HideImage("5");
         ShowImage("6");
         scenes[5] = true;
     }
-    if (timer.Between(15.5f, 17.5f) && scenes[6] == false)
+    if (timer.Between(14.5f, 16.5f) && scenes[6] == false)
     {
         HideImage("6");
         ShowImage("7");
         scenes[6] = true;
     }
-    if (timer.Between(17.5f, 19.5f) && scenes[7] == false)
+    if (timer.Between(16.5f, 18.5f) && scenes[7] == false)
     {
         HideImage("7");
         ShowImage("8");
         scenes[7] = true;
     }
-    if (timer.Between(19.5f, 23.5f) && scenes[8] == false)
+    if (timer.Between(18.5f, 20.5f) && scenes[8] == false)
     {
         HideImage("8");
         ShowImage("9");
         scenes[8] = true;
     }
-    if (timer.Between(23.5f, 25.5f) && scenes[9] == false)
+    if (timer.Between(20.5f, 21.5f) && scenes[9] == false)
     {
         HideImage("9");
-        ShowImage("10");
+        ShowImage("8");
         scenes[9] = true;
     }
-    if (timer.Between(25.5f, 27.5f) && scenes[10] == false)
+    if (timer.Between(21.5f, 23.5f) && scenes[10] == false)
     {
-        HideImage("10");
-        ShowImage("11");
+        HideImage("8");
+        ShowImage("10");
         scenes[10] = true;
     }
-    if (timer.Between(27.5f, 29.5f) && scenes[11] == false)
+    if (timer.Between(23.5f, 25.5f) && scenes[11] == false)
+    {
+        HideImage("10");
+        ShowImage("8");
+        scenes[11] = true;
+    }
+    if (timer.Between(25.5f, 27.5f) && scenes[12] == false)
+    {
+        HideImage("8");
+        ShowImage("9");
+        scenes[12] = true;
+    }
+    if (timer.Between(27.5f, 28.5f) && scenes[13] == false)
+    {
+        HideImage("9");
+        ShowImage("11");
+        scenes[13] = true;
+    }
+    if (timer.Between(28.5f, 29.5f) && scenes[14] == false)
     {
         HideImage("11");
         ShowImage("1");
         sounds.at("noise")->Stop();
         sounds.at("shot")->Play(1);
         sounds.at("heartbeat")->Play(10, 10000);
-        scenes[11] = true;
+        scenes[14] = true;
     }
-    if (timer.Between(29.5f, 34.f) && scenes[12] == false)
+    if (timer.Between(29.5f, 34.f) && scenes[15] == false)
     {
         sounds.at("respiration")->Play(10, 10000);
-        scenes[12] = true;
+        scenes[15] = true;
     }
-    if (timer.Between(34.f, 38.f) && scenes[13] == false)
+    if (timer.Between(34.f, 38.f) && scenes[16] == false)
     {
         HideImage("1");
-        ShowImage("12");
-        scenes[13] = true;
+        ShowImage("10");
+        scenes[16] = true;
     }
-    if (timer.Between(38.f, 42.f) && scenes[14] == false)
+    if (timer.Between(38.f, 42.f) && scenes[17] == false)
+    {
+        HideImage("10");
+        ShowImage("12");
+        scenes[17] = true;
+    }
+    if (timer.Between(42.f, 45.f) && scenes[18] == false)
     {
         HideImage("12");
         ShowImage("13");
-        scenes[14] = true;
+        scenes[18] = true;
     }
-    if (timer.Between(42.f, 45.f) && scenes[15] == false)
+    if (timer.Between(45.f, 48.f) && scenes[19] == false)
     {
         HideImage("13");
         ShowImage("14");
-        scenes[15] = true;
+        scenes[19] = true;
     }
-    if (timer.Between(45.f, 48.f) && scenes[16] == false)
+    if (timer.Between(48.f, 53.f) && scenes[20] == false)
     {
         HideImage("14");
         ShowImage("15");
-        scenes[16] = true;
+        scenes[20] = true;
     }
-    if (timer.Between(48.f, 53.f) && scenes[17] == false)
+    if (timer.Between(53.f, 55.f) && scenes[21] == false)
     {
         HideImage("15");
         ShowImage("16");
         sounds.at("heartbeat")->Stop();
         sounds.at("respiration")->Stop();
-        scenes[17] = true;
+        scenes[21] = true;
     }
 
-    if (timer.Get() > 53.f)
+    if (timer.Get() > 55.f)
     {
         CallNextState();
     }

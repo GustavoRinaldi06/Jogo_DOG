@@ -14,6 +14,7 @@
 #include "WaterLily.h"
 #include "Text.h"
 #include "ObjectFactory.h"
+#include "CutsceneGhostHunterState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -75,7 +76,7 @@ void AnimalState::LoadAssets()
     textGO1->AddComponent(dogText);
 
     dogText->SetCameraFollower(true);
-    
+
     // Posição do texto
     textGO1->box.x = 200;
     textGO1->box.y = 650;
@@ -98,15 +99,19 @@ void AnimalState::Update(float dt)
     // PARA TESTES ==================================================================================================
     if (input.QuitRequested() || input.KeyPress('r'))
     {
-        std::vector<std::string> smokeAssets = {
-            "recursos/img/Smoke/C.png",
-            "recursos/img/Smoke/B.png",
-            "recursos/img/Smoke/A.png",
-            "recursos/img/Smoke/tile.png",
-            "recursos/img/sprites/Player.png"};
-
         popRequested = true;
-        Game::GetInstance().Push(new LoadingState([](){ return new SmokeState(); }, smokeAssets));
+        Game::GetInstance().Push(
+            new CutsceneGhostHunterState(
+                [](){
+                    std::vector<std::string> smokeAssets = {
+                        "recursos/img/Smoke/C.png",
+                        "recursos/img/Smoke/B.png",
+                        "recursos/img/Smoke/A.png",
+                        "recursos/img/Smoke/tile.png",
+                        "recursos/img/sprites/Player.png"
+                    };
+                return new LoadingState([](){ return new SmokeState(); }, smokeAssets);
+            }));
     }
     // =============================================================================================================
 
@@ -233,11 +238,11 @@ void AnimalState::Resume()
 }
 
 const std::array<std::string, 4u> LayerStrings =
-{
-    std::string("Background")
-};
+    {
+        std::string("Background")};
 
-void AnimalState::LoadLayers() {
+void AnimalState::LoadLayers()
+{
     // Camada C
     GameObject *C = new GameObject();
     C->box.x = 0;
@@ -274,16 +279,15 @@ void AnimalState::LoadFromTMX(std::string file)
     tmx::Map map;
     if (map.load(file))
     {
-        GameObject* go = new GameObject();
+        GameObject *go = new GameObject();
         go->box.x = 0;
         go->box.y = 0;
 
-        TileSet* tileSet = new TileSet(
+        TileSet *tileSet = new TileSet(
             250,
             250,
-            "recursos/map/Animal/tiles.png"
-        );
-        TileMap* tileMap = new TileMap(*go, tileSet, map);
+            "recursos/map/Animal/tiles.png");
+        TileMap *tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);
         AddObject(go);
 
@@ -292,15 +296,15 @@ void AnimalState::LoadFromTMX(std::string file)
         std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
 
         // gera colisão da camada 0 (chão)
-        //tileMap->GenerateCollision(0, *this);
+        // tileMap->GenerateCollision(0, *this);
 
-        const auto& layers = map.getLayers();
-        for (const auto& layer : layers)
+        const auto &layers = map.getLayers();
+        for (const auto &layer : layers)
         {
             if (layer->getType() == tmx::Layer::Type::Object)
             {
-                const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
-                for (const auto& object : objects)
+                const auto &objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+                for (const auto &object : objects)
                 {
                     CreateGameObject(object);
                 }
@@ -313,11 +317,11 @@ void AnimalState::LoadFromTMX(std::string file)
     }
 }
 
-void AnimalState::CreateGameObject(const tmx::Object& object)
+void AnimalState::CreateGameObject(const tmx::Object &object)
 {
-    if(object.getClass() == "Player")
+    if (object.getClass() == "Player")
     {
-        GameObject* playerGO = ObjectFactory::CreatePlayerObject(object);
+        GameObject *playerGO = ObjectFactory::CreatePlayerObject(object);
         AddObject(playerGO);
         std::cout << "Player object created at position: " << playerGO->box.x << ", " << playerGO->box.y << std::endl;
         std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
@@ -325,20 +329,19 @@ void AnimalState::CreateGameObject(const tmx::Object& object)
         std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
         return;
     }
-    
-    if(object.getClass() == "Collider")
+
+    if (object.getClass() == "Collider")
     {
-        GameObject* colliderGO = ObjectFactory::CreateColliderObject(object);
+        GameObject *colliderGO = ObjectFactory::CreateColliderObject(object);
         AddObject(colliderGO);
         std::cout << "Collider object created at position: " << colliderGO->box.x << ", " << colliderGO->box.y << std::endl;
         return;
     }
 
-    if(object.getName() == "WaterLily")
+    if (object.getName() == "WaterLily")
     {
-        GameObject* waterLilyGO = ObjectFactory::CreateWaterLilyObject(object);
+        GameObject *waterLilyGO = ObjectFactory::CreateWaterLilyObject(object);
         AddObject(waterLilyGO);
         std::cout << "WaterLily object created at position: " << waterLilyGO->box.x << ", " << waterLilyGO->box.y << std::endl;
     }
 }
-

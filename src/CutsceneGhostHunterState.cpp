@@ -104,7 +104,6 @@ void CutsceneGhostHunterState::ShowImage(const std::string &imageName)
     SpriteRenderer *sprite = GetSpriteRenderer(imageName);
     if (sprite)
     {
-        std::cout << "Showing image: " << imageName << std::endl;
         sprite->setActive(true); // Define a escala para o tamanho da janela
     }
 }

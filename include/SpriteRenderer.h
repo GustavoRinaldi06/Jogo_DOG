@@ -38,6 +38,8 @@ public:
     // Trabalho 5
     void SetScale(float x, float y);
 
+    Vec2 GetScale() const;
+
     // Define a transparência do sprite
     void SetAlpha(Uint8 alpha);
 

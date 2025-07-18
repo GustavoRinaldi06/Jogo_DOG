@@ -47,43 +47,43 @@ void CutsceneIntroState::Update(float dt)
     }
 
     timer.Update(dt);
-    if (timer.Between(0.f, 1.f))
+    if (timer.Between(0.f, 2.f))
     {
         std::cout << "primeira_cena: " << timer.Get() << std::endl;
         ShowImage("primeira_cena");
+        ShowImage("trees");
+        ScaleImageFixed("trees", Vec2{0.05f, 0.05f} * dt); // Ajuste de escala, se necessário
     }
-    else if (timer.Between(1.f, 2.f))
+    else if (timer.Between(2.f, 3.f))
     {
         std::cout << "dog: " << timer.Get() << std::endl;
         HideImage("primeira_cena");
+        HideImage("trees");
         ShowImage("dog");
     }
-    else if (timer.Between(2.f, 3.f))
+    else if (timer.Between(3.f, 5.f))
     {
         HideImage("dog");
         ShowImage("hunter_1");
     }
-    else if (timer.Between(3.f, 4.f))
+    else if (timer.Between(5.f, 6.f))
     {
         HideImage("hunter_1");
         ShowImage("hunter_2");
     }
-    else if (timer.Between(4.f, 5.f))
+    else if (timer.Between(6.f, 7.f))
     {
         HideImage("hunter_2");
         ShowImage("turn_1");
+        ShowImage("background");
     }
-    else if (timer.Between(5.f, 6.f))
+    else if (timer.Between(7.f, 8.f))
     {
         HideImage("turn_1");
         ShowImage("turn_2");
     }
-    else if (timer.Between(6.f, 7.f))
+    else if (timer.Between(8.f, 9.f))
     {
-        HideImage("turn_2");
-        CallNextState();
-    } else if(timer.Get() > 7.f) {
-        HideImage("background");
         CallNextState();
     }
 }
@@ -134,11 +134,12 @@ void CutsceneIntroState::HideImage(const std::string &imageName)
     }
 }
 
-void CutsceneIntroState::ScaleImage(const std::string &imageName, float scale)
+void CutsceneIntroState::ScaleImageFixed(const std::string &imageName, Vec2 amount)
 {
     SpriteRenderer *sprite = (SpriteRenderer *)images.at(imageName)->GetComponent("SpriteRenderer");
     if (sprite)
     {
-        sprite->SetScale(scale, scale); // Define o scale do sprite
+        Vec2 newScale = sprite->GetScale() + amount; // Incrementa o scale atual
+        sprite->SetScale(newScale.x, newScale.y); // Define o scale do sprite
     }
 }

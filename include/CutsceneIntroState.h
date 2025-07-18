@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <functional>
 #include "Timer.h"
-
+#include "Rect_Vec2.h"
 
 class CutsceneIntroState : public State {
 public:
@@ -29,5 +29,5 @@ private:
 
     void ShowImage(const std::string &imageName);
     void HideImage(const std::string &imageName);
-    void ScaleImage(const std::string &imageName, float scale);
+    void ScaleImageFixed(const std::string &imageName, Vec2 amount);
 };

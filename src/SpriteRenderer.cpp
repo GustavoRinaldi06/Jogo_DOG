@@ -75,6 +75,12 @@ void SpriteRenderer::SetScale(float scaleX, float scaleY)
     associated.box.SetCenter(oldCenter); // mantém o centro
 }
 
+Vec2 SpriteRenderer::GetScale()  const
+{
+    return sprite.GetScale();
+}
+
+
 void SpriteRenderer::SetAlpha(Uint8 alpha) {
     sprite.SetAlpha(alpha);
 }

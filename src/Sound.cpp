@@ -27,6 +27,14 @@ void Sound::Play(int times)
     }
 }
 
+void Sound::SetVolume(int volume)
+{
+    if (chunk != nullptr)
+    {
+        Mix_VolumeChunk(chunk, volume);
+    }
+}
+
 // Função para parar o som
 void Sound::Stop()
 {

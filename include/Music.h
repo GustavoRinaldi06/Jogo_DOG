@@ -16,7 +16,7 @@ public:
     // Destruidor
     ~Music();
 
-    void Play(int times = -1);
+    void Play(int times = -1, int fadeInMs = 0);
     void Stop(int msToStop = 1500);
     void Open(const std::string &file);
     bool IsOpen() const;

@@ -32,9 +32,9 @@ bool Music::IsOpen() const
 }
 
 // Controle da musica
-void Music::Play(int times)
+void Music::Play(int times, int fadeInMs)
 {
-    Mix_PlayMusic(music, times);
+    Mix_FadeInMusic(music, times, fadeInMs);
 }
 void Music::Stop(int ms)
 {

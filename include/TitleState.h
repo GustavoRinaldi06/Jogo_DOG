@@ -3,6 +3,7 @@
 
 #include "State.h"
 #include "Music.h"
+#include "Sound.h"
 #include "Text.h"
 
 class TitleState : public State
@@ -25,6 +26,7 @@ public:
     GameObject *exitGO;
 
     Music backgroundMusic;
+    Sound *clickSound;
 };
 
 #endif // TITLESTATE_H

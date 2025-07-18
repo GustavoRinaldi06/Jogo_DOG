@@ -16,6 +16,7 @@ public:
 
     // Tocar e parar o som
     void Play(int times = 1);
+    void SetVolume(int volume);
     void Stop();
 
     // Abrir o arquivo de som

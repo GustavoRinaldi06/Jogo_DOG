@@ -59,6 +59,8 @@ void TitleState::LoadAssets()
     newGameGO->box.x = 750;
     newGameGO->box.y = 350;
     AddObject(newGameGO);
+    clickSound = new Sound("recursos/audio/Menu/select.wav");
+    clickSound->Stop();
 
     // Botão: Sair
     exitGO = new GameObject();
@@ -90,6 +92,10 @@ void TitleState::Update(float dt)
 
         if (newGameGO->box.Contains(mouseX, mouseY)) // Clica em novo jogo
         {
+            if(clickSound){
+                clickSound->Play(1); // Toca o som de clique
+            }
+            backgroundMusic.Stop(500); // Para a música atual
             // Novo Jogo clicado
             Game::GetInstance().Push(
                 new CutsceneIntroState(

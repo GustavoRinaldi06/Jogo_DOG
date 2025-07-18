@@ -6,8 +6,11 @@
 #include <iostream>
 
 CutsceneIntroState::CutsceneIntroState(std::function<State *()> nextStateFactory)
-    : createNext(std::move(nextStateFactory))
+    : createNext(std::move(nextStateFactory)), grilos("recursos/audio/CutsceneIntro/SonsFloresta.mp3")
 {
+    for (int i = 0; i < 8; ++i) {
+        scenes[i] = false;
+    }
 }
 
 CutsceneIntroState::~CutsceneIntroState()
@@ -25,6 +28,10 @@ void CutsceneIntroState::LoadAssets()
     images.emplace("turn_2", ObjectFactory::CreateSceneImageObject("recursos/img/Cutscenes/Intro/turn_2.png"));
     images.emplace("background", ObjectFactory::CreateSceneImageObject("recursos/img/Cutscenes/Intro/background.png"));
     // Adicione mais cenas conforme necessário, seguindo o padrão acima
+
+    sounds.emplace("dog", new Sound("recursos/audio/DOG/panting.wav"));
+    sounds.emplace("leaves", new Sound("recursos/audio/CutsceneIntro/leaves.wav"));
+    sounds.emplace("shot", new Sound("recursos/audio/CutsceneIntro/shot.wav"));
 
     for(const auto &pair : images)
     {
@@ -45,41 +52,65 @@ void CutsceneIntroState::Update(float dt)
     }
 
     timer.Update(dt);
-    if (timer.Between(0.f, 2.f))
+    if (timer.Between(0.f, 5.f) && scenes[0] == false)
     {
-        ShowImage("primeira_cena");
-        ShowImage("trees");
+        if(scenes[0] == false){
+            scenes[0] = true;
+            ShowImage("primeira_cena");
+            ShowImage("trees");
+            sounds.at("dog")->Play(10); // Toca o som do cachorro
+            sounds.at("dog")->SetVolume(15); // Define o volume do som do cachorro
+        }
         ScaleImageFixed("trees", Vec2{0.05f, 0.05f} * dt); // Ajuste de escala, se necessário
     }
-    else if (timer.Between(2.f, 3.f))
+    else if (timer.Between(5.f, 9.f) && scenes[1] == false)
     {
+        scenes[1] = true;
         HideImage("primeira_cena");
         HideImage("trees");
         ShowImage("dog");
+        sounds.at("dog")->SetVolume(40); // Define o volume do som do cachorro
     }
-    else if (timer.Between(3.f, 5.f))
+    else if (timer.Between(9.f, 12.f) && scenes[2] == false)
     {
+        scenes[2] = true;
         HideImage("dog");
         ShowImage("hunter_1");
+        sounds.at("dog")->SetVolume(15); // Define o volume do som do cachorro
+        //sounds.at("dog")->Stop(); // Para o som do cachorro
     }
-    else if (timer.Between(5.f, 6.f))
+    else if (timer.Between(12.f, 14.f) && scenes[3] == false)
     {
+        scenes[3] = true;
+        sounds.at("leaves")->Play(1); // Toca o som de folhas
         HideImage("hunter_1");
         ShowImage("hunter_2");
     }
-    else if (timer.Between(6.f, 7.f))
+    else if (timer.Between(14.f, 16.f) && scenes[4] == false)
     {
+        scenes[4] = true;
         HideImage("hunter_2");
         ShowImage("turn_1");
         ShowImage("background");
     }
-    else if (timer.Between(7.f, 8.f))
+    else if (timer.Between(16.f, 17.f) && scenes[5] == false)
     {
+        scenes[5] = true;
         HideImage("turn_1");
         ShowImage("turn_2");
     }
-    else if (timer.Get() > 8.f)
+    else if (timer.Between(17.f, 19.f) && scenes[6] == false)
     {
+        scenes[6] = true;
+        HideImage("turn_2");
+        HideImage("background");
+        sounds.at("dog")->Stop(); // Para o som de folhas
+        grilos.Stop(); // Para a música de grilos
+        sounds.at("shot")->Play(); // Toca o som de tiro
+    }
+    else if (timer.Get() > 19.f && scenes[7] == false)
+    {
+        scenes[7] = true;
         CallNextState();
     }
 }
@@ -102,6 +133,7 @@ void CutsceneIntroState::Start()
 {
     LoadAssets();
     started = true;
+    grilos.Play(-1, 2000);
 }
 
 void CutsceneIntroState::CallNextState()

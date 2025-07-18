@@ -25,7 +25,7 @@ void TitleState::LoadAssets()
 
     SpriteRenderer *spriter = new SpriteRenderer(*titleGO);
     spriter->Open("recursos/img/Menu.png"); 
-    spriter->SetCameraFollower(true); // igual a imagem de fundo   
+    spriter->SetCameraFollower(true);  
 
     titleGO->AddComponent(spriter);
     AddObject(titleGO);

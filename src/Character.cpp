@@ -108,6 +108,7 @@ void Character::Update(float dt)
         // dispara animação e som apenas uma vez
         if (!deathAnimTriggered)
         {
+            hp = 0;
             deathAnimTriggered = true;
             deathSound.Play(1);
 

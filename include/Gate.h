@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "GameObject.h"
 
+
 class Gate : public Component {
 public:
     Gate(GameObject& associated);
@@ -9,6 +10,7 @@ public:
     void Render() override;
     bool Is(const std::string& type) override;
     void NotifyBark(); // Chamado quando o Dog late perto
+    bool IsOpen();
     
 private:
     int barkCount; // Contador de latidos

@@ -7,6 +7,8 @@
 #include "../include/tmxlite/Map.hpp"
 #include "FallingBranch.h"
 #include "Timer.h"
+#include "Gate.h"
+
 
 class SpriteRenderer;
 
@@ -29,6 +31,9 @@ public:
 
     Text *hpText = nullptr;
     Text *dogText = nullptr;
+
+    GameObject* FindGateObject();
+
 private:
     Music backgroundMusic;
     void CreateGameObject(const tmx::Object& object);

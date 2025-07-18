@@ -16,18 +16,18 @@
   <object id="19" name="Collider" type="Collider" x="6307.57" y="803.577" width="106" height="19"/>
   <object id="20" name="WaterLily" type="WaterLily" x="5805.33" y="752.756" width="121.333" height="20"/>
   <object id="21" name="Collider" type="Collider" x="5813.57" y="803.577" width="106" height="19"/>
-  <object id="22" name="Player" type="Player" x="1771.55" y="474.545" width="112" height="324"/>
+  <object id="22" name="Player" type="Player" x="2404.88" y="486.667" width="112" height="324"/>
   <object id="23" name="WaterLily" type="WaterLily" x="10052.5" y="759.469" width="121.333" height="20"/>
   <object id="24" name="WaterLily" type="WaterLily" x="9554.12" y="760.71" width="121.333" height="20"/>
   <object id="25" name="Collider" type="Collider" x="9562.36" y="811.531" width="106" height="19"/>
   <object id="26" name="WaterLily" type="WaterLily" x="9060.12" y="760.71" width="121.333" height="20"/>
   <object id="27" name="Collider" type="Collider" x="9068.36" y="811.531" width="106" height="19"/>
   <object id="28" name="Collider" type="Collider" x="10060.8" y="810.291" width="106" height="19"/>
-  <object id="29" name="Tree" type="Tree" x="3976.85" y="394.303" width="190.909" height="300"/>
+  <object id="29" name="Tree" type="Tree" x="3979.88" y="497.333" width="190.909" height="300"/>
   <object id="31" name="Tree" type="Tree" x="7902.61" y="392.788" width="190.909" height="300"/>
   <object id="32" name="DeerEating" type="DeerEating" x="3009.88" y="531.394" width="148" height="260"/>
   <object id="35" x="1528" y="2524"/>
-  <object id="36" name="Deer" type="Deer" x="1107.52" y="482.848" width="104" height="298"/>
+  <object id="36" name="Deer" type="Deer" x="379.515" y="482.848" width="104" height="298"/>
   <object id="37" x="2850" y="-508"/>
  </objectgroup>
  <objectgroup id="3" name="Collider">

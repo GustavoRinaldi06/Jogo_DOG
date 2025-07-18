@@ -16,11 +16,11 @@
                 6,
                 5
             ],
-            "scale": 0.25,
+            "scale": 0.125,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 3600,
-                "y": 2196
+                "x": 4792,
+                "y": -232
             }
         },
         "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx#tree_tiles": {
@@ -31,18 +31,18 @@
                 2,
                 3
             ],
-            "scale": 0.125,
+            "scale": 0.33,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 7888,
-                "y": 1200
+                "x": 4103.030303030303,
+                "y": 263.63636363636374
             }
         },
         "tiles.tsx": {
             "scaleInDock": 1
         },
         "tileset.tsx": {
-            "scaleInDock": 0.33
+            "scaleInDock": 0.25
         }
     },
     "last.imagePath": "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Animal",
@@ -52,10 +52,12 @@
     "map.tileWidth": 250,
     "map.width": 64,
     "openFiles": [
-        "mapfile.tmx"
+        "mapfile.tmx",
+        "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx"
     ],
     "project": "animal-project.tiled-project",
     "recentFiles": [
+        "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Tree/mapfile.tmx",
         "mapfile.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

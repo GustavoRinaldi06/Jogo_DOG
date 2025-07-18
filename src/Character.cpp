@@ -50,8 +50,8 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     // Cria as animações
     auto animator = new Animator(associated);
     animator->AddAnimation("idle", Animation(16, 16, 0.5f));
-    animator->AddAnimation("walking", Animation(0, 5, 0.2f));
-    animator->AddAnimation("jump", Animation(40, 47, 0.8f));
+    animator->AddAnimation("walking", Animation(0, 4, 0.2f));
+    animator->AddAnimation("jump", Animation(40, 47, 0.2f));
     animator->AddAnimation("dead", Animation(32, 36, 0.3f));
     associated.AddComponent(animator);
 
@@ -231,16 +231,17 @@ void Character::Update(float dt)
     }
 
     // Atualiza animação de acordo com a movimentação
-    if (animator)
-    {
-        animator->Update(dt);
-        if (fabs(speed.x) > 1.0f)
-            animator->SetAnimation("walking");
-        else
-            animator->SetAnimation("idle");
-        if (!isOnGround)
-            animator->SetAnimation("jump");
+    if (animator) {
+    if (!isOnGround) {
+        animator->SetAnimation("jump");
     }
+    else if (fabs(speed.x) > 1.0f) {
+        animator->SetAnimation("walking");
+    }
+    else {
+        animator->SetAnimation("idle");
+    }
+}
 
     // Decide a direção que vai ficar
     if (speed.x < -0.1f)

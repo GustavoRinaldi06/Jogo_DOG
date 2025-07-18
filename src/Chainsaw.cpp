@@ -34,8 +34,8 @@ Chainsaw::Chainsaw(
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
-    Damage = Sound("C:/Users/Gustavo Rinaldi/Desktop/UnB/C++/Jogo_DOG/recursos/audio/Enemy/CS.wav");
-    Spawn = Sound("C:/Users/Gustavo Rinaldi/Desktop/UnB/C++/Jogo_DOG/recursos/audio/Enemy/Off.wav");
+    Damage = Sound("recursos/audio/Enemy/CS.wav");
+    Spawn = Sound("recursos/audio/Enemy/Off.wav");
 
     // Estado inicial: invisível e inativo
     currentState = "hidden";

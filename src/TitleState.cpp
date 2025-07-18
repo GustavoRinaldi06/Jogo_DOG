@@ -8,8 +8,8 @@
 #include "Character.h"
 #include "PlayerController.h"
 #include "LoadingState.h"
-#include "VideoState.h"
 #include "Camera.h"
+#include "CutsceneIntroState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -91,29 +91,40 @@ void TitleState::Update(float dt)
         if (newGameGO->box.Contains(mouseX, mouseY)) // Clica em novo jogo
         {
             // Novo Jogo clicado
-            Game::GetInstance().Push(new VideoState("recursos/videos/output.uyvy", 1920, 1080, 60.0f, []()
-                                                    {
-            std::vector<std::string> treeAssets = {
-                "recursos/img/background/Tree/E.png",
-                "recursos/img/background/Tree/B.png",
-                "recursos/img/background/Vinheta.png",
-                "recursos/map/Tree/tiles.png",
-                "recursos/img/sprites/Player.png",
-                "recursos/img/sprites/Hand.png", 
-                "recursos/img/sprites/Thorn.png", 
-                "recursos/img/sprites/Chainsaw.png",
-                "recursos/img/sprites/DogHowling.png",
-                "recursos/img/sprites/DogShoot.png",
-                "recursos/audio/BGmusic/treeState.mp3",
-                "recursos/audio/Hunter/boing.mp3", 
-                "recursos/audio/DOG/explode.mp3"
-            };
+            Game::GetInstance().Push(
+            new CutsceneIntroState( 
+                []() {
+                    std::vector<std::string> treeAssets = {
+                        // background
+                        "recursos/img/background/Tree/E.png",
+                        "recursos/img/background/Tree/B.png",
+                        "recursos/img/background/Vinheta.png",
+                        "recursos/map/Tree/tiles.png",
+                        // sprites
+                        "recursos/img/sprites/Player.png",
+                        "recursos/img/sprites/Hand.png", 
+                        "recursos/img/sprites/Thorn.png", 
+                        "recursos/img/sprites/Chainsaw.png",
+                        "recursos/img/sprites/DogHowling.png",
+                        "recursos/img/sprites/DogShoot.png",
+                        // sons
+                        "recursos/audio/BGmusic/treeState.mp3",
+                        "recursos/audio/Hunter/boing.mp3", 
+                        "recursos/audio/DOG/explode.mp3",
+                        "recursos/audio/Hunter/boing.mp3", 
+                        "recursos/audio/DOG/explode.mp3",
+                        "recursos/audio/Hunter/boing.mp3", 
+                        "recursos/audio/DOG/explode.mp3",
+                    };
 
-            GameData::state = 1;
-            GameData::playerHP = 100;
-            return new LoadingState([]() {
-                return new TreeState();
-            }, treeAssets); }));
+                    GameData::state = 1;
+                    GameData::playerHP = 100;
+                    return new LoadingState([]() {
+                        return new TreeState();
+                    }, treeAssets);
+                }
+            )
+        );
         }
 
         if (exitGO->box.Contains(mouseX, mouseY)) // Clica em sair

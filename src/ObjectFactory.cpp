@@ -10,6 +10,9 @@
 #include "WaterLily.h"
 #include "TreeBoss.h"
 #include "Gate.h"
+#include "SpriteRenderer.h"
+#include <unordered_map>
+#include "GameData.h"
 
 namespace ObjectFactory
 {
@@ -139,7 +142,8 @@ namespace ObjectFactory
       return treeBossGO;
   }
 
-  GameObject* CreateGateObject(const tmx::Object& object) {
+  GameObject* CreateGateObject(const tmx::Object& object) 
+  {
     GameObject* go = new GameObject();
     go->box.x = object.getPosition().x;
     go->box.y = object.getPosition().y;
@@ -149,5 +153,22 @@ namespace ObjectFactory
     go->AddComponent(new Gate(*go));
     
     return go;
-}
+  }
+
+  GameObject* CreateSceneImageObject(const ::std::string& file)
+  {
+    GameObject *gameObject = new GameObject();
+
+    SpriteRenderer *spriter = new SpriteRenderer(*gameObject);
+    spriter->Open(file);
+    spriter->SetCameraFollower(true);
+    spriter->SetAlpha(0);
+    spriter->SetScale(GameData::windowWidth / gameObject->box.w, GameData::windowHeight / gameObject->box.h); // Ajuste de escala, se necessário
+    
+    gameObject->box.x = 0;
+    gameObject->box.y = 0;
+
+    gameObject->AddComponent(spriter);
+    return gameObject;
+  }
 }

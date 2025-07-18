@@ -9,6 +9,7 @@ class Timer
         void Restart();
         float Get() const;
         void Set(float dt);
+        bool Between(float min, float max) const;
 
     private:
         float time;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-
+#include <string>
 #include "tmxlite/Object.hpp"
 
 namespace ObjectFactory
@@ -25,4 +25,6 @@ namespace ObjectFactory
   GameObject* CreateTreeBossObject(const tmx::Object& object);
 
   GameObject* CreateGateObject(const tmx::Object& object);
+
+  GameObject* CreateSceneImageObject(const ::std::string& file);
 }

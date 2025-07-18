@@ -13,7 +13,7 @@ Game &Game::GetInstance()
 {
     if (instance == nullptr)
     {
-        instance = new Game("DOG", 1200, 720);
+        instance = new Game("DOG", GameData::windowWidth, GameData::windowHeight);
     }
     return *instance;
 }

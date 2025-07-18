@@ -38,8 +38,8 @@ void TitleState::LoadAssets()
 
     pressStart->SetCameraFollower(true);
     // Posição do texto
-    textGO->box.x = 675;
-    textGO->box.y = 550;
+    textGO->box.x = 600;
+    textGO->box.y = 350;
 
     AddObject(textGO);
 
@@ -50,8 +50,8 @@ void TitleState::LoadAssets()
 
     title->SetCameraFollower(true);
     // Posição do texto
-    textGO1->box.x = 575;
-    textGO1->box.y = 225;
+    textGO1->box.x = 520;
+    textGO1->box.y = 25;
 
     AddObject(textGO1);
 

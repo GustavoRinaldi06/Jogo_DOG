@@ -32,6 +32,22 @@ void Dog::Update(float dt)
 {
     RunTime.Update(dt);
 
+    SpriteRenderer *renderer = static_cast<SpriteRenderer *>(associated.GetComponent("SpriteRenderer"));
+    if (renderer && Character::player)
+    {
+        float dogX = associated.box.GetCenter().x;
+        float playerX = Character::player->GetPosition().x;
+
+        if (playerX < dogX)
+        {
+            renderer->SetFlip(SDL_FLIP_NONE); // vira para a direita
+        }
+        else
+        {
+            renderer->SetFlip(SDL_FLIP_HORIZONTAL); // vira para a esquerda
+        }
+    }
+
     // Verificar colisões apenas uma vez no início
     if (!collisionChecked) {
         CheckDestructibleCollisions();

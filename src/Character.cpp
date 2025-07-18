@@ -461,3 +461,8 @@ int Character::GetCool() const
 {
     return static_cast<int>(dogTimer.Get());
 }
+
+Vec2 Character::GetPosition() const
+{
+    return associated.box.GetCenter();
+}

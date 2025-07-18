@@ -43,6 +43,7 @@ public:
     int GetHP() const;
     int GetCool() const;
 
+    Vec2 GetPosition() const;
 private:
     std::queue<Command> taskQueue;
 

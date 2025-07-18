@@ -26,7 +26,7 @@ private:
     Vec2 velocity;
     GameObject *focus;
 
-    float minY = 600; // altura mínima que a câmera pode descer (ajustar)
+    float minY = 700; // altura mínima que a câmera pode descer (ajustar)
 };
 
 #endif

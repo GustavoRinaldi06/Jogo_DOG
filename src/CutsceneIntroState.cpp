@@ -50,6 +50,12 @@ void CutsceneIntroState::Update(float dt)
         quitRequested = true;
         return;
     }
+    
+    if(input.KeyPress(SDLK_RETURN))
+    {
+        CallNextState();
+        return;
+    }
 
     timer.Update(dt);
     if (timer.Between(0.f, 5.f) && scenes[0] == false)

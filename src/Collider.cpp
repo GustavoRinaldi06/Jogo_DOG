@@ -7,7 +7,7 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 
-//#define DEBUG 1
+#define DEBUG 1
 
 Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset)
     : Component(associated), tag("") , scale(scale), offset(offset) {}

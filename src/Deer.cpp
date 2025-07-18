@@ -4,9 +4,9 @@
 Deer::Deer(GameObject &associated)
     : Component(associated), gravity(800.0f), isOnGround(false), facingRight(true)
 {
-    SpriteRenderer *renderer = new SpriteRenderer(associated, "recursos/img/sprites/Deer.png", 13, 1);
+    SpriteRenderer *renderer = new SpriteRenderer(associated, "recursos/img/sprites/resized/Deer.png", 5, 3);
     associated.AddComponent(renderer);
-    renderer->SetScale(0.7f, 0.7f); // Ajusta o tamanho do sprite
+    renderer->SetScale(1.2f, 1.2f); // Ajusta o tamanho do sprite
 
     animator = new Animator(associated);
     animator->AddAnimation("chase", Animation(0, 3, 0.1f));

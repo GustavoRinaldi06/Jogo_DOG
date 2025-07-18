@@ -121,6 +121,11 @@ void AnimalState::Update(float dt)
         dangerTimer.Restart();
     }
 
+    if(Character::player->GetPosition().x > 2500){
+        Camera::GetInstance().Unfollow();
+        Camera::GetInstance().Move(220.0f *dt, 0);
+    }
+
     // Atualiza todos os GameObjects
     UpdateArray(dt);
 

@@ -53,11 +53,12 @@ namespace ObjectFactory
         chainSawGO->box.x = object.getAABB().left;
         chainSawGO->box.y = object.getAABB().top;
         chainSawGO->box.w = object.getAABB().width;
-        chainSawGO->box.h = object.getAABB().height;
-
+        chainSawGO->box.h = object.getAABB().height -40;
+        
         Chainsaw *damageObj = new Chainsaw(*chainSawGO, 10, "recursos/img/sprites/Chainsaw.png", "recursos/audio/Hunter/boing.mp3", "", 8, 1);
         chainSawGO->AddComponent(damageObj);
         chainSawGO->AddComponent(new Collider(*chainSawGO));
+        chainSawGO->box.h = object.getAABB().height -100;
         return chainSawGO;
     }
 

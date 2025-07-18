@@ -49,7 +49,7 @@ void Camera::Update(float dt)
         }
     }
 
-    else
+/*     else
     {
         InputManager &input = InputManager::GetInstance();
         speed = Vec2();
@@ -64,7 +64,7 @@ void Camera::Update(float dt)
             speed.y = 300;
 
         pos = pos + speed * dt;
-    }
+    } */
 
 }
 

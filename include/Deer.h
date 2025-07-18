@@ -13,7 +13,7 @@
 class Deer : public Component
 {
 private:
-    float chaseSpeed = 300.0f; // Velocidade de perseguição
+    float chaseSpeed = 230.0f; // Velocidade de perseguição
     int damage = 30;
     Character *target; // Ponteiro para o jogador
     float gravity;

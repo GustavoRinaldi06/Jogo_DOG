@@ -7,27 +7,23 @@
 #include "Collider.h"
 #include <cmath>
 
-
-
-class FallingBranch : public Component {
+class FallingBranch : public Component
+{
 public:
-    FallingBranch(GameObject& associated,
+    FallingBranch(GameObject &associated,
                   float fallSpeed,
-                  float rotationSpeed,
-                  const std::string& spritePath,
-                  int frameCountX = 1,
-                  int frameCountY = 1);
+                  float rotationSpeed);
 
     void Update(float dt) override;
     void Render() override;
-    bool Is(const std::string& type) override;
+    bool Is(const std::string &type) override;
 
 private:
-    float fallSpeed;         // pixels per second ao descer
-    float rotationSpeed;     // graus por segundo
-    float currentRotation;   // rotação atual
-    bool falling;            // indica se começou a cair
+    float fallSpeed;              // pixels per second ao descer
+    float rotationSpeed;          // graus por segundo
+    float currentRotation = 0.0f; // rotação atual
+    bool falling;                 // indica se começou a cair
 
-    SpriteRenderer* spriteRenderer;
-    Animator* animator;
+    SpriteRenderer *spriteRenderer;
+    Animator *animator;
 };

@@ -69,7 +69,7 @@ namespace ObjectFactory
         branchGO->box.w = object.getAABB().width;
         branchGO->box.h = object.getAABB().height;
 
-        FallingBranch *fallingBranch = new FallingBranch(*branchGO, 100.0f, 10.0f, "recursos/img/sprites/FallingBranch.png", 8, 1);
+        FallingBranch *fallingBranch = new FallingBranch(*branchGO, 100.0f, 10.0f);
         branchGO->AddComponent(fallingBranch);
         branchGO->AddComponent(new Collider(*branchGO));
         return branchGO;

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "SpriteRenderer.h"
 #include "Animator.h"
-#include "State.h" 
+#include "State.h"
 #include "Camera.h"
 #include "Collider.h"
 #include "Game.h"
@@ -12,8 +12,9 @@
 #include "Chainsaw.h"
 #include "DamageObj.h"
 #include "FallingBranch.h"
+#include "Deer.h"
 
-#include <algorithm> 
+#include <algorithm>
 #include <iostream>
 
 Character *Character::player = nullptr;
@@ -21,7 +22,8 @@ Character *Character::player = nullptr;
 Character::Character(GameObject &associated, const std::string &spritePath)
     : Component(associated), linearSpeed(250), hp(GameData::playerHP), gravity(1000.0f)
 {
-    if (player == nullptr){
+    if (player == nullptr)
+    {
         player = this;
     }
 
@@ -35,17 +37,17 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 
     // Sons do caçador
     hitSound = Sound("recursos/audio/Hunter/Dano.wav");    // Levou dano
-    deathSound = Sound("recursos/audio/Hunter/Death.wav");     // Morreu
-    jumpSound = Sound("recursos/audio/Hunter/boing.mp3");     // Pula
+    deathSound = Sound("recursos/audio/Hunter/Death.wav"); // Morreu
+    jumpSound = Sound("recursos/audio/Hunter/boing.mp3");  // Pula
 
-    fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
+    fallSound = Sound("recursos/audio/Hunter/Caindo.wav");      // Cai do mapa
     drownSound = Sound("recursos/audio/Hunter/Afogamento.wav"); // Cai do mapa 2, se afoga
 
-    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3");      // Andando na grama                               
-    hitGroundSound = Sound("recursos/audio/Hunter/CaiuGrama.wav");    // Cai no chão grama
+    walkSound = Sound("recursos/audio/Hunter/AndandoGrama.mp3");   // Andando na grama
+    hitGroundSound = Sound("recursos/audio/Hunter/CaiuGrama.wav"); // Cai no chão grama
 
-    walkSoundMud = Sound("recursos/audio/Hunter/AndandoLama.wav");  // Andando na lama
-    hitGroundSoundMud = Sound("recursos/audio/Hunter/CaiuLama.wav");  // Cai no chão lama
+    walkSoundMud = Sound("recursos/audio/Hunter/AndandoLama.wav");   // Andando na lama
+    hitGroundSoundMud = Sound("recursos/audio/Hunter/CaiuLama.wav"); // Cai no chão lama
 
     // Cria as animações
     auto animator = new Animator(associated);
@@ -66,29 +68,35 @@ Character::~Character()
 }
 
 void Character::Start()
-{}
-
+{
+}
 
 void Character::Update(float dt)
 {
+    wasInDangerArea = isInDangerArea;
+    isInDangerArea = false;
+
     Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
     GameData::playerHP = hp; // Atualiza sempre o gamedata
 
     // Ao morrer -------------------------------------------------------------------------------
     if (associated.box.y > 1500)
     {
-        if (!deathAnimTriggered){
+        if (!deathAnimTriggered)
+        {
             hp = 0;
             deathAnimTriggered = true;
-            if(GameData::state == 1){
+            if (GameData::state == 1)
+            {
                 fallSound.Play(1);
-            }else{
+            }
+            else
+            {
                 drownSound.Play(1);
             }
-                
 
             // solta a câmera se é player
-            if(this == Character::player)
+            if (this == Character::player)
                 Camera::GetInstance().Unfollow();
 
             deathTimer.Restart();
@@ -104,7 +112,8 @@ void Character::Update(float dt)
         return; // não executa mais lógica de movimento
     }
 
-    if (hp <= 0){
+    if (hp <= 0)
+    {
         // dispara animação e som apenas uma vez
         if (!deathAnimTriggered)
         {
@@ -147,7 +156,6 @@ void Character::Update(float dt)
     }
 
     // Aplica a gravidade --------------------------------------------------------------------
-
     speed.y += gravity * dt;
     associated.box.y += speed.y * dt;
 
@@ -166,17 +174,17 @@ void Character::Update(float dt)
 
             associated.box.x += speed.x * dt;
 
-            if ((associated.box.GetCenter() - current.pos).Magnitude() < 10.0f){
+            if ((associated.box.GetCenter() - current.pos).Magnitude() < 10.0f)
+            {
                 taskQueue.pop();
             }
-
         }
 
         // SHOOT DOG -----------------------------------------------------------------------
         else if (current.type == CommandType::SHOOT)
         {
             if (dogTimer.Get() >= 4.0) // Tempo para poder chamar o cachorro de volta
-            {     
+            {
                 // Calcular a direção do projetil
                 Vec2 shooterCenter = associated.box.GetCenter();
                 Vec2 target(current.pos.x, current.pos.y);
@@ -216,10 +224,12 @@ void Character::Update(float dt)
             Vec2 shooterCenter = associated.box.GetCenter();
 
             GameObject *dogGO1 = new GameObject();
-            if (facingDir == -1){ // Andando pra esquerda, chama para esquerda
+            if (facingDir == -1)
+            { // Andando pra esquerda, chama para esquerda
                 dogGO1->box.x = shooterCenter.x - 210;
             }
-            else{ // Andando pra direita, chama para direita
+            else
+            { // Andando pra direita, chama para direita
                 dogGO1->box.x = shooterCenter.x + 70;
             }
             dogGO1->box.y = shooterCenter.y - 120;
@@ -232,17 +242,21 @@ void Character::Update(float dt)
     }
 
     // Atualiza animação de acordo com a movimentação
-    if (animator) {
-    if (!isOnGround) {
-        animator->SetAnimation("jump");
+    if (animator)
+    {
+        if (!isOnGround)
+        {
+            animator->SetAnimation("jump");
+        }
+        else if (fabs(speed.x) > 1.0f)
+        {
+            animator->SetAnimation("walking");
+        }
+        else
+        {
+            animator->SetAnimation("idle");
+        }
     }
-    else if (fabs(speed.x) > 1.0f) {
-        animator->SetAnimation("walking");
-    }
-    else {
-        animator->SetAnimation("idle");
-    }
-}
 
     // Decide a direção que vai ficar
     if (speed.x < -0.1f)
@@ -268,12 +282,15 @@ void Character::Update(float dt)
 
         if (walkSoundTimer.Get() >= 0.3f) // intervalo entre passos
         {
-            if (GameData::state == 1){
+            if (GameData::state == 1)
+            {
                 walkSound.Play(1);
-            }else{
+            }
+            else
+            {
                 walkSoundMud.Play(1);
             }
-                
+
             walkSoundTimer.Restart();
         }
     }
@@ -283,6 +300,7 @@ void Character::Update(float dt)
     }
 
     speed.x = 0;
+    wasInDangerArea = isInDangerArea;
 }
 
 void Character::Render() {}
@@ -301,12 +319,34 @@ void Character::Issue(Command task)
 
 void Character::NotifyCollision(GameObject &other)
 {
+    Collider *collider = static_cast<Collider *>(other.GetComponent("Collider"));
+
+    if (collider->tag == "danger_area")
+    {
+        isInDangerArea = true;
+    }
+
     // Dano chainsaw
     Chainsaw *chain = (Chainsaw *)other.GetComponent("Chainsaw");
     if (chain && damageCooldown.Get() > 1.0f)
     {
-        if(hp > 0){
+        if (hp > 0)
+        {
             hp -= chain->GetDamage();
+            hitSound.Play(1);
+            damageCooldown.Restart();
+            return;
+        }
+        return;
+    }
+
+    // Dano Deer
+    Deer *deer = (Deer *)other.GetComponent("Deer");
+    if (deer && damageCooldown.Get() > 1.0f)
+    {
+        if (hp > 0)
+        {
+            hp -= deer->GetDamage();
             hitSound.Play(1);
             damageCooldown.Restart();
             return;
@@ -318,7 +358,8 @@ void Character::NotifyCollision(GameObject &other)
     FallingBranch *branch = (FallingBranch *)other.GetComponent("FallingBranch");
     if (branch && damageCooldown.Get() > 1.0f)
     {
-        if(hp > 0){
+        if (hp > 0)
+        {
             hp -= 20; // Dano fixo de 10
             hitSound.Play(1);
             damageCooldown.Restart();
@@ -329,8 +370,10 @@ void Character::NotifyCollision(GameObject &other)
 
     // Ignorar colisões com objetos específicos
     std::vector<std::string> ignoredComponents = {"Bullet", "Dog", "Chainsaw", "FallingBranch"};
-    for (const std::string& type : ignoredComponents) {
-        if (other.GetComponent(type)) {
+    for (const std::string &type : ignoredComponents)
+    {
+        if (other.GetComponent(type))
+        {
             return;
         }
     }
@@ -359,27 +402,31 @@ void Character::NotifyCollision(GameObject &other)
     }
 
     // Colisão com WaterLily
-    Collider *collider = (Collider *)other.GetComponent("Collider");
     if (other.GetComponent("WaterLily") && collider->tag == "waterlily")
     {
         Rect &box = associated.box;
         Rect &otherBox = other.box;
-        
+
         float overlapTop = (box.y + box.h) - otherBox.y;
         float overlapBottom = (otherBox.y + otherBox.h) - box.y;
 
-        if (overlapTop < overlapBottom) 
+        if (overlapTop < overlapBottom)
         {
             box.y = otherBox.y - box.h;
             speed.y = 0;
-            
-            if (!isOnGround) {
-                if (GameData::state == 1) {
+
+            if (!isOnGround)
+            {
+                if (GameData::state == 1)
+                {
                     hitGroundSound.Play(1);
-                } else {
+                }
+                else
+                {
                     hitGroundSoundMud.Play(1);
                 }
-                while (!taskQueue.empty()) taskQueue.pop();
+                while (!taskQueue.empty())
+                    taskQueue.pop();
             }
             isOnGround = true;
         }
@@ -417,21 +464,23 @@ void Character::NotifyCollision(GameObject &other)
         else
         {
             // Colisão vertical
-            if (overlapTop < overlapBottom) 
+            if (overlapTop < overlapBottom)
             {
                 box.y = otherBox.y - box.h; // bateu por cima (no chão)
                 speed.y = 0;
                 if (collider->tag == "ground")
                 {
-                    if(!isOnGround){
+                    if (!isOnGround)
+                    {
                         if (GameData::state == 1)
                         {
                             hitGroundSound.Play(1); // Som de colisão com o chão
-                        }else{
+                        }
+                        else
+                        {
                             hitGroundSoundMud.Play(1); // Som de colisão com a lama no chão
                         }
-                        
-                        
+
                         while (!taskQueue.empty()) // Limpa a lista de tasks feitas no ar
                         {
                             taskQueue.pop();

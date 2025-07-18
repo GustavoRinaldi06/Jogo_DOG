@@ -18,7 +18,7 @@
  <objectgroup id="5" name="Objetos">
   <object id="23" name="Espinho" type="Espinho" x="8555.61" y="775.485" width="250" height="250"/>
   <object id="26" name="Chainsaw" type="Chainsaw" x="1219" y="771" width="250" height="250"/>
-  <object id="27" name="Player" type="Player" x="6061.67" y="685" width="260.667" height="286"/>
+  <object id="27" name="Player" type="Player" x="14133.7" y="661" width="260.667" height="286"/>
   <object id="28" name="TreeBoss" type="TreeBoss" x="5328" y="360" width="188" height="520"/>
   <object id="30" name="Espinho" type="Espinho" x="10138.6" y="771.97" width="250" height="250"/>
   <object id="31" name="Chainsaw" type="Chainsaw" x="6939" y="775" width="250" height="250"/>

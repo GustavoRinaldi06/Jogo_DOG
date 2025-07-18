@@ -26,10 +26,13 @@ public:
     Text *dogText = nullptr;
 
     void LoadLayers();
-    void CreateGameObject(const tmx::Object& object);
+    void CreateGameObject(const tmx::Object &object);
     void LoadFromTMX(const std::string file);
-    GameObject* CreateWaterLilyObject(const tmx::Object& object);
+    GameObject *CreateWaterLilyObject(const tmx::Object &object);
 
 private:
     Music backgroundMusic;
+    Timer dangerTimer;
+    bool deerSpawned = false;
+    bool dangerActive = false;
 };

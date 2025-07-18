@@ -43,6 +43,8 @@ public:
     int GetHP() const;
     int GetCool() const;
 
+    bool IsInDangerArea() { return wasInDangerArea; }
+
 private:
     std::queue<Command> taskQueue;
 
@@ -60,11 +62,15 @@ private:
     bool deathAnimTriggered{false};
     Timer walkSoundTimer; // Timer para controlar o som de andar
 
-    //Cachorro
-    Timer dogTimer; //cooldown
+    // Cachorro
+    Timer dogTimer; // cooldown
     Sound uivo;
 
     int facingDir = 1; // Direção
+    bool isInDangerArea = false;
+    bool wasInDangerArea = false;
+    Timer dangerTimer;
+    bool deerSpawned = false;
 };
 
 #endif

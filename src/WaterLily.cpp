@@ -12,7 +12,7 @@ WaterLily::WaterLily(GameObject &associated)
     associated.AddComponent(renderer);
 
     auto animator = new Animator(associated);
-    animator->AddAnimation("t-on", Animation(1, 1, 0.5f));
+    animator->AddAnimation("t-on", Animation(0, 0, 0.5f));
     associated.AddComponent(animator);
 
     auto collider = new Collider(associated);
@@ -24,12 +24,14 @@ WaterLily::WaterLily(GameObject &associated)
 
 void WaterLily::Update(float dt)
 {
-    if (applyGravity && !isOnGround) {
+    if (applyGravity && !isOnGround)
+    {
         speed.y += gravity * dt;
         associated.box.y += speed.y * dt;
         isFalling = true;
     }
-    else {
+    else
+    {
         isFalling = false;
     }
 }
@@ -46,13 +48,14 @@ bool WaterLily::Is(const std::string &type)
 
 void WaterLily::NotifyCollision(GameObject &other)
 {
-    Collider* otherCollider = (Collider*)other.GetComponent("Collider");
-    if (otherCollider && otherCollider->tag == "ground") {
+    Collider *otherCollider = (Collider *)other.GetComponent("Collider");
+    if (otherCollider && otherCollider->tag == "ground")
+    {
         isOnGround = true;
-        speed.y = 0;  // Para o movimento vertical
-        
+        speed.y = 0; // Para o movimento vertical
+
         // Ajusta a posição para ficar sobre o chão
-        Rect& box = associated.box;
+        Rect &box = associated.box;
         box.y = other.box.y - box.h;
     }
 }

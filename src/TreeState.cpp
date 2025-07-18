@@ -17,6 +17,7 @@
 #include "windows.h"
 #include "ObjectFactory.h"
 #include "Gate.h"
+#include "TreeBoss.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -38,7 +39,7 @@ void TreeState::LoadAssets()
 
     LoadLayers();
     LoadFromTMX("recursos/map/Tree/mapfile.tmx");
-    // LoadForeground();
+    LoadForeground();
 
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
@@ -120,6 +121,7 @@ void TreeState::Update(float dt)
             "recursos/img/sprites/DogHowling.png",
             "recursos/img/sprites/DogShoot.png",
             "recursos/img/sprites/WaterLily.png",
+            "recursos/img/sprites/Deer.png",
             // sons
             "recursos/audio/BGmusic/treeState.mp3",
             "recursos/audio/Hunter/boing.mp3",
@@ -289,6 +291,13 @@ void TreeState::LoadLayers()
     E->AddComponent(new SpriteRenderer(*E, "recursos/img/background/Tree/E.png"));
     E->AddComponent(new Parallax(*E, 0.9f, 0.9f));
     AddObject(E);
+
+    GameObject *treeBossGO = new GameObject();
+    treeBossGO->box.x = 6630;
+    treeBossGO->box.y = 200;
+    TreeBoss *treeBoss = new TreeBoss(*treeBossGO);
+    treeBossGO->AddComponent(treeBoss);
+    AddObject(treeBossGO);
 
     /*
     // Camada D

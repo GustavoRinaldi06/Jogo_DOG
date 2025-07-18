@@ -20,8 +20,9 @@ public:
 
     void NotifyCollision(GameObject &other) override;
     std::string GetObjectName() const;
+
 private:
-    int damage, originalDamage;
+    int damage = 0, originalDamage;
     std::string objectName = "TreeBoss";
 
     Timer AnimTime;
@@ -29,7 +30,7 @@ private:
     bool active = false;
     Timer activeTimer;
     Sound Spawn;
-    Animator* animator;
+    Animator *animator;
     Timer stateTimer;
 };
 

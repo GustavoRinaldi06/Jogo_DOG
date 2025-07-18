@@ -97,8 +97,8 @@ void Character::Update(float dt)
         // avança timer de morte
         deathTimer.Update(dt);
 
-        // só deleta após 5s
-        if (deathTimer.Get() > 5.0f)
+        // só deleta após s
+        if (deathTimer.Get() > 4.0f)
             associated.RequestDelete();
 
         return; // não executa mais lógica de movimento
@@ -126,7 +126,7 @@ void Character::Update(float dt)
         deathTimer.Update(dt);
 
         // só deleta após 6s
-        if (deathTimer.Get() > 6.0f)
+        if (deathTimer.Get() > 1.5f)
             associated.RequestDelete();
 
         return; // não executa mais lógica de movimento

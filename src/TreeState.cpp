@@ -16,6 +16,7 @@
 #include "Text.h"
 #include "windows.h"
 #include "ObjectFactory.h" 
+#include "Gate.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -94,8 +95,17 @@ void TreeState::Update(float dt)
         return;
     }
     
+    // recuperar o gate
+    GameObject* gateObj = FindGateObject();
+    Gate* gate = gateObj 
+        ? static_cast<Gate*>(gateObj->GetComponent("Gate")) 
+        : nullptr;
+
+    
+    std::cout << "Gate isOpen: " << (gate ? gate->IsOpen() : false) << std::endl;
+
     // PARA TESTES ==================================================================================================
-    if (input.KeyPress('r'))
+    if (input.KeyPress('r') || (gate && gate->IsOpen()))
     {
         std::vector<std::string> animalAssets = {
             // background
@@ -123,9 +133,13 @@ void TreeState::Update(float dt)
 
         GameData::state = 2;
         popRequested = true;
+        
         Game::GetInstance().Push(new LoadingState([](){ 
             return new AnimalState(); 
         }, animalAssets));
+
+        // remover gate object if it exists
+        if (gateObj) gateObj->RequestDelete();
     }
 
     branchTimer.Update(dt);
@@ -407,4 +421,13 @@ void TreeState::CreateGameObject(const tmx::Object& object)
         std::cout << "Gate object created at position: " << gateGO->box.x << ", " << gateGO->box.y << std::endl;
         return;
     }
+}
+
+GameObject* TreeState::FindGateObject() {
+    for (auto& obj : objectArray) {
+        if (obj->GetComponent("Gate")) {
+            return obj.get();
+        }
+    }
+    return nullptr;
 }

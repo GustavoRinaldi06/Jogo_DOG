@@ -15,7 +15,7 @@ public:
     ~Sound();
 
     // Tocar e parar o som
-    void Play(int times = 1);
+    void Play(int times = 1, int fadeIn = 0);
     void SetVolume(int volume);
     void Stop();
 

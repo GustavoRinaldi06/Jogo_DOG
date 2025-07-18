@@ -39,7 +39,7 @@ void SmokeState::LoadAssets()
     // LoadForeground();
 
     // Música --------------------------------------------------------------------------------------------------------------------
-    backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
+    backgroundMusic.Open("recursos/audio/BGmusic/msc_triste.wav");
     backgroundMusic.Play();
 
     // Texto da vida do personagem------------------------------------------------------------------------------------------------

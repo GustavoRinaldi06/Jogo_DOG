@@ -27,6 +27,7 @@ void CutsceneIntroState::LoadAssets()
     images.emplace("turn_1", ObjectFactory::CreateSceneImageObject("recursos/img/Cutscenes/Intro/turn_1.png"));
     images.emplace("turn_2", ObjectFactory::CreateSceneImageObject("recursos/img/Cutscenes/Intro/turn_2.png"));
     images.emplace("background", ObjectFactory::CreateSceneImageObject("recursos/img/Cutscenes/Intro/background.png"));
+    images.emplace("capa", ObjectFactory::CreateSceneImageObject("recursos/img/Cutscenes/capas/C1-A_Floresta.png"));
     // Adicione mais cenas conforme necessário, seguindo o padrão acima
 
     sounds.emplace("dog", new Sound("recursos/audio/DOG/panting.wav"));
@@ -110,6 +111,7 @@ void CutsceneIntroState::Update(float dt)
         scenes[6] = true;
         HideImage("turn_2");
         HideImage("background");
+        ShowImage("capa");
         sounds.at("dog")->Stop(); // Para o som de folhas
         grilos.Stop(); // Para a música de grilos
         sounds.at("shot")->Play(); // Toca o som de tiro
@@ -144,6 +146,11 @@ void CutsceneIntroState::Start()
 
 void CutsceneIntroState::CallNextState()
 {
+    for(const auto &pair : sounds)
+    {
+        auto &sound = pair.second;
+        sound->Stop();
+    }
     State *next = createNext();     // Cria o próximo estado
     Game::GetInstance().Push(next); // Empilha o novo estado
     popRequested = true;

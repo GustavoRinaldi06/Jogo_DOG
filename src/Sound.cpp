@@ -18,12 +18,12 @@ Sound::~Sound()
 }
 
 // Função para tocar o som
-void Sound::Play(int times)
+void Sound::Play(int times, int fadeIn)
 {
     if (chunk != nullptr)
     {
         // times - 1 porque o número de repetições é loops - 1
-        channel = Mix_PlayChannel(-1, chunk, times - 1);
+        channel = Mix_FadeInChannel(-1, chunk, times - 1, fadeIn);
     }
 }
 

@@ -71,7 +71,7 @@ void EndState::LoadAssets()
         bgObject->AddComponent(bgRenderer);
         AddObject(bgObject);
 
-        backgroundMusic.Open("recursos/audio/BGmusic/Lose.mp3");   
+        backgroundMusic.Open("recursos/audio/Hunter/Jingle_morte.wav");   
     }
 
     backgroundMusic.Play(); // musica de vitória ou derrota

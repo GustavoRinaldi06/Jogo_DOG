@@ -85,6 +85,21 @@ void SmokeState::Update(float dt)
         return;
     }
 
+    for (auto &spawner : branchSpawners)
+    {
+        spawner.timer.Update(dt);
+        if (spawner.timer.Get() >= spawner.nextSpawnTime)
+        {
+            GameObject *branchGO = ObjectFactory::CreateFallingBranchObject(
+                spawner.position.x,
+                spawner.position.y);
+            AddObject(branchGO);
+
+            spawner.timer.Restart();
+            spawner.nextSpawnTime = RandomFloat(5.0f, 12.0f);
+        }
+    }
+
     // Atualiza todos os GameObjects
     UpdateArray(dt);
 
@@ -166,6 +181,21 @@ void SmokeState::Update(float dt)
         }
     }
 
+    // cria os galhos
+    for (auto &spawner : branchSpawners)
+    {
+        spawner.timer.Update(dt);
+        if (spawner.timer.Get() >= spawner.nextSpawnTime)
+        {
+            GameObject *branchGO = ObjectFactory::CreateFallingBranchObject(
+                spawner.position.x,
+                spawner.position.y);
+            AddObject(branchGO);
+
+            spawner.timer.Restart();
+            spawner.nextSpawnTime = RandomFloat(9.0f, 15.0f);
+        }
+    }
     // Checagem de fim Derrota
     if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
     {
@@ -226,7 +256,7 @@ void SmokeState::LoadLayers()
     B->box.w = 2048;
     B->box.h = 512;
     B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Smoke/B.png"));
-    B->AddComponent(new Parallax(*B, 0.4f, 0.4f));
+    B->AddComponent(new Parallax(*B, 0.5f, 0.5f));
     AddObject(B);
 }
 
@@ -253,8 +283,8 @@ void SmokeState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet *tileSet = new TileSet(
-            249,
-            249,
+            250,
+            250,
             "recursos/map/Smoke/tiles.png");
         TileMap *tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);
@@ -275,6 +305,17 @@ void SmokeState::LoadFromTMX(std::string file)
                 const auto &objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
                 for (const auto &object : objects)
                 {
+                    // criar galhos
+                    if (object.getName() == "FallingBranch")
+                    {
+                        BranchSpawner spawner;
+                        spawner.position = Vec2(object.getPosition().x, object.getPosition().y);
+                        spawner.timer = Timer();
+                        spawner.nextSpawnTime = RandomFloat(7.0f, 12.0f); // Tempo inicial aleatório
+                        branchSpawners.push_back(spawner);
+                        std::cout << "time = " << spawner.nextSpawnTime << "\n";
+                        continue;
+                    }
                     CreateGameObject(object);
                 }
             }
@@ -336,4 +377,12 @@ void SmokeState::CreateGameObject(const tmx::Object &object)
         AddObject(gateGO);
         return;
     }
+}
+
+float SmokeState::RandomFloat(float min, float max)
+{
+    if (max <= min)
+        return min;
+    float range = max - min;
+    return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / range);
 }

@@ -3,8 +3,16 @@
 #include "State.h"
 #include "Music.h"
 #include "EndState.h"
+#include "FallingBranch.h"
+#include "Timer.h"
 #include "../include/tmxlite/Map.hpp"
 
+struct BranchSpawner
+{
+    Vec2 position;
+    Timer timer;
+    float nextSpawnTime;
+};
 class SpriteRenderer;
 
 class SmokeState : public State
@@ -31,4 +39,8 @@ public:
 
 private:
     Music backgroundMusic;
+
+    Timer branchTimer;
+    std::vector<BranchSpawner> branchSpawners;
+    float RandomFloat(float min, float max);
 };

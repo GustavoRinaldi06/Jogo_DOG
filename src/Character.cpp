@@ -67,7 +67,9 @@ Character::Character(GameObject &associated, const std::string &spritePath)
 Character::~Character()
 {
     if (player == this)
+    {
         player = nullptr;
+    }
 }
 
 void Character::Start()

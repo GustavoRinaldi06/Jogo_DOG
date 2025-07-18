@@ -46,7 +46,6 @@ private:
     Music backgroundMusic;
     void CreateGameObject(const tmx::Object &object);
     Timer branchTimer;
-    std::vector<Vec2> branchPositions;
 
     std::vector<BranchSpawner> branchSpawners;
     float RandomFloat(float min, float max);

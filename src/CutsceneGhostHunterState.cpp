@@ -114,37 +114,37 @@ void CutsceneGhostHunterState::Update(float dt)
         ShowImage("9");
         scenes[8] = true;
     }
-    if (timer.Between(20.5f, 21.5f) && scenes[9] == false)
+    if (timer.Between(20.5f, 22.5f) && scenes[9] == false)
     {
         HideImage("9");
         ShowImage("8");
         scenes[9] = true;
     }
-    if (timer.Between(21.5f, 23.5f) && scenes[10] == false)
+    if (timer.Between(22.5f, 24.5f) && scenes[10] == false)
     {
         HideImage("8");
         ShowImage("10");
         scenes[10] = true;
     }
-    if (timer.Between(23.5f, 25.5f) && scenes[11] == false)
+    if (timer.Between(24.5f, 26.5f) && scenes[11] == false)
     {
         HideImage("10");
         ShowImage("8");
         scenes[11] = true;
     }
-    if (timer.Between(25.5f, 27.5f) && scenes[12] == false)
+    if (timer.Between(26.5f, 28.5f) && scenes[12] == false)
     {
         HideImage("8");
         ShowImage("9");
         scenes[12] = true;
     }
-    if (timer.Between(27.5f, 28.5f) && scenes[13] == false)
+    if (timer.Between(28.5f, 29.5f) && scenes[13] == false)
     {
         HideImage("9");
         ShowImage("11");
         scenes[13] = true;
     }
-    if (timer.Between(28.5f, 29.5f) && scenes[14] == false)
+    if (timer.Between(29.5f, 30.5f) && scenes[14] == false)
     {
         HideImage("11");
         ShowImage("1");
@@ -153,7 +153,7 @@ void CutsceneGhostHunterState::Update(float dt)
         sounds.at("heartbeat")->Play(10, 10000);
         scenes[14] = true;
     }
-    if (timer.Between(29.5f, 34.f) && scenes[15] == false)
+    if (timer.Between(30.5f, 34.f) && scenes[15] == false)
     {
         sounds.at("respiration")->Play(10, 10000);
         scenes[15] = true;

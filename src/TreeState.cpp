@@ -278,7 +278,8 @@ void TreeState::LoadLayers()
     E->AddComponent(new Parallax(*E, 0.9f, 0.9f));
     AddObject(E);
 
-/*     // Camada D
+    /*
+     // Camada D
     GameObject *D = new GameObject();
     D->box.x = 0;
     D->box.y = 0;
@@ -296,7 +297,8 @@ void TreeState::LoadLayers()
     C->box.h = 512;
     C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Tree/C.png"));
     C->AddComponent(new Parallax(*C, 0.3f));
-    AddObject(C); */
+    AddObject(C); 
+*/
 
     // Camada B
     GameObject *B = new GameObject();
@@ -307,15 +309,17 @@ void TreeState::LoadLayers()
     B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Tree/B.png"));
     AddObject(B);
 
+    /*
     // Camada A
-/*     GameObject *A = new GameObject();
+         GameObject *A = new GameObject();
     A->box.x = 0;
     A->box.y = 0;
     A->box.w = 2048;
     A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/Abertura.jpg"));
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Tree/A.png"));
     A->AddComponent(new Parallax(*A, 0.6f));
-    AddObject(A); */
+    AddObject(A); 
+    */
 }
 
 const std::array<std::string, 4u> LayerStrings =

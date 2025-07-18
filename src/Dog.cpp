@@ -17,7 +17,7 @@ Dog::Dog(GameObject &associated, int damage, bool targetsPlayer, const std::stri
     renderer->SetScale(0.6f, 0.6f);
 
     auto animator = new Animator(associated);
-    animator->AddAnimation("action", Animation(0, 5, 0.2f));
+    animator->AddAnimation("action", Animation(0, 5, 0.3f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
@@ -38,7 +38,7 @@ void Dog::Update(float dt)
         collisionChecked = true;
     }
 
-    if (RunTime.Get() >  0.8f){
+    if (RunTime.Get() >  1.0f){
         associated.RequestDelete();
 
         return;

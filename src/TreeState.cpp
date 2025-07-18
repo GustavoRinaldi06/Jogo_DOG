@@ -109,9 +109,9 @@ void TreeState::Update(float dt)
     {
         std::vector<std::string> animalAssets = {
             // background
-            "recursos/img/background/Animal/C.png",
-            "recursos/img/background/Animal/B.png",
-            "recursos/img/background/Animal/A.png",
+            "recursos/img/background/Animal/resized/A.png",
+            "recursos/img/background/Animal/resized/B.png",
+            "recursos/img/background/Animal/resized/C.png",
             "recursos/map/Animal/tiles.png",
             // sprites
             "recursos/img/sprites/Player.png",
@@ -285,7 +285,9 @@ void TreeState::LoadLayers()
     E->box.y = 0;
     E->box.w = 2048;
     E->box.h = 512;
-    E->AddComponent(new SpriteRenderer(*E, "recursos/img/background/Tree/E.png"));
+    SpriteRenderer *spriteE = new SpriteRenderer(*E, "recursos/img/background/Tree/resized/E.png");
+    spriteE->SetScale(2.0f, 2.0f);
+    E->AddComponent(spriteE);
     E->AddComponent(new Parallax(*E, 0.9f, 0.9f));
     AddObject(E);
 
@@ -296,14 +298,15 @@ void TreeState::LoadLayers()
     treeBossGO->AddComponent(treeBoss);
     AddObject(treeBossGO);
 
-    /*
     // Camada D
     GameObject *D = new GameObject();
     D->box.x = 0;
     D->box.y = 0;
     D->box.w = 2048;
     D->box.h = 512;
-    D->AddComponent(new SpriteRenderer(*D, "recursos/img/background/Tree/D.png"));
+    SpriteRenderer *spriteD = new SpriteRenderer(*D, "recursos/img/background/Tree/resized/D.png");
+    spriteD->SetScale(2.0f, 2.0f);
+    D->AddComponent(spriteD);
     D->AddComponent(new Parallax(*D, 0.2f, 0.2f));
     AddObject(D);
 
@@ -313,10 +316,11 @@ void TreeState::LoadLayers()
     C->box.y = 0;
     C->box.w = 2048;
     C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Tree/C.png"));
+    SpriteRenderer *spriteC = new SpriteRenderer(*C, "recursos/img/background/Tree/resized/C.png");
+    spriteC->SetScale(2.0f, 2.0f);
+    C->AddComponent(spriteC);
     C->AddComponent(new Parallax(*C, 0.3f, 0.3f));
     AddObject(C);
-    */
 
     // Camada B
     GameObject *B = new GameObject();
@@ -324,8 +328,10 @@ void TreeState::LoadLayers()
     B->box.y = 50;
     B->box.w = 2048;
     B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Tree/B.png"));
-    AddObject(B);
+    SpriteRenderer *spriteB = new SpriteRenderer(*B, "recursos/img/background/Tree/resized/B.png");
+    spriteB->SetScale(2.0f, 2.0f);
+    B->AddComponent(spriteB);
+    // AddObject(B);
 }
 
 void TreeState::LoadForeground()

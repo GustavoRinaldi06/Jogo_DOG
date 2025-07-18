@@ -97,10 +97,14 @@ void TitleState::Update(float dt)
                     {
                         std::vector<std::string> treeAssets = {
                             // background
-                            "recursos/img/background/Tree/E.png",
-                            "recursos/img/background/Tree/B.png",
                             "recursos/img/background/Vinheta.png",
                             "recursos/map/Tree/tiles.png",
+                            // resized
+                            "recursos/img/background/Tree/resized/E.png",
+                            "recursos/img/background/Tree/resized/D.png",
+                            "recursos/img/background/Tree/resized/C.png",
+                            "recursos/img/background/Tree/resized/B.png",
+                            "recursos/img/background/Tree/resized/A.png",
                             // sprites
                             "recursos/img/sprites/Player.png",
                             "recursos/img/sprites/Hand.png",

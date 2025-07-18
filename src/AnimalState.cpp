@@ -96,9 +96,9 @@ void AnimalState::Update(float dt)
                 []()
                 {
                     std::vector<std::string> smokeAssets = {
-                        "recursos/img/Smoke/C.png",
-                        "recursos/img/Smoke/B.png",
-                        "recursos/img/Smoke/A.png",
+                        "recursos/img/Smoke/resized/C.png",
+                        "recursos/img/Smoke/resized/B.png",
+                        "recursos/img/Smoke/resized/A.png",
                         "recursos/img/Smoke/tile.png",
                         "recursos/img/sprites/Player.png"};
                     return new LoadingState([]()
@@ -255,7 +255,9 @@ void AnimalState::LoadLayers()
     C->box.y = 0;
     C->box.w = 2048;
     C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Animal/C.png"));
+    SpriteRenderer *spriteC = new SpriteRenderer(*C, "recursos/img/background/Animal/resized/C.png");
+    spriteC->SetScale(2.0f, 2.0f);
+    C->AddComponent(spriteC);
     C->AddComponent(new Parallax(*C, 0.6f, 0.6f));
     AddObject(C);
 
@@ -265,7 +267,9 @@ void AnimalState::LoadLayers()
     B->box.y = 0;
     B->box.w = 2048;
     B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Animal/B.png"));
+    SpriteRenderer *spriteB = new SpriteRenderer(*B, "recursos/img/background/Animal/resized/B.png");
+    spriteB->SetScale(2.0f, 2.0f);
+    B->AddComponent(spriteB);
     B->AddComponent(new Parallax(*B, 0.4f, 0.4f));
     AddObject(B);
 }
@@ -278,7 +282,7 @@ void AnimalState::LoadForeground()
     A->box.y = 0;
     A->box.w = 2048;
     A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/A.png"));
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/resized/A.png"));
     A->AddComponent(new Parallax(*A, 0.2f, 0.2f));
     AddObject(A); // Será renderizado POR CIMA dos objetos
 }

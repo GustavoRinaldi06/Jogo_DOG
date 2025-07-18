@@ -245,7 +245,9 @@ void SmokeState::LoadLayers()
     C->box.y = 0;
     C->box.w = 2048;
     C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Smoke/C.png"));
+    SpriteRenderer *spriteC = new SpriteRenderer(*C, "recursos/img/background/Smoke/resized/C.png");
+    spriteC->SetScale(2.0f, 2.0f);
+    C->AddComponent(spriteC);
     C->AddComponent(new Parallax(*C, 0.6f, 0.6f));
     AddObject(C);
 
@@ -255,7 +257,9 @@ void SmokeState::LoadLayers()
     B->box.y = 0;
     B->box.w = 2048;
     B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Smoke/B.png"));
+    SpriteRenderer *spriteB = new SpriteRenderer(*B, "recursos/img/background/Smoke/resized/B.png");
+    spriteB->SetScale(2.0f, 2.0f);
+    B->AddComponent(spriteB);
     B->AddComponent(new Parallax(*B, 0.5f, 0.5f));
     AddObject(B);
 }
@@ -268,7 +272,9 @@ void SmokeState::LoadForeground()
     A->box.y = 0;
     A->box.w = 2048;
     A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Smoke/A.png"));
+    SpriteRenderer *spriteA = new SpriteRenderer(*A, "recursos/img/background/Smoke/resized/A.png");
+    spriteA->SetScale(2.0f, 2.0f);
+    A->AddComponent(spriteA);
     A->AddComponent(new Parallax(*A, 0.2f, 0.2f));
     AddObject(A);
 }

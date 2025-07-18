@@ -293,8 +293,8 @@ void AnimalState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet *tileSet = new TileSet(
-            249,
-            249,
+            250,
+            250,
             "recursos/map/Animal/tiles.png");
         TileMap *tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);

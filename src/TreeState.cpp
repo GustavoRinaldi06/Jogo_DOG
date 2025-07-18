@@ -39,7 +39,7 @@ void TreeState::LoadAssets()
 
     LoadLayers();
     LoadFromTMX("recursos/map/Tree/mapfile.tmx");
-    LoadForeground();
+    // LoadForeground();
 
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
@@ -124,11 +124,8 @@ void TreeState::Update(float dt)
             "recursos/img/sprites/Deer.png",
             // sons
             "recursos/audio/BGmusic/treeState.mp3",
-            "recursos/audio/Hunter/boing.mp3",
             "recursos/audio/DOG/explode.mp3",
-            "recursos/audio/Hunter/boing.mp3",
             "recursos/audio/DOG/explode.mp3",
-            "recursos/audio/Hunter/boing.mp3",
             "recursos/audio/DOG/explode.mp3",
         };
 
@@ -361,8 +358,8 @@ void TreeState::LoadFromTMX(std::string file)
         go->box.y = 0;
 
         TileSet *tileSet = new TileSet(
-            249,
-            249,
+            250,
+            250,
             "recursos/map/Tree/tiles.png");
         TileMap *tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);
@@ -473,6 +470,8 @@ GameObject *TreeState::FindGateObject()
 
 float TreeState::RandomFloat(float min, float max)
 {
-    return min + static_cast<float>(rand()) /
-                     (static_cast<float>(RAND_MAX / (max - min)));
+    if (max <= min)
+        return min;
+    float range = max - min;
+    return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / range);
 }

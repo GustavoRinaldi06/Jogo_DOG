@@ -14,28 +14,29 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 
-TitleState::TitleState(): State()
-{}
+TitleState::TitleState() : State()
+{
+}
 
 TitleState::~TitleState() = default;
 
 void TitleState::LoadAssets()
 {
-// Carregar imagem ------------------------------------------------------------------------------------
+    // Carregar imagem ------------------------------------------------------------------------------------
     GameObject *titleGO = new GameObject();
 
     SpriteRenderer *spriter = new SpriteRenderer(*titleGO);
-    spriter->Open("recursos/img/Menu.png"); 
-    spriter->SetCameraFollower(true);  
+    spriter->Open("recursos/img/Menu.png");
+    spriter->SetCameraFollower(true);
 
     titleGO->AddComponent(spriter);
     AddObject(titleGO);
 
-// Carregar titulo ------------------------------------------------------------------------------------------------
+    // Carregar titulo ------------------------------------------------------------------------------------------------
     SDL_Color white = {255, 255, 255, 255};
 
     GameObject *textGO1 = new GameObject();
-    Text* title = new Text(*textGO1, "recursos/font/Titulo.ttf", 224, BLENDED, "D O G", white);
+    Text *title = new Text(*textGO1, "recursos/font/Titulo.ttf", 224, BLENDED, "D O G", white);
     textGO1->AddComponent(title);
 
     title->SetCameraFollower(true);
@@ -45,12 +46,12 @@ void TitleState::LoadAssets()
 
     AddObject(textGO1);
 
-// Carregar musica -----------------------------------------------------------------------------------
+    // Carregar musica -----------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/Tema.mp3");
     backgroundMusic.Play();
 
-// Botões -------------------------------------------------------------------------------------------=
-// Botão: Novo Jogo
+    // Botões -------------------------------------------------------------------------------------------=
+    // Botão: Novo Jogo
     newGameGO = new GameObject();
     Text *newGameText = new Text(*newGameGO, "recursos/font/fonteBase.ttf", 48, BLENDED, "Novo Jogo", white);
     newGameGO->AddComponent(newGameText);
@@ -59,7 +60,7 @@ void TitleState::LoadAssets()
     newGameGO->box.y = 350;
     AddObject(newGameGO);
 
-// Botão: Sair
+    // Botão: Sair
     exitGO = new GameObject();
     Text *exitText = new Text(*exitGO, "recursos/font/fonteBase.ttf", 48, BLENDED, "Sair", white);
     exitGO->AddComponent(exitText);
@@ -82,7 +83,6 @@ void TitleState::Update(float dt)
         return;
     }
 
-
     if (input.MousePress(SDL_BUTTON_LEFT))
     {
         int mouseX = input.GetMouseX();
@@ -92,39 +92,34 @@ void TitleState::Update(float dt)
         {
             // Novo Jogo clicado
             Game::GetInstance().Push(
-            new CutsceneIntroState( 
-                []() {
-                    std::vector<std::string> treeAssets = {
-                        // background
-                        "recursos/img/background/Tree/E.png",
-                        "recursos/img/background/Tree/B.png",
-                        "recursos/img/background/Vinheta.png",
-                        "recursos/map/Tree/tiles.png",
-                        // sprites
-                        "recursos/img/sprites/Player.png",
-                        "recursos/img/sprites/Hand.png", 
-                        "recursos/img/sprites/Thorn.png", 
-                        "recursos/img/sprites/Chainsaw.png",
-                        "recursos/img/sprites/DogHowling.png",
-                        "recursos/img/sprites/DogShoot.png",
-                        // sons
-                        "recursos/audio/BGmusic/treeState.mp3",
-                        "recursos/audio/Hunter/boing.mp3", 
-                        "recursos/audio/DOG/explode.mp3",
-                        "recursos/audio/Hunter/boing.mp3", 
-                        "recursos/audio/DOG/explode.mp3",
-                        "recursos/audio/Hunter/boing.mp3", 
-                        "recursos/audio/DOG/explode.mp3",
-                    };
+                new CutsceneIntroState(
+                    []()
+                    {
+                        std::vector<std::string> treeAssets = {
+                            // background
+                            "recursos/img/background/Tree/E.png",
+                            "recursos/img/background/Tree/B.png",
+                            "recursos/img/background/Vinheta.png",
+                            "recursos/map/Tree/tiles.png",
+                            // sprites
+                            "recursos/img/sprites/Player.png",
+                            "recursos/img/sprites/Hand.png",
+                            "recursos/img/sprites/Thorn.png",
+                            "recursos/img/sprites/Chainsaw.png",
+                            "recursos/img/sprites/DogHowling.png",
+                            "recursos/img/sprites/DogShoot.png",
+                            // sons
+                            "recursos/audio/BGmusic/treeState.mp3",
+                            "recursos/audio/DOG/explode.mp3",
+                            "recursos/audio/DOG/explode.mp3",
+                            "recursos/audio/DOG/explode.mp3",
+                        };
 
-                    GameData::state = 1;
-                    GameData::playerHP = 100;
-                    return new LoadingState([]() {
-                        return new TreeState();
-                    }, treeAssets);
-                }
-            )
-        );
+                        GameData::state = 1;
+                        GameData::playerHP = 100;
+                        return new LoadingState([]()
+                                                { return new TreeState(); }, treeAssets);
+                    }));
         }
 
         if (exitGO->box.Contains(mouseX, mouseY)) // Clica em sair

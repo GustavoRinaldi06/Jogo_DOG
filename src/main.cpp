@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "TitleState.h"
-#include "EndState.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"

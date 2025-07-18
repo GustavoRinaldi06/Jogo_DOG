@@ -3,6 +3,7 @@
 #include "State.h"
 #include "Music.h"
 #include "EndState.h"
+#include "../include/tmxlite/Map.hpp"
 
 class SpriteRenderer;
 
@@ -22,6 +23,11 @@ public:
 
     Text *hpText = nullptr;
     Text *dogText = nullptr;
+
+    void LoadLayers();
+    void LoadForeground();
+    void LoadFromTMX(std::string file);
+    void CreateGameObject(const tmx::Object &object);
 
 private:
     Music backgroundMusic;

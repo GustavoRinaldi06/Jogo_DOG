@@ -290,6 +290,7 @@ void TreeState::LoadLayers()
     E->AddComponent(new Parallax(*E, 0.9f, 0.9f));
     AddObject(E);
 
+    /*
     // Camada D
     GameObject *D = new GameObject();
     D->box.x = 0;
@@ -309,6 +310,7 @@ void TreeState::LoadLayers()
     C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Tree/C.png"));
     C->AddComponent(new Parallax(*C, 0.3f, 0.3f));
     AddObject(C);
+    */
 
     // Camada B
     GameObject *B = new GameObject();

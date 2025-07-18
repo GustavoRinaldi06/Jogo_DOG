@@ -10,6 +10,7 @@
 #include "Collision.h"
 #include "Parallax.h"
 #include "Text.h"
+#include "ObjectFactory.h"
 
 #define INCLUDE_SDL
 #include "SDL_include.h"
@@ -29,90 +30,13 @@ void SmokeState::LoadAssets()
     std::cout << "\n Carregando DOG a Smoke fase:" << "\n"; // Alertar LoadAssets
 
     // Fundo -------------------------------------------------------------------------------------------------------------------
+    LoadLayers();
 
-    // Camada C
-    GameObject *C = new GameObject();
-    C->box.x = 0;
-    C->box.y = 0;
-    C->box.w = 2048;
-    C->box.h = 512;
-    C->AddComponent(new SpriteRenderer(*C, "recursos/img/Smoke/C.png"));
-    C->AddComponent(new Parallax(*C, 0.6f));
-    AddObject(C);
+    // Carrega o mapa do TMX
+    LoadFromTMX("recursos/map/Smoke/mapfile.tmx");
 
-    // Camada B
-    GameObject *B = new GameObject();
-    B->box.x = 0;
-    B->box.y = 0;
-    B->box.w = 2048;
-    B->box.h = 512;
-    B->AddComponent(new SpriteRenderer(*B, "recursos/img/Smoke/B.png"));
-    B->AddComponent(new Parallax(*B, 0.4f));
-    AddObject(B);
-
-    // Camada A
-    GameObject *A = new GameObject();
-    A->box.x = 0;
-    A->box.y = 500;
-    A->box.w = 2048;
-    A->box.h = 512;
-    A->AddComponent(new SpriteRenderer(*A, "recursos/img/Smoke/A.png"));
-    A->AddComponent(new Parallax(*A, 0.2f));
-    AddObject(A);
-
-    tmx::Map map;
-    if (map.load("recursos/map/Smoke/mapfile.tmx")){
-        // Mapa --------------------------------------------------------------------------------------------------------------------
-        GameObject *mapGO = new GameObject();
-        // cria TileSet
-        TileSet *tileSet = new TileSet(499, 499, "recursos/img/Smoke/tile.png");
-        // cria TileMap
-        TileMap* tileMap = new TileMap(*mapGO, tileSet, map);
-        tileMap->SetTileSet(tileSet);
-        // DEBUG -- verificar tamanhos certos
-        std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
-        std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
-    
-        mapGO->AddComponent(tileMap);
-        mapGO->box.x = 0;
-        mapGO->box.y = -600;
-        mapGO->box.w = 2048;
-        mapGO->box.h = 600;
-    
-        AddObject(mapGO);
-
-        // gera colisão da camada 0 (chão)
-        tileMap->GenerateCollision(0, *this);
-    }
-
-
-
-    // Cria limite de mapa esquerda ------------------------------------------
-    GameObject *leftlimit = new GameObject();
-    leftlimit->box.x = 0;
-    leftlimit->box.y = 0;
-    leftlimit->box.w = 500;
-    leftlimit->box.h = 1500;
-
-    Collider *wallCollider = new Collider(*leftlimit);
-    wallCollider->tag = "wall";
-    leftlimit->AddComponent(wallCollider);
-
-    AddObject(leftlimit);
-
-    // Personagem ----------------------------------------------------------------------------------------------------------------
-    GameObject *playerGO = new GameObject();
-    playerGO->box.x = 500;
-    playerGO->box.y = 350;
-
-    playerGO->AddComponent(new Character(*playerGO, "recursos/img/sprites/Player.png"));
-    playerGO->AddComponent(new PlayerController(*playerGO));
-
-    Camera::GetInstance().Follow(playerGO);
-    AddObject(playerGO);
-
-    std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
-    std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
+    // Carrega o foreground
+    // LoadForeground();
 
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
@@ -281,4 +205,135 @@ void SmokeState::Pause()
 void SmokeState::Resume()
 {
     // Não sei ainda
+}
+
+void SmokeState::LoadLayers()
+{
+    // Camada C (background - mais distante)
+    GameObject *C = new GameObject();
+    C->box.x = 0;
+    C->box.y = 0;
+    C->box.w = 2048;
+    C->box.h = 512;
+    C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Smoke/C.png"));
+    C->AddComponent(new Parallax(*C, 0.6f, 0.6f));
+    AddObject(C);
+
+    // Camada B
+    GameObject *B = new GameObject();
+    B->box.x = 0;
+    B->box.y = 0;
+    B->box.w = 2048;
+    B->box.h = 512;
+    B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Smoke/B.png"));
+    B->AddComponent(new Parallax(*B, 0.4f, 0.4f));
+    AddObject(B);
+}
+
+void SmokeState::LoadForeground()
+{
+    // Camada A (foreground - mais próxima)
+    GameObject *A = new GameObject();
+    A->box.x = 0;
+    A->box.y = 0;
+    A->box.w = 2048;
+    A->box.h = 512;
+    A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Smoke/A.png"));
+    A->AddComponent(new Parallax(*A, 0.2f, 0.2f));
+    AddObject(A);
+}
+
+void SmokeState::LoadFromTMX(std::string file)
+{
+    tmx::Map map;
+    if (map.load(file))
+    {
+        GameObject *go = new GameObject();
+        go->box.x = 0;
+        go->box.y = 0;
+
+        TileSet *tileSet = new TileSet(
+            249,
+            249,
+            "recursos/map/Smoke/tiles.png");
+        TileMap *tileMap = new TileMap(*go, tileSet, map);
+        go->AddComponent(tileMap);
+        AddObject(go);
+
+        // DEBUG -- verificar tamanhos certos
+        std::cout << "TileSet carregado: " << tileSet->GetTileWidth() << "x" << tileSet->GetTileHeight() << "\n";
+        std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
+
+        // gera colisão da camada 0 (chão)
+        // tileMap->GenerateCollision(0, *this);
+
+        const auto &layers = map.getLayers();
+        for (const auto &layer : layers)
+        {
+            if (layer->getType() == tmx::Layer::Type::Object)
+            {
+                const auto &objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+                for (const auto &object : objects)
+                {
+                    CreateGameObject(object);
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Failed loading map" << std::endl;
+    }
+}
+
+void SmokeState::CreateGameObject(const tmx::Object &object)
+{
+    if (object.getClass() == "Collider")
+    {
+        GameObject *colliderGO = ObjectFactory::CreateColliderObject(object);
+        AddObject(colliderGO);
+        std::cout << "Collider object created at position: " << colliderGO->box.x << ", " << colliderGO->box.y << std::endl;
+        return;
+    }
+
+    if (object.getClass() == "Hand")
+    {
+        GameObject *handGO = ObjectFactory::CreateHandObject(object);
+        AddObject(handGO);
+        std::cout << "Hand object created at position: " << handGO->box.x << ", " << handGO->box.y << std::endl;
+        return;
+    }
+
+    if (object.getClass() == "Espinho")
+    {
+        GameObject *thornGO = ObjectFactory::CreateThornObject(object);
+        AddObject(thornGO);
+        std::cout << "Thorn object created at position: " << thornGO->box.x << ", " << thornGO->box.y << std::endl;
+        return;
+    }
+
+    if (object.getClass() == "Chainsaw")
+    {
+        GameObject *chainSawGO = ObjectFactory::CreateChainSawObject(object);
+        AddObject(chainSawGO);
+        return;
+    }
+
+    if (object.getClass() == "Player")
+    {
+        GameObject *playerGO = ObjectFactory::CreatePlayerObject(object);
+        AddObject(playerGO);
+        std::cout << "Player object created at position: " << playerGO->box.x << ", " << playerGO->box.y << std::endl;
+        std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
+        std::cout << "playerGO->box.x = " << playerGO->box.x << "\n";
+        std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
+        return;
+    }
+
+    if (object.getName() == "Gate")
+    {
+        GameObject *gateGO = ObjectFactory::CreateGateObject(object);
+        AddObject(gateGO);
+        return;
+    }
 }

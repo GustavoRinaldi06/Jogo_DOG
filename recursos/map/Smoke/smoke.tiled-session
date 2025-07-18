@@ -7,12 +7,24 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
-        "mapfile.tmx": {
-            "scale": 0.13897142857142858,
-            "selectedLayer": 0,
+        "C:/Users/lukas/OneDrive/Documentos/Projects/Jogo_DOG/recursos/map/Animal/mapfile.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 7872.121710526315,
-                "y": 1000.2055921052633
+                "x": 452,
+                "y": -28
+            }
+        },
+        "mapfile.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 4444,
+                "y": 292
             }
         },
         "mapfile.tmx#tree_tiles": {

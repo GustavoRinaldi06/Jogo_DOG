@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="4" tilewidth="250" tileheight="250" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="4" tilewidth="250" tileheight="250" infinite="0" nextlayerid="4" nextobjectid="6">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="1" name="Camada de Blocos 1" width="36" height="4">
   <data encoding="csv">
@@ -9,4 +9,11 @@
 6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
 </data>
  </layer>
+ <objectgroup id="2" name="Objetos">
+  <object id="1" name="Player" type="Player" x="1208.88" y="423.52" width="193.257" height="263.158"/>
+ </objectgroup>
+ <objectgroup id="3" name="Collider">
+  <object id="3" name="Collider" type="Collider" x="1.65937" y="797.539" width="8986" height="178" rotation="0.0983382"/>
+  <object id="4" name="Collider" type="Collider" x="-20" y="12" width="232" height="1008"/>
+ </objectgroup>
 </map>

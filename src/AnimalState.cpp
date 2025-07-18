@@ -42,19 +42,6 @@ void AnimalState::LoadAssets()
     // Carrega o foreground
     // LoadForeground();
 
-    // Cria limite de mapa esquerda ------------------------------------------
-    GameObject *leftlimit = new GameObject();
-    leftlimit->box.x = 0;
-    leftlimit->box.y = 0;
-    leftlimit->box.w = 500;
-    leftlimit->box.h = 1500;
-
-    Collider *wallCollider = new Collider(*leftlimit);
-    wallCollider->tag = "wall";
-    leftlimit->AddComponent(wallCollider);
-
-    AddObject(leftlimit);
-
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/animalState.wav");
     backgroundMusic.Play();
@@ -269,7 +256,7 @@ void AnimalState::LoadLayers()
     C->box.w = 2048;
     C->box.h = 512;
     C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Animal/C.png"));
-    C->AddComponent(new Parallax(*C, 0.6f));
+    C->AddComponent(new Parallax(*C, 0.6f, 0.6f));
     AddObject(C);
 
     // Camada B
@@ -279,7 +266,7 @@ void AnimalState::LoadLayers()
     B->box.w = 2048;
     B->box.h = 512;
     B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Animal/B.png"));
-    B->AddComponent(new Parallax(*B, 0.4f));
+    B->AddComponent(new Parallax(*B, 0.4f, 0.4f));
     AddObject(B);
 }
 

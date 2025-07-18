@@ -16,12 +16,12 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
     associated.AddComponent(renderer);
     renderer->SetScale(0.6f, 0.6f); 
 
-    associated.angleDeg = angle * 180 / M_PI + 90; // Adicionar 90 para a bala ficar horizontal em relação a arma
+    associated.angleDeg = angle * 180 / M_PI; // Adicionar 90 para a bala ficar horizontal em relação a arma
 
     auto animator = new Animator(associated);
     animator->AddAnimation("spawn", Animation(0, 2, 0.5f));
     animator->AddAnimation("running", Animation(3, 5, 0.5f));
-    animator->AddAnimation("explode", Animation(6, 7, 0.5f));
+    animator->AddAnimation("explode", Animation(6, 7, 0.3f));
     associated.AddComponent(animator);
 
     associated.AddComponent(new Collider(associated));
@@ -48,7 +48,7 @@ void Bullet::Update(float dt)
 
     Animator *animator = static_cast<Animator *>(associated.GetComponent("Animator"));
     if (animator){
-        if (SpawnTime.Get() > 1.0f){
+        if (SpawnTime.Get() > 0.8f){
             animator->SetAnimation("running");
         }
     }

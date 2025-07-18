@@ -75,7 +75,7 @@ void Character::Update(float dt)
     GameData::playerHP = hp; // Atualiza sempre o gamedata
 
     // Ao morrer -------------------------------------------------------------------------------
-    if (associated.box.y > 1200)
+    if (associated.box.y > 1500)
     {
         if (!deathAnimTriggered){
             hp = 0;
@@ -196,7 +196,7 @@ void Character::Update(float dt)
                 // cria o DOG
                 GameObject *dogGO = new GameObject();
                 dogGO->box.x = shooterCenter.x;
-                dogGO->box.y = std::min(shooterCenter.y - 20, 550.0f);
+                dogGO->box.y = shooterCenter.y - 150;
                 dogGO->AddComponent(new Bullet(*dogGO, angle, speed, damage, maxDistance, targetsPlayer, "recursos/img/sprites/DogShoot.png", "recursos/audio/DOG/LOBOteste.mp3", "recursos/audio/DOG/explode.mp3")); // Alterar para o cachorro
 
                 Game::GetInstance().GetCurrentState().AddObject(dogGO);
@@ -216,12 +216,12 @@ void Character::Update(float dt)
 
             GameObject *dogGO1 = new GameObject();
             if (facingDir == -1){ // Andando pra esquerda, chama para esquerda
-                dogGO1->box.x = shooterCenter.x - 110;
+                dogGO1->box.x = shooterCenter.x - 210;
             }
             else{ // Andando pra direita, chama para direita
                 dogGO1->box.x = shooterCenter.x + 70;
             }
-            dogGO1->box.y = std::min(shooterCenter.y - 30, 650.0f);
+            dogGO1->box.y = shooterCenter.y - 120;
             dogGO1->AddComponent(new Dog(*dogGO1, 20, false, "recursos/img/sprites/DogHowling.png", "recursos/audio/DOG/LOBOteste.mp3")); // Alterar para o cachorro
 
             Game::GetInstance().GetCurrentState().AddObject(dogGO1);

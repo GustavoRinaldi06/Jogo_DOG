@@ -39,6 +39,9 @@ void AnimalState::LoadAssets()
     // Carrega o mapa do TMX
     LoadFromTMX("recursos/map/Animal/mapfile.tmx");
 
+    // Carrega o foreground
+    LoadForeground();
+
     // Cria limite de mapa esquerda ------------------------------------------
     GameObject *leftlimit = new GameObject();
     leftlimit->box.x = 0;
@@ -278,16 +281,19 @@ void AnimalState::LoadLayers()
     B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Animal/B.png"));
     B->AddComponent(new Parallax(*B, 0.4f));
     AddObject(B);
+}
 
-    // Camada A
+void AnimalState::LoadForeground()
+{
+    // Camada A (foreground - mais próxima)
     GameObject *A = new GameObject();
     A->box.x = 0;
-    A->box.y = 500;
+    A->box.y = 0;
     A->box.w = 2048;
     A->box.h = 512;
     A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Animal/A.png"));
-    A->AddComponent(new Parallax(*A, 0.2f));
-    AddObject(A);
+    A->AddComponent(new Parallax(*A, 0.1f, 0.1f));
+    AddObject(A); // Será renderizado POR CIMA dos objetos
 }
 
 void AnimalState::LoadFromTMX(std::string file)

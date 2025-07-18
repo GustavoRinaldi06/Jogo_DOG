@@ -15,7 +15,7 @@
 #include "LoadingState.h"
 #include "Text.h"
 #include "windows.h"
-#include "ObjectFactory.h" 
+#include "ObjectFactory.h"
 #include "Gate.h"
 
 #define INCLUDE_SDL
@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <ctime>
 
 TreeState::TreeState() {}
 
@@ -37,6 +38,7 @@ void TreeState::LoadAssets()
 
     LoadLayers();
     LoadFromTMX("recursos/map/Tree/mapfile.tmx");
+    // LoadForeground();
 
     // Música --------------------------------------------------------------------------------------------------------------------
     backgroundMusic.Open("recursos/audio/BGmusic/treeState.mp3");
@@ -94,15 +96,12 @@ void TreeState::Update(float dt)
         quitRequested = true;
         return;
     }
-    
-    // recuperar o gate
-    GameObject* gateObj = FindGateObject();
-    Gate* gate = gateObj 
-        ? static_cast<Gate*>(gateObj->GetComponent("Gate")) 
-        : nullptr;
 
-    
-    std::cout << "Gate isOpen: " << (gate ? gate->IsOpen() : false) << std::endl;
+    // recuperar o gate
+    GameObject *gateObj = FindGateObject();
+    Gate *gate = gateObj
+                     ? static_cast<Gate *>(gateObj->GetComponent("Gate"))
+                     : nullptr;
 
     // PARA TESTES ==================================================================================================
     if (input.KeyPress('r') || (gate && gate->IsOpen()))
@@ -115,41 +114,48 @@ void TreeState::Update(float dt)
             "recursos/map/Animal/tiles.png",
             // sprites
             "recursos/img/sprites/Player.png",
-            "recursos/img/sprites/Hand.png", 
-            "recursos/img/sprites/Thorn.png", 
+            "recursos/img/sprites/Hand.png",
+            "recursos/img/sprites/Thorn.png",
             "recursos/img/sprites/Chainsaw.png",
             "recursos/img/sprites/DogHowling.png",
             "recursos/img/sprites/DogShoot.png",
             "recursos/img/sprites/WaterLily.png",
             // sons
             "recursos/audio/BGmusic/treeState.mp3",
-            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/Hunter/boing.mp3",
             "recursos/audio/DOG/explode.mp3",
-            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/Hunter/boing.mp3",
             "recursos/audio/DOG/explode.mp3",
-            "recursos/audio/Hunter/boing.mp3", 
+            "recursos/audio/Hunter/boing.mp3",
             "recursos/audio/DOG/explode.mp3",
         };
 
         GameData::state = 2;
         popRequested = true;
-        
-        Game::GetInstance().Push(new LoadingState([](){ 
-            return new AnimalState(); 
-        }, animalAssets));
+
+        Game::GetInstance().Push(new LoadingState([]()
+                                                  { return new AnimalState(); }, animalAssets));
 
         // remover gate object if it exists
-        if (gateObj) gateObj->RequestDelete();
+        if (gateObj)
+            gateObj->RequestDelete();
     }
 
-    branchTimer.Update(dt);
-    if (branchTimer.Get() > 3.0f) { // a cada 3 segundos
-        GameObject* branchGO = ObjectFactory::CreateFallingBranchObject(tmx::Object());
-        AddObject(branchGO);
-        std::cout << "Falling Branch object created at position: " << branchGO->box.x << ", " << branchGO->box.y << std::endl;
-        branchTimer.Restart();
+    // cria os galhos
+    for (auto &spawner : branchSpawners)
+    {
+        spawner.timer.Update(dt);
+        if (spawner.timer.Get() >= spawner.nextSpawnTime)
+        {
+            GameObject *branchGO = ObjectFactory::CreateFallingBranchObject(
+                spawner.position.x,
+                spawner.position.y);
+            AddObject(branchGO);
+
+            spawner.timer.Restart();
+            spawner.nextSpawnTime = RandomFloat(5.0f, 12.0f);
+        }
     }
-    // =============================================================================================================
 
     // Atualiza todos os GameObjects
     UpdateArray(dt);
@@ -210,31 +216,36 @@ void TreeState::Update(float dt)
         }
     }
 
-    //CAixa de texto de vida
-    if (hpText && Character::player != nullptr){
+    // CAixa de texto de vida
+    if (hpText && Character::player != nullptr)
+    {
         std::string hpString = "HP: " + std::to_string(Character::player->GetHP());
         hpText->SetText(hpString);
     }
 
-    //Caixa do cooldown do DOG
-    if (dogText && Character::player != nullptr){
-        if(Character::player->GetCool() < 4){
+    // Caixa do cooldown do DOG
+    if (dogText && Character::player != nullptr)
+    {
+        if (Character::player->GetCool() < 4)
+        {
             std::string dgCooldown = "DOG esta passeando: " + std::to_string(4 - Character::player->GetCool());
             dogText->SetText(dgCooldown);
-        }else{
+        }
+        else
+        {
             std::string dgCooldown = "DOG esta entre nos";
             dogText->SetText(dgCooldown);
         }
     }
 
-    //Checagem de fim Derrota
+    // Checagem de fim Derrota
     if (Character::player == nullptr || Character::player->GetGameObject()->IsDead()) // Se o player tiver morrido
     {
         GameData::playerVictory = false;
         popRequested = true;
         Game::GetInstance().Push(new EndState());
         return;
-    } 
+    }
 }
 
 void TreeState::Render()
@@ -259,11 +270,12 @@ void TreeState::Start()
 }
 
 void TreeState::Pause()
-{}
+{
+}
 
 void TreeState::Resume()
 {
-  // Não sei ainda
+    // Não sei ainda
 }
 
 void TreeState::LoadLayers()
@@ -278,15 +290,14 @@ void TreeState::LoadLayers()
     E->AddComponent(new Parallax(*E, 0.9f, 0.9f));
     AddObject(E);
 
-    /*
-     // Camada D
+    // Camada D
     GameObject *D = new GameObject();
     D->box.x = 0;
     D->box.y = 0;
     D->box.w = 2048;
     D->box.h = 512;
     D->AddComponent(new SpriteRenderer(*D, "recursos/img/background/Tree/D.png"));
-    D->AddComponent(new Parallax(*D, 0.2f));
+    D->AddComponent(new Parallax(*D, 0.2f, 0.2f));
     AddObject(D);
 
     // Camada C
@@ -296,9 +307,8 @@ void TreeState::LoadLayers()
     C->box.w = 2048;
     C->box.h = 512;
     C->AddComponent(new SpriteRenderer(*C, "recursos/img/background/Tree/C.png"));
-    C->AddComponent(new Parallax(*C, 0.3f));
-    AddObject(C); 
-*/
+    C->AddComponent(new Parallax(*C, 0.3f, 0.3f));
+    AddObject(C);
 
     // Camada B
     GameObject *B = new GameObject();
@@ -308,25 +318,26 @@ void TreeState::LoadLayers()
     B->box.h = 512;
     B->AddComponent(new SpriteRenderer(*B, "recursos/img/background/Tree/B.png"));
     AddObject(B);
+}
 
-    /*
-    // Camada A
-         GameObject *A = new GameObject();
+void TreeState::LoadForeground()
+{
+    // Camada A (foreground - mais próxima)
+    GameObject *A = new GameObject();
     A->box.x = 0;
     A->box.y = 0;
     A->box.w = 2048;
     A->box.h = 512;
     A->AddComponent(new SpriteRenderer(*A, "recursos/img/background/Tree/A.png"));
-    A->AddComponent(new Parallax(*A, 0.6f));
-    AddObject(A); 
-    */
+    A->AddComponent(new Parallax(*A, 0.2f, 0.2f));
+    AddObject(A); // Será renderizado POR CIMA dos objetos
 }
 
 const std::array<std::string, 4u> LayerStrings =
-{
-    std::string("Chainsaw"),
-    std::string("Background"),
-    std::string("Hand"),
+    {
+        std::string("Chainsaw"),
+        std::string("Background"),
+        std::string("Hand"),
 };
 
 void TreeState::LoadFromTMX(std::string file)
@@ -334,16 +345,15 @@ void TreeState::LoadFromTMX(std::string file)
     tmx::Map map;
     if (map.load(file))
     {
-        GameObject* go = new GameObject();
+        GameObject *go = new GameObject();
         go->box.x = 0;
         go->box.y = 0;
 
-        TileSet* tileSet = new TileSet(
-            250,
-            250,
-            "recursos/map/Tree/tiles.png"
-        );
-        TileMap* tileMap = new TileMap(*go, tileSet, map);
+        TileSet *tileSet = new TileSet(
+            249,
+            249,
+            "recursos/map/Tree/tiles.png");
+        TileMap *tileMap = new TileMap(*go, tileSet, map);
         go->AddComponent(tileMap);
         AddObject(go);
 
@@ -352,16 +362,29 @@ void TreeState::LoadFromTMX(std::string file)
         std::cout << "TileMap carregado: " << tileMap->GetWidth() << "x" << tileMap->GetHeight() << "x" << tileMap->GetDepth() << "\n \n";
 
         // gera colisão da camada 0 (chão)
-        //tileMap->GenerateCollision(0, *this);
+        // tileMap->GenerateCollision(0, *this);
 
-        const auto& layers = map.getLayers();
-        for (const auto& layer : layers)
+        const auto &layers = map.getLayers();
+        for (const auto &layer : layers)
         {
             if (layer->getType() == tmx::Layer::Type::Object)
             {
-                const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
-                for (const auto& object : objects)
+                const auto &objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+                for (const auto &object : objects)
                 {
+                    // criar galhos
+                    if (object.getName() == "FallingBranch")
+                    {
+                        BranchSpawner spawner;
+                        spawner.position = Vec2(object.getPosition().x, object.getPosition().y);
+                        spawner.timer = Timer();
+                        spawner.nextSpawnTime = RandomFloat(3.0f, 5.0f); // Tempo inicial aleatório
+                        branchSpawners.push_back(spawner);
+                        std::cout << "time = " << spawner.nextSpawnTime << "\n";
+                        continue;
+                    }
+
+                    // criar GameObject a partir do objeto
                     CreateGameObject(object);
                 }
             }
@@ -373,43 +396,42 @@ void TreeState::LoadFromTMX(std::string file)
     }
 }
 
-void TreeState::CreateGameObject(const tmx::Object& object)
+void TreeState::CreateGameObject(const tmx::Object &object)
 {
-    if(object.getClass() == "Collider")
+    if (object.getClass() == "Collider")
     {
-        GameObject* colliderGO = ObjectFactory::CreateColliderObject(object);
+        GameObject *colliderGO = ObjectFactory::CreateColliderObject(object);
         AddObject(colliderGO);
         std::cout << "Collider object created at position: " << colliderGO->box.x << ", " << colliderGO->box.y << std::endl;
         return;
     }
 
-    if(object.getClass() == "Hand")
+    if (object.getClass() == "Hand")
     {
-        GameObject* handGO = ObjectFactory::CreateHandObject(object);
+        GameObject *handGO = ObjectFactory::CreateHandObject(object);
         AddObject(handGO);
         std::cout << "Hand object created at position: " << handGO->box.x << ", " << handGO->box.y << std::endl;
         return;
     }
 
-    if(object.getClass() == "Espinho")
+    if (object.getClass() == "Espinho")
     {
-        GameObject* thornGO = ObjectFactory::CreateThornObject(object);
+        GameObject *thornGO = ObjectFactory::CreateThornObject(object);
         AddObject(thornGO);
         std::cout << "Thorn object created at position: " << thornGO->box.x << ", " << thornGO->box.y << std::endl;
         return;
     }
 
-    if(object.getClass() == "Chainsaw")
+    if (object.getClass() == "Chainsaw")
     {
-        GameObject* chainSawGO = ObjectFactory::CreateChainSawObject(object);
+        GameObject *chainSawGO = ObjectFactory::CreateChainSawObject(object);
         AddObject(chainSawGO);
-        std::cout << "Chainsaw object created at position: " << chainSawGO->box.x << ", " << chainSawGO->box.y << std::endl;
         return;
     }
 
-    if(object.getClass() == "Player")
+    if (object.getClass() == "Player")
     {
-        GameObject* playerGO = ObjectFactory::CreatePlayerObject(object);
+        GameObject *playerGO = ObjectFactory::CreatePlayerObject(object);
         AddObject(playerGO);
         std::cout << "Player object created at position: " << playerGO->box.x << ", " << playerGO->box.y << std::endl;
         std::cout << "playerGO->box.y = " << playerGO->box.y << "\n";
@@ -417,21 +439,29 @@ void TreeState::CreateGameObject(const tmx::Object& object)
         std::cout << "playerGO->box.h = " << playerGO->box.h << "\n";
         return;
     }
-    
-    if(object.getName() == "Gate")
+
+    if (object.getName() == "Gate")
     {
-        GameObject* gateGO = ObjectFactory::CreateGateObject(object);
+        GameObject *gateGO = ObjectFactory::CreateGateObject(object);
         AddObject(gateGO);
-        std::cout << "Gate object created at position: " << gateGO->box.x << ", " << gateGO->box.y << std::endl;
         return;
     }
 }
 
-GameObject* TreeState::FindGateObject() {
-    for (auto& obj : objectArray) {
-        if (obj->GetComponent("Gate")) {
+GameObject *TreeState::FindGateObject()
+{
+    for (auto &obj : objectArray)
+    {
+        if (obj->GetComponent("Gate"))
+        {
             return obj.get();
         }
     }
     return nullptr;
+}
+
+float TreeState::RandomFloat(float min, float max)
+{
+    return min + static_cast<float>(rand()) /
+                     (static_cast<float>(RAND_MAX / (max - min)));
 }

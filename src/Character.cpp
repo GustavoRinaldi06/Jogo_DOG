@@ -78,7 +78,7 @@ void Character::Update(float dt)
     GameData::playerHP = hp; // Atualiza sempre o gamedata
 
     // Ao morrer -------------------------------------------------------------------------------
-    if (associated.box.y > 1500)
+    if ((associated.box.y > 1500 && GameData::state == 1) || (associated.box.y > 970 && GameData::state == 2))
     {
         if (!deathAnimTriggered){
             hp = 0;

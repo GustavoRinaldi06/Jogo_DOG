@@ -44,7 +44,9 @@ void SpriteRenderer::Update(float dt) {}
 // Renderiza o sprite na posição do GameObject
 void SpriteRenderer::Render()
 {
-    sprite.Render(associated.box.x, associated.box.y, associated.angleDeg);
+    if(active){
+        sprite.Render(associated.box.x, associated.box.y, associated.angleDeg);
+    }
 }
 
 // Controlar se o sprite deve ignorar o deslocamento da câmera
@@ -92,4 +94,9 @@ void SpriteRenderer::SetRotation(float angle) {
 
 void SpriteRenderer::SetFlip(SDL_RendererFlip newFlip) {
     sprite.SetFlip(newFlip);
+}
+
+void SpriteRenderer::setActive(bool isActive)
+{
+    active = isActive;
 }

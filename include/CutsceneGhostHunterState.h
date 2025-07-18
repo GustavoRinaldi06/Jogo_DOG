@@ -10,10 +10,10 @@
 #include "Rect_Vec2.h"
 #include "SpriteRenderer.h"
 
-class CutsceneIntroState : public State {
+class CutsceneGhostHunterState : public State {
 public:
-    CutsceneIntroState(std::function<State *()> nextStateFactory);
-    ~CutsceneIntroState();
+    CutsceneGhostHunterState(std::function<State *()> nextStateFactory);
+    ~CutsceneGhostHunterState();
 
     void LoadAssets() override;
     void Update(float dt) override;

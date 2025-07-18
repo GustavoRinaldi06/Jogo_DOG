@@ -162,7 +162,7 @@ namespace ObjectFactory
     SpriteRenderer *spriter = new SpriteRenderer(*gameObject);
     spriter->Open(file);
     spriter->SetCameraFollower(true);
-    spriter->SetAlpha(0);
+    spriter->setActive(false);
     spriter->SetScale(GameData::windowWidth / gameObject->box.w, GameData::windowHeight / gameObject->box.h); // Ajuste de escala, se necessário
     
     gameObject->box.x = 0;

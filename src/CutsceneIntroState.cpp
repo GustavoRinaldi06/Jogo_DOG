@@ -5,8 +5,6 @@
 #include "ObjectFactory.h"
 #include <iostream>
 
-// comando que converter video
-// C:\ffmpeg\bin\ffmpeg.exe -i "C:\Users\lukas\Downloads\intro-dog.mp4" -c:v rawvideo -pix_fmt uyvy422 -f rawvideo -an "output.uyvy"
 CutsceneIntroState::CutsceneIntroState(std::function<State *()> nextStateFactory)
     : createNext(std::move(nextStateFactory))
 {
@@ -49,14 +47,12 @@ void CutsceneIntroState::Update(float dt)
     timer.Update(dt);
     if (timer.Between(0.f, 2.f))
     {
-        std::cout << "primeira_cena: " << timer.Get() << std::endl;
         ShowImage("primeira_cena");
         ShowImage("trees");
         ScaleImageFixed("trees", Vec2{0.05f, 0.05f} * dt); // Ajuste de escala, se necessário
     }
     else if (timer.Between(2.f, 3.f))
     {
-        std::cout << "dog: " << timer.Get() << std::endl;
         HideImage("primeira_cena");
         HideImage("trees");
         ShowImage("dog");
@@ -82,7 +78,7 @@ void CutsceneIntroState::Update(float dt)
         HideImage("turn_1");
         ShowImage("turn_2");
     }
-    else if (timer.Between(8.f, 9.f))
+    else if (timer.Get() > 8.f)
     {
         CallNextState();
     }
@@ -117,29 +113,39 @@ void CutsceneIntroState::CallNextState()
 
 void CutsceneIntroState::ShowImage(const std::string &imageName)
 {
-    SpriteRenderer *sprite = (SpriteRenderer *)images.at(imageName)->GetComponent("SpriteRenderer");
+    SpriteRenderer *sprite = GetSpriteRenderer(imageName);
     if (sprite)
     {
-        std::cout << "Showing image: " << imageName << std::endl;
-        sprite->SetAlpha(255); // Define a transparência para 255 (totalmente visível)
+        sprite->setActive(true); // Define a transparência para 255 (totalmente visível)
     }
 }
 
 void CutsceneIntroState::HideImage(const std::string &imageName)
 {
-    SpriteRenderer *sprite = (SpriteRenderer *)images.at(imageName)->GetComponent("SpriteRenderer");
+    SpriteRenderer *sprite = GetSpriteRenderer(imageName);
     if (sprite)
     {
-        sprite->SetAlpha(0); // Define a transparência para 0 (totalmente invisível)
+        sprite->setActive(false); // Define a transparência para 0 (totalmente invisível)
     }
 }
 
 void CutsceneIntroState::ScaleImageFixed(const std::string &imageName, Vec2 amount)
 {
-    SpriteRenderer *sprite = (SpriteRenderer *)images.at(imageName)->GetComponent("SpriteRenderer");
+    SpriteRenderer *sprite = GetSpriteRenderer(imageName);
     if (sprite)
     {
         Vec2 newScale = sprite->GetScale() + amount; // Incrementa o scale atual
         sprite->SetScale(newScale.x, newScale.y); // Define o scale do sprite
     }
+}
+
+SpriteRenderer *CutsceneIntroState::GetSpriteRenderer(const std::string &imageName)
+{
+    if (images.find(imageName) == images.end())
+    {
+        std::cerr << "Image not found: " << imageName << std::endl;
+        return nullptr;
+    }
+    GameObject *gameObject = images.at(imageName);
+    return (SpriteRenderer *)gameObject->GetComponent("SpriteRenderer");
 }

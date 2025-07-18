@@ -8,6 +8,8 @@
 #include "PlayerController.h"
 #include "Camera.h"
 #include "WaterLily.h"
+#include "TreeBoss.h"
+#include "Gate.h"
 
 namespace ObjectFactory
 {
@@ -109,4 +111,43 @@ namespace ObjectFactory
       waterLilyGO->AddComponent(waterLilyObj);
       return waterLilyGO;
   }
+
+  GameObject* CreateTreeObject(const tmx::Object& object)
+  {
+      GameObject* treeGO = new GameObject();
+      treeGO->box.x = object.getAABB().left;
+      treeGO->box.y = object.getAABB().top;
+      treeGO->box.w = object.getAABB().width;
+      treeGO->box.h = object.getAABB().height;
+
+      treeGO->AddComponent(new SpriteRenderer(*treeGO, "recursos/img/sprites/Tree.png"));
+      treeGO->AddComponent(new Collider(*treeGO));
+      
+      return treeGO;
+  }
+
+  GameObject* CreateTreeBossObject(const tmx::Object& object)
+  {
+      GameObject* treeBossGO = new GameObject();
+      treeBossGO->box.x = object.getAABB().left;
+      treeBossGO->box.y = object.getAABB().top;
+      treeBossGO->box.w = object.getAABB().width;
+      treeBossGO->box.h = object.getAABB().height;
+
+      treeBossGO->AddComponent(new TreeBoss(*treeBossGO));
+
+      return treeBossGO;
+  }
+
+  GameObject* CreateGateObject(const tmx::Object& object) {
+    GameObject* go = new GameObject();
+    go->box.x = object.getPosition().x;
+    go->box.y = object.getPosition().y;
+    go->box.w = object.getAABB().width;
+    go->box.h = object.getAABB().height;
+    
+    go->AddComponent(new Gate(*go));
+    
+    return go;
+}
 }

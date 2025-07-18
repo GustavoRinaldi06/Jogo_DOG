@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "Collider.h"
 #include "State.h"
+#include "Gate.h"
 #include <cmath>
 
 Dog::Dog(GameObject &associated, int damage, bool targetsPlayer, const std::string &spritePath, const std::string &soundpath)
@@ -84,6 +85,12 @@ void Dog::CheckDestructibleCollisions()
             Vec2 objCenter = obj->box.GetCenter();
             if (dogCenter.Distance(objCenter) <= radius) {
                 obj->RequestDelete(); // Destrói objetos próximos
+            }
+        }
+        else if (auto gateComp = obj->GetComponent("Gate")) {
+            Gate* gate = dynamic_cast<Gate*>(gateComp);
+            if (gate) {
+                gate->NotifyBark();
             }
         }
     }

@@ -36,7 +36,7 @@ Character::Character(GameObject &associated, const std::string &spritePath)
     // Sons do caçador
     hitSound = Sound("recursos/audio/Hunter/Dano.wav");    // Levou dano
     deathSound = Sound("recursos/audio/Hunter/Death.wav");     // Morreu
-    jumpSound = Sound("recursos/audio/Hunter/boing.mp3");     // Pula
+    //jumpSound = Sound("recursos/audio/Hunter/Pulo.wav");     // Pula
 
     fallSound = Sound("recursos/audio/Hunter/Caindo.wav");    // Cai do mapa
     drownSound = Sound("recursos/audio/Hunter/Afogamento.wav"); // Cai do mapa 2, se afoga
